@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { StepHeader } from "@/components/shared/step-header";
+import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,6 +13,8 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPost } from "@/lib/api-client";
+import { isDemoMode } from "@/lib/demo-mode";
+import { BackButton } from "@/components/shared/step-navigation";
 import {
   ArrowRight,
   Loader2,
@@ -70,7 +73,12 @@ export default function PlaygroundPage() {
       setResponse(data);
       setResponseText(SIMULATED_RESPONSES[variant] || SIMULATED_RESPONSES.base);
       updateStep(13);
-    } catch {
+    } catch (err) {
+      if (!isDemoMode()) {
+        console.error(err);
+        setLoading(false);
+        return;
+      }
       const qualityMap: Record<string, number> = { base: 42, finetuned: 70, rag: 63 };
       const latencyMap: Record<string, number> = { base: 120, finetuned: 150, rag: 250 };
       const quality = qualityMap[variant] || 50;
@@ -94,6 +102,7 @@ export default function PlaygroundPage() {
   return (
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={12} />
+      <ConceptCard stepKey="playground" />
 
       <div className="space-y-6">
         {/* Model Variant Tabs */}
@@ -185,7 +194,8 @@ export default function PlaygroundPage() {
         ) : null}
 
         {response && (
-          <div className="flex justify-end pt-4 border-t">
+          <div className="flex justify-between pt-4 border-t">
+            <BackButton currentStep={12} />
             <Button size="lg" onClick={handleNext}>
               <ArrowRight className="mr-2 h-4 w-4" />
               {tCommon("next")}

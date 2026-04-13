@@ -5,11 +5,14 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { StepHeader } from "@/components/shared/step-header";
+import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPost } from "@/lib/api-client";
+import { isDemoMode } from "@/lib/demo-mode";
+import { BackButton } from "@/components/shared/step-navigation";
 import {
   Cpu,
   Server,
@@ -81,7 +84,12 @@ export default function ArchitectureBuilderPage() {
       const maxCost = 100000;
       updateScores({ cost_efficiency: Math.max(0, Math.min(100, 100 - (data.estimated_training_cost / maxCost * 100))) });
       updateStep(6);
-    } catch {
+    } catch (err) {
+      if (!isDemoMode()) {
+        console.error(err);
+        setLoading(false);
+        return;
+      }
       const specs: Record<string, ArchResult> = {
         small: { parameter_count: 1e9, num_layers: 24, hidden_size: 2048, num_attention_heads: 16, gpu_requirement: 1, estimated_training_hours: 24, estimated_training_cost: 60, architecture_capability: 40 },
         medium: { parameter_count: 7e9, num_layers: 32, hidden_size: 4096, num_attention_heads: 32, gpu_requirement: 4, estimated_training_hours: 168, estimated_training_cost: 1680, architecture_capability: 70 },
@@ -110,6 +118,7 @@ export default function ArchitectureBuilderPage() {
   return (
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={5} />
+      <ConceptCard stepKey="architecture" />
 
       <div className="space-y-8">
         {/* Model Size */}
@@ -281,7 +290,8 @@ export default function ArchitectureBuilderPage() {
               </Card>
             </div>
 
-            <div className="flex justify-end pt-4 border-t mt-6">
+            <div className="flex justify-between pt-4 border-t mt-6">
+              <BackButton currentStep={5} />
               <Button size="lg" onClick={handleNext}>
                 <ArrowRight className="mr-2 h-4 w-4" />
                 {tCommon("next")}

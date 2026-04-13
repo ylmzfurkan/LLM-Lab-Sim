@@ -5,12 +5,14 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { StepHeader } from "@/components/shared/step-header";
+import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPost } from "@/lib/api-client";
+import { isDemoMode } from "@/lib/demo-mode";
 import {
   BarChart,
   Bar,
@@ -21,6 +23,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { BackButton } from "@/components/shared/step-navigation";
 import {
   ArrowRight,
   Loader2,
@@ -66,7 +69,12 @@ export default function FineTuneSimulatorPage() {
       setResult(data);
       updateScores({ model_performance: data.accuracy_after });
       updateStep(12);
-    } catch {
+    } catch (err) {
+      if (!isDemoMode()) {
+        console.error(err);
+        setLoading(false);
+        return;
+      }
       const mockResult: FineTuneResult = {
         accuracy_before: 58,
         accuracy_after: 73.5,
@@ -97,6 +105,7 @@ export default function FineTuneSimulatorPage() {
   return (
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={11} />
+      <ConceptCard stepKey="fineTune" />
 
       <div className="space-y-8">
         {/* Epochs */}
@@ -213,7 +222,8 @@ export default function FineTuneSimulatorPage() {
               </CardContent>
             </Card>
 
-            <div className="flex justify-end pt-4 border-t">
+            <div className="flex justify-between pt-4 border-t">
+              <BackButton currentStep={11} />
               <Button size="lg" onClick={handleNext}>
                 <ArrowRight className="mr-2 h-4 w-4" />
                 {tCommon("next")}

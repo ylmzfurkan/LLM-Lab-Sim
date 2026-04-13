@@ -5,12 +5,15 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { StepHeader } from "@/components/shared/step-header";
+import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPost } from "@/lib/api-client";
+import { isDemoMode } from "@/lib/demo-mode";
+import { BackButton } from "@/components/shared/step-navigation";
 import {
   Search,
   Wrench,
@@ -55,7 +58,12 @@ export default function CustomizationStudioPage() {
       setBoost(data.performance_boost);
       updateScores({ model_performance: data.scores.model_performance });
       updateStep(10);
-    } catch {
+    } catch (err) {
+      if (!isDemoMode()) {
+        console.error(err);
+        setLoading(false);
+        return;
+      }
       const method = METHODS.find((m) => m.value === selected);
       const mockBoost = method?.boost || 10;
       setBoost(mockBoost);
@@ -78,6 +86,7 @@ export default function CustomizationStudioPage() {
   return (
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={9} />
+      <ConceptCard stepKey="customization" />
 
       <div className="space-y-8">
         {/* Current Performance */}
@@ -144,7 +153,8 @@ export default function CustomizationStudioPage() {
         )}
 
         {/* Apply / Next */}
-        <div className="flex justify-end pt-4 border-t">
+        <div className="flex justify-between pt-4 border-t">
+          <BackButton currentStep={9} />
           {!applied ? (
             <Button size="lg" disabled={!selected || loading} onClick={handleApply}>
               {loading ? (

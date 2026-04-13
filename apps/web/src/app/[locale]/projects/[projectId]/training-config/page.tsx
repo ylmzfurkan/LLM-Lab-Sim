@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { StepHeader } from "@/components/shared/step-header";
+import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
@@ -13,6 +14,8 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPost } from "@/lib/api-client";
+import { isDemoMode } from "@/lib/demo-mode";
+import { BackButton } from "@/components/shared/step-navigation";
 import {
   ArrowRight,
   Loader2,
@@ -81,7 +84,12 @@ export default function TrainingConfigurationPage() {
       setResult(data);
       updateScores({ training_stability: data.training_stability });
       updateStep(7);
-    } catch {
+    } catch (err) {
+      if (!isDemoMode()) {
+        console.error(err);
+        setLoading(false);
+        return;
+      }
       const mockResult: ConfigResult = {
         training_stability: 72,
         lr_assessment: "optimal",
@@ -115,6 +123,7 @@ export default function TrainingConfigurationPage() {
   return (
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={6} />
+      <ConceptCard stepKey="trainingConfig" />
 
       <div className="space-y-8">
         {/* Mode Selection */}
@@ -302,7 +311,8 @@ export default function TrainingConfigurationPage() {
               </Card>
             </div>
 
-            <div className="flex justify-end pt-4 border-t mt-6">
+            <div className="flex justify-between pt-4 border-t mt-6">
+              <BackButton currentStep={6} />
               <Button size="lg" onClick={handleNext}>
                 <ArrowRight className="mr-2 h-4 w-4" />
                 {tCommon("next")}

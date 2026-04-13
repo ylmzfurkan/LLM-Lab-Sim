@@ -5,12 +5,15 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { StepHeader } from "@/components/shared/step-header";
+import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPut } from "@/lib/api-client";
+import { isDemoMode } from "@/lib/demo-mode";
+import { BackButton } from "@/components/shared/step-navigation";
 import {
   Trash2,
   ShieldAlert,
@@ -37,6 +40,7 @@ export default function DataCleaningPage() {
   const updateScores = useProjectStore((s) => s.updateScores);
   const updateStep = useProjectStore((s) => s.updateStep);
   const scores = useProjectStore((s) => s.scores);
+  const datasetId = useProjectStore((s) => s.datasetId);
 
   const [removeDuplicates, setRemoveDuplicates] = useState(true);
   const [filterSpam, setFilterSpam] = useState(true);
@@ -50,9 +54,8 @@ export default function DataCleaningPage() {
     setLoading(true);
 
     try {
-      // We need dataset_id — for demo, use a placeholder path
       const data = await apiPut<CleaningResult>(
-        `/api/projects/${params.projectId}/dataset/latest/clean`,
+        `/api/projects/${params.projectId}/dataset/${datasetId}/clean`,
         {
           remove_duplicates: removeDuplicates,
           filter_spam: filterSpam,
@@ -62,8 +65,12 @@ export default function DataCleaningPage() {
       setResult(data);
       updateScores({ data_quality: data.cleaned_quality_score });
       updateStep(4);
-    } catch {
-      // Demo mode fallback
+    } catch (err) {
+      if (!isDemoMode()) {
+        console.error(err);
+        setLoading(false);
+        return;
+      }
       let improvement = 0;
       if (removeDuplicates) improvement += 5;
       if (filterSpam) improvement += 3;
@@ -110,6 +117,7 @@ export default function DataCleaningPage() {
   return (
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={3} />
+      <ConceptCard stepKey="cleaning" />
 
       <div className="space-y-8">
         {/* Cleaning Operations */}
@@ -217,7 +225,8 @@ export default function DataCleaningPage() {
               </Card>
             </div>
 
-            <div className="flex justify-end pt-4 border-t mt-6">
+            <div className="flex justify-between pt-4 border-t mt-6">
+              <BackButton currentStep={3} />
               <Button size="lg" onClick={handleNext}>
                 <ArrowRight className="mr-2 h-4 w-4" />
                 {tCommon("next")}

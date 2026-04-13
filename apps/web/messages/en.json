@@ -53,6 +53,11 @@
     "newProject": "New Project",
     "noProjects": "No projects yet",
     "noProjectsDescription": "Create your first project to start the LLM training experience",
+    "projectName": "Project Name",
+    "projectNamePlaceholder": "My LLM Project",
+    "projectDescription": "Description (optional)",
+    "projectDescriptionPlaceholder": "A chatbot for...",
+    "continueProject": "Continue",
     "projectStatus": {
       "draft": "Draft",
       "in_progress": "In Progress",
@@ -93,6 +98,13 @@
       "summarization": "Summarization",
       "general": "General Purpose"
     },
+    "purposeHints": {
+      "chatbot": "Conversational AI that can engage in natural dialogue. Best for customer support, virtual assistants, and interactive applications.",
+      "code_assistant": "Specialized in code generation, completion, and debugging. Trained on programming languages and documentation.",
+      "translation": "Optimized for translating text between languages with high accuracy. Requires parallel corpus data.",
+      "summarization": "Condenses long documents into brief, accurate summaries. Good for news, research papers, and reports.",
+      "general": "A versatile model for multiple tasks. Jack of all trades, but may underperform specialized models."
+    },
     "domains": {
       "general": "General",
       "medical": "Medical",
@@ -101,16 +113,35 @@
       "tech": "Technology",
       "education": "Education"
     },
+    "domainHints": {
+      "general": "No specific domain focus. Suitable for general-purpose applications with diverse topics.",
+      "medical": "Trained on medical literature, clinical notes, and health data. Must handle terminology and safety carefully.",
+      "legal": "Focused on legal documents, contracts, and regulations. Requires precise language understanding.",
+      "finance": "Specialized in financial reports, market analysis, and economic data. Needs numerical reasoning.",
+      "tech": "Covers software engineering, IT documentation, and technical specifications.",
+      "education": "Optimized for educational content, tutoring, and learning materials across subjects."
+    },
     "languages": {
       "en": "English",
       "tr": "Turkish",
       "multilingual": "Multilingual"
+    },
+    "languageHints": {
+      "en": "English-only model. Highest performance for English tasks with smaller training data requirements.",
+      "tr": "Turkish-only model. Requires Turkish-specific tokenizer for optimal performance.",
+      "multilingual": "Supports multiple languages. Larger vocabulary needed but enables cross-lingual transfer."
     },
     "types": {
       "chat": "Chat Model",
       "code": "Code Model",
       "instruct": "Instruct Model",
       "base": "Base Model"
+    },
+    "typeHints": {
+      "chat": "Fine-tuned for multi-turn conversations with system prompts and role-playing capabilities.",
+      "code": "Optimized for code generation with fill-in-the-middle training and repository-level context.",
+      "instruct": "Follows explicit instructions precisely. Best for task completion and structured outputs.",
+      "base": "Raw language model without alignment. Foundation for further fine-tuning and customization."
     }
   },
   "dataset": {
@@ -452,5 +483,50 @@
     "light": "Light",
     "dark": "Dark",
     "system": "System"
+  },
+  "concepts": {
+    "title": "Why this matters",
+    "wizard": {
+      "body": "Before writing a single line of code, real ML teams decide what the model is for. Purpose, domain, and language choices shape every downstream decision — dataset, tokenizer, size, cost. Think of it like planning a trip: you pick the destination before packing."
+    },
+    "dataset": {
+      "body": "Models learn patterns from data — garbage in, garbage out. Format (JSONL/CSV), size, duplicates, and language balance all affect what the model will learn. A small clean dataset often beats a huge messy one."
+    },
+    "cleaning": {
+      "body": "Raw data has duplicates, spam, and private information. Cleaning is like editing a rough manuscript: remove noise so the signal comes through. Quality improvements here compound through every later step."
+    },
+    "tokenizer": {
+      "body": "Tokenization splits text into the units the model actually reads. Like chopping a sentence into LEGO bricks — smaller bricks = more flexibility but more pieces to track. A Turkish-tuned tokenizer can cut token count 15%+ for Turkish text."
+    },
+    "architecture": {
+      "body": "Model size sets the capability ceiling — and the bill. A 1B model trains on one GPU in a day; a 70B needs 16 GPUs for a month. Context window is how much text the model can 'see' at once, like working memory."
+    },
+    "trainingConfig": {
+      "body": "Hyperparameters control how the model learns. Learning rate is the step size — too big and the model overshoots; too small and it crawls. Batch size and epochs trade off stability and speed. Defaults work; tuning squeezes out the last few percent."
+    },
+    "training": {
+      "body": "Training is an iterative search: show the model examples, measure error, nudge weights, repeat — millions of times. The loss curve is your heartbeat monitor. A healthy curve drops fast then plateaus; a flat or spiky one means something's wrong."
+    },
+    "report": {
+      "body": "Benchmarks are standardized exams — MMLU for knowledge, GSM8K for math, TruthfulQA for honesty. Your base model's scores show its strengths and weaknesses before you invest in customization. Weak areas tell you what to target next."
+    },
+    "customization": {
+      "body": "Base models are generalists. To specialize, you can fine-tune (reshape the model itself), use LoRA (cheap adapter layers), or RAG (let it look things up). Each trades cost, flexibility, and peak quality differently."
+    },
+    "rag": {
+      "body": "RAG lets the model consult an external knowledge base at query time — like giving it an open-book exam. No retraining needed. Chunk size and top-K control how much context each question pulls in: too little misses answers, too much confuses."
+    },
+    "fineTune": {
+      "body": "Fine-tuning continues training on your domain data. The model keeps what it knows but sharpens on your specifics. Small learning rates prevent catastrophic forgetting — you're adjusting, not rewriting."
+    },
+    "playground": {
+      "body": "Real evaluation happens beyond benchmarks — does the model actually feel good to use? Compare base, fine-tuned, and RAG variants on the same prompts. You'll see quality, latency, and cost trade-offs in practice."
+    },
+    "evaluation": {
+      "body": "A final multi-angle check before shipping: accuracy (is it right?), hallucination risk (does it invent things?), quality (is it useful?), latency (is it fast?). Real production models must balance all four — a genius that takes 10 seconds per reply is not deployable."
+    },
+    "deployment": {
+      "body": "Deployment costs compound fast. GPU-hours for training are one-time; inference costs recur every single request. Estimating both up front tells you whether the business case actually works — before you pay the bill."
+    }
   }
 }

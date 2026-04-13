@@ -53,6 +53,11 @@
     "newProject": "Yeni Proje",
     "noProjects": "Henuz proje yok",
     "noProjectsDescription": "LLM egitim deneyimine baslamak icin ilk projenizi olusturun",
+    "projectName": "Proje Adi",
+    "projectNamePlaceholder": "LLM Projem",
+    "projectDescription": "Aciklama (istege bagli)",
+    "projectDescriptionPlaceholder": "Bir sohbet botu...",
+    "continueProject": "Devam Et",
     "projectStatus": {
       "draft": "Taslak",
       "in_progress": "Devam Ediyor",
@@ -93,6 +98,13 @@
       "summarization": "Ozetleme",
       "general": "Genel Amacli"
     },
+    "purposeHints": {
+      "chatbot": "Dogal diyalog kurabilen konusmaci yapay zeka. Musteri destegi, sanal asistanlar ve interaktif uygulamalar icin idealdir.",
+      "code_assistant": "Kod uretimi, tamamlama ve hata ayiklama konusunda uzmanlasmis model. Programlama dilleri ve dokumantasyon uzerinde egitilir.",
+      "translation": "Diller arasi yuksek dogrulukla ceviri icin optimize edilmis. Paralel derlem verisi gerektirir.",
+      "summarization": "Uzun belgeleri kisa ve dogru ozetlere donusturur. Haberler, arastirma makaleleri ve raporlar icin uygundur.",
+      "general": "Birden fazla gorev icin cok yonlu bir model. Her isten anlar ama uzman modellerin gerisinde kalabilir."
+    },
     "domains": {
       "general": "Genel",
       "medical": "Tip",
@@ -101,16 +113,35 @@
       "tech": "Teknoloji",
       "education": "Egitim"
     },
+    "domainHints": {
+      "general": "Belirli bir alan odagi yok. Cesitli konulara sahip genel amacli uygulamalar icin uygundur.",
+      "medical": "Tip literaturu, klinik notlar ve saglik verileri uzerinde egitilir. Terminoloji ve guvenlik dikkatle ele alinmalidir.",
+      "legal": "Hukuki belgeler, sozlesmeler ve mevzuata odaklanir. Hassas dil anlayisi gerektirir.",
+      "finance": "Finansal raporlar, piyasa analizi ve ekonomik veriler konusunda uzmanlasir. Sayisal muhakeme gerektirir.",
+      "tech": "Yazilim muhendisligi, BT dokumantasyonu ve teknik spesifikasyonlari kapsar.",
+      "education": "Egitim icerigi, bireysel ogretim ve ogrenme materyalleri icin optimize edilmistir."
+    },
     "languages": {
       "en": "Ingilizce",
       "tr": "Turkce",
       "multilingual": "Coklu Dil"
+    },
+    "languageHints": {
+      "en": "Yalnizca Ingilizce model. Ingilizce gorevlerde en yuksek performans, daha az egitim verisi gerektirir.",
+      "tr": "Yalnizca Turkce model. Optimum performans icin Turkce'ye ozel tokenizer gerektirir.",
+      "multilingual": "Birden fazla dili destekler. Daha buyuk kelime dagarcigl gerekir ancak diller arasi transfer ogrenimi saglar."
     },
     "types": {
       "chat": "Sohbet Modeli",
       "code": "Kod Modeli",
       "instruct": "Talimat Modeli",
       "base": "Temel Model"
+    },
+    "typeHints": {
+      "chat": "Sistem komutlari ve rol yapma yetenekleriyle cok turlu sohbetler icin ince ayar yapilmis.",
+      "code": "Ortaya doldurma egitimi ve depo duzeyi baglam ile kod uretimi icin optimize edilmis.",
+      "instruct": "Acik talimatlari hassasiyetle takip eder. Gorev tamamlama ve yapilandirilmis ciktilar icin en iyisi.",
+      "base": "Hizalama olmadan ham dil modeli. Daha fazla ince ayar ve ozellestirme icin temel."
     }
   },
   "dataset": {
@@ -452,5 +483,50 @@
     "light": "Acik",
     "dark": "Koyu",
     "system": "Sistem"
+  },
+  "concepts": {
+    "title": "Bu neden onemli",
+    "wizard": {
+      "body": "Gercek ML ekipleri tek satir kod yazmadan once modelin ne ise yarayacagina karar verir. Amac, alan ve dil secimleri sonraki tum kararlari sekillendirir — veri seti, tokenizer, boyut, maliyet. Seyahat gibi: valizi hazirlamadan once varis noktasini secersin."
+    },
+    "dataset": {
+      "body": "Modeller veriden desen ogrenir — cop girerse cop cikar. Format (JSONL/CSV), boyut, tekrarlar ve dil dagilimi ne ogrenilecegini etkiler. Kucuk ve temiz bir veri seti cogu zaman buyuk ve dagitik olandan daha iyidir."
+    },
+    "cleaning": {
+      "body": "Ham veride tekrarlar, spam ve kisisel bilgiler vardir. Temizlik bir taslagi editleme gibidir: gurultuyu kaldirinca sinyal ortaya cikar. Burada yapilan iyilestirmeler sonraki tum adimlarda katlanarak karsiliginizi verir."
+    },
+    "tokenizer": {
+      "body": "Tokenizasyon metni modelin gercekten okudugu birimlere boler. Cumleyi LEGO parcalarina ayirmak gibi — kucuk parcalar esneklik verir ama daha cok parca takip edilir. Turkce icin optimize tokenizer, Turkce metnin token sayisini %15+ kisabilir."
+    },
+    "architecture": {
+      "body": "Model boyutu yetenek tavanini — ve faturayi — belirler. 1B bir model tek GPU'da bir gunde egitilir; 70B, bir ay boyunca 16 GPU ister. Context window modelin ayni anda 'gorebildigi' metin miktaridir — calisma hafizasi gibi."
+    },
+    "trainingConfig": {
+      "body": "Hiperparametreler modelin nasil ogrendigini kontrol eder. Learning rate adim buyuklugudur — cok buyuk olursa model savrulur, cok kucuk olursa surunur. Batch size ve epoch kararlilik ile hizi takas eder. Varsayilanlar is gorur; ince ayar son birkac yuzdeyi ekler."
+    },
+    "training": {
+      "body": "Egitim yinelemeli bir aramadir: modele ornekler goster, hatayi ol, agirliklari kaydir, tekrarla — milyonlarca kez. Loss egrisi sizin kalp atisi monitorunuzdur. Saglikli egri once hizla duser sonra sabitlenir; duz veya sivri bir egri bir seyin bozuk oldugunu soyler."
+    },
+    "report": {
+      "body": "Benchmarklar standart sinavlardir — bilgi icin MMLU, matematik icin GSM8K, durustluk icin TruthfulQA. Base modelinizin skorlari ozellestirmeye yatirim yapmadan once guclu ve zayif yanlari gosterir. Zayif alanlar sonra neye odaklanacaginizi soyler."
+    },
+    "customization": {
+      "body": "Base modeller jenerik uzmanlardir. Ozellestirmek icin fine-tune yapabilir (modeli yeniden sekillendirir), LoRA (ucuz adapter katmanlari) veya RAG (bakmasina izin ver) kullanabilirsiniz. Her biri maliyet, esneklik ve zirve kaliteyi farkli takas eder."
+    },
+    "rag": {
+      "body": "RAG, modele sorgu aninda harici bir bilgi tabanini danismaya izin verir — acik kitap sinavi gibi. Yeniden egitime gerek yok. Chunk size ve top-K her sorunun ne kadar baglam cekecegini belirler: az olursa cevaplar kacar, cok olursa kafa karisir."
+    },
+    "fineTune": {
+      "body": "Fine-tuning, alan verinizde egitime devam etmektir. Model bildiklerini korur ama sizin ozgul konulariniza keskinlesir. Kucuk learning rate katastrofik unutmayi engeller — yeniden yazmiyor, ayarliyorsunuz."
+    },
+    "playground": {
+      "body": "Gercek degerlendirme benchmarklarin otesindedir — model kullanirken gercekten iyi hissettiriyor mu? Base, fine-tuned ve RAG varyantlarini ayni promptlarda karsilastirin. Kalite, gecikme ve maliyet takaslarini pratikte gorursunuz."
+    },
+    "evaluation": {
+      "body": "Yayina almadan once cok yonlu son kontrol: dogruluk (hakli mi?), halusinasyon riski (uyduruyor mu?), kalite (ise yariyor mu?), gecikme (hizli mi?). Gercek uretim modelleri dordunu de dengelemek zorunda — cevap basina 10 saniye suren dahi yayinlanabilir degildir."
+    },
+    "deployment": {
+      "body": "Dagitim maliyetleri hizla artar. Egitim icin GPU-saatleri tek seferliktir; inference maliyetleri her istekte tekrarlanir. Ikisini de ontan tahmin etmek, faturayi odemeden once is modelinin gercekten calisip calismayacagini soyler."
+    }
   }
 }

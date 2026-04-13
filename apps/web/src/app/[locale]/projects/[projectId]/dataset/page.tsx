@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { StepHeader } from "@/components/shared/step-header";
+import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
@@ -13,6 +14,8 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPost } from "@/lib/api-client";
+import { isDemoMode } from "@/lib/demo-mode";
+import { BackButton } from "@/components/shared/step-navigation";
 import {
   FileJson,
   FileSpreadsheet,
@@ -49,6 +52,7 @@ export default function DatasetLabPage() {
   const router = useRouter();
   const updateScores = useProjectStore((s) => s.updateScores);
   const updateStep = useProjectStore((s) => s.updateStep);
+  const setDatasetId = useProjectStore((s) => s.setDatasetId);
 
   const [fileType, setFileType] = useState("");
   const [fileSize, setFileSize] = useState(50);
@@ -74,10 +78,15 @@ export default function DatasetLabPage() {
         }
       );
       setResult(data);
+      if (data.id) setDatasetId(data.id);
       updateScores({ data_quality: data.quality_score });
       updateStep(3);
-    } catch {
-      // Demo mode fallback
+    } catch (err) {
+      if (!isDemoMode()) {
+        console.error(err);
+        setLoading(false);
+        return;
+      }
       const mockResult: DatasetResult = {
         id: "demo",
         quality_score: 62.5,
@@ -87,6 +96,7 @@ export default function DatasetLabPage() {
         estimated_rows: fileSize * 1000,
       };
       setResult(mockResult);
+      setDatasetId(mockResult.id);
       updateScores({ data_quality: mockResult.quality_score });
       updateStep(3);
     }
@@ -101,6 +111,7 @@ export default function DatasetLabPage() {
   return (
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={2} />
+      <ConceptCard stepKey="dataset" />
 
       <div className="space-y-8">
         {/* File Type Selection */}
@@ -252,7 +263,8 @@ export default function DatasetLabPage() {
             </div>
 
             {/* Navigate to next */}
-            <div className="flex justify-end pt-4 border-t mt-6">
+            <div className="flex justify-between pt-4 border-t mt-6">
+              <BackButton currentStep={2} />
               <Button size="lg" onClick={handleNext}>
                 <ArrowRight className="mr-2 h-4 w-4" />
                 {tCommon("next")}

@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.config import settings
+from app.config import assert_auth_configured, settings
 from app.routers import auth, projects, datasets, simulation, model_config
+
+assert_auth_configured()
 
 app = FastAPI(
     title="LLM Lab API",

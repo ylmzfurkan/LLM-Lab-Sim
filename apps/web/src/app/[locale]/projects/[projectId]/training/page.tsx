@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { StepHeader } from "@/components/shared/step-header";
+import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPost } from "@/lib/api-client";
+import { isDemoMode } from "@/lib/demo-mode";
 import {
   LineChart,
   Line,
@@ -25,6 +27,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { BackButton } from "@/components/shared/step-navigation";
 import {
   Play,
   ArrowRight,
@@ -90,8 +93,13 @@ export default function TrainingSimulatorPage() {
       setResult(data);
       updateScores(data.scores);
       updateStep(8);
-    } catch {
-      // Demo mode
+    } catch (err) {
+      if (!isDemoMode()) {
+        console.error(err);
+        if (progressRef.current) clearInterval(progressRef.current);
+        setLoading(false);
+        return;
+      }
       const mockLoss = Array.from({ length: 30 }, (_, i) => ({
         step: i * 10,
         epoch: +(i / 10).toFixed(2),
@@ -158,6 +166,7 @@ export default function TrainingSimulatorPage() {
   return (
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={7} />
+      <ConceptCard stepKey="training" />
 
       <div className="space-y-8">
         {/* Start Training */}
@@ -314,7 +323,8 @@ export default function TrainingSimulatorPage() {
               </section>
             )}
 
-            <div className="flex justify-end pt-4 border-t">
+            <div className="flex justify-between pt-4 border-t">
+              <BackButton currentStep={7} />
               <Button size="lg" onClick={handleNext}>
                 <ArrowRight className="mr-2 h-4 w-4" />
                 {tCommon("next")}

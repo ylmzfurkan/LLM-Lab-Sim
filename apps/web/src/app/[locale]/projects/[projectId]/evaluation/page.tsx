@@ -5,12 +5,14 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { StepHeader } from "@/components/shared/step-header";
+import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPost } from "@/lib/api-client";
+import { isDemoMode } from "@/lib/demo-mode";
 import {
   BarChart,
   Bar,
@@ -21,6 +23,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { BackButton } from "@/components/shared/step-navigation";
 import {
   ArrowRight,
   Loader2,
@@ -67,7 +70,12 @@ export default function EvaluationCenterPage() {
       );
       setResult(data);
       updateStep(14);
-    } catch {
+    } catch (err) {
+      if (!isDemoMode()) {
+        console.error(err);
+        setLoading(false);
+        return;
+      }
       setResult({
         scores: { data_quality: 65, training_stability: 72, model_performance: 73.5, cost_efficiency: 70 },
         metrics: { accuracy: 78.5, hallucination_risk: 26.5, response_quality: 70.5, latency_ms: 150 },
@@ -98,6 +106,7 @@ export default function EvaluationCenterPage() {
   return (
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={13} />
+      <ConceptCard stepKey="evaluation" />
 
       <div className="space-y-8">
         {/* Run Evaluation */}
@@ -227,7 +236,8 @@ export default function EvaluationCenterPage() {
               })()}
             </section>
 
-            <div className="flex justify-end pt-4 border-t">
+            <div className="flex justify-between pt-4 border-t">
+              <BackButton currentStep={13} />
               <Button size="lg" onClick={handleNext}>
                 <ArrowRight className="mr-2 h-4 w-4" />
                 {tCommon("next")}

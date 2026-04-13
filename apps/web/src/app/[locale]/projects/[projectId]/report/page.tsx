@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { StepHeader } from "@/components/shared/step-header";
+import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -12,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiGet } from "@/lib/api-client";
+import { isDemoMode } from "@/lib/demo-mode";
 import {
   BarChart,
   Bar,
@@ -22,6 +24,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
+import { BackButton } from "@/components/shared/step-navigation";
 import {
   ArrowRight,
   Loader2,
@@ -77,8 +80,12 @@ export default function BaseModelReportPage() {
         const data = await apiGet<ReportData>(`/api/projects/${params.projectId}/report`);
         setReport(data);
         updateStep(9);
-      } catch {
-        // Demo mode
+      } catch (err) {
+        if (!isDemoMode()) {
+          console.error(err);
+          setLoading(false);
+          return;
+        }
         setReport({
           scores: { data_quality: 65, training_stability: 72, model_performance: 58, cost_efficiency: 70 },
           benchmarks: {
@@ -131,6 +138,7 @@ export default function BaseModelReportPage() {
   return (
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={8} />
+      <ConceptCard stepKey="report" />
 
       <div className="space-y-8">
         {/* Model Summary */}
@@ -272,7 +280,8 @@ export default function BaseModelReportPage() {
           </section>
         )}
 
-        <div className="flex justify-end pt-4 border-t">
+        <div className="flex justify-between pt-4 border-t">
+          <BackButton currentStep={8} />
           <Button size="lg" onClick={handleNext}>
             <ArrowRight className="mr-2 h-4 w-4" />
             {tCommon("next")}

@@ -5,12 +5,15 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { StepHeader } from "@/components/shared/step-header";
+import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPut } from "@/lib/api-client";
+import { isDemoMode } from "@/lib/demo-mode";
+import { BackButton } from "@/components/shared/step-navigation";
 import {
   Type,
   Globe,
@@ -44,6 +47,7 @@ export default function TokenizerLabPage() {
   const params = useParams();
   const router = useRouter();
   const updateStep = useProjectStore((s) => s.updateStep);
+  const datasetId = useProjectStore((s) => s.datasetId);
 
   const [tokenizerType, setTokenizerType] = useState("");
   const [loading, setLoading] = useState(false);
@@ -55,12 +59,17 @@ export default function TokenizerLabPage() {
 
     try {
       const data = await apiPut<TokenizerResult>(
-        `/api/projects/${params.projectId}/dataset/latest/tokenizer`,
+        `/api/projects/${params.projectId}/dataset/${datasetId}/tokenizer`,
         { tokenizer_type: tokenizerType }
       );
       setResult(data);
       updateStep(5);
-    } catch {
+    } catch (err) {
+      if (!isDemoMode()) {
+        console.error(err);
+        setLoading(false);
+        return;
+      }
       const mockResult: TokenizerResult = {
         token_count: 12500000,
         estimated_cost: 25.0,
@@ -83,6 +92,7 @@ export default function TokenizerLabPage() {
   return (
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={4} />
+      <ConceptCard stepKey="tokenizer" />
 
       <div className="space-y-8">
         {/* Tokenizer Selection */}
@@ -200,7 +210,8 @@ export default function TokenizerLabPage() {
               </Card>
             </div>
 
-            <div className="flex justify-end pt-4 border-t mt-6">
+            <div className="flex justify-between pt-4 border-t mt-6">
+              <BackButton currentStep={4} />
               <Button size="lg" onClick={handleNext}>
                 <ArrowRight className="mr-2 h-4 w-4" />
                 {tCommon("next")}

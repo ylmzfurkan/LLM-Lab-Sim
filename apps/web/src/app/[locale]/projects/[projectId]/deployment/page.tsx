@@ -4,11 +4,14 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { StepHeader } from "@/components/shared/step-header";
+import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { apiPost } from "@/lib/api-client";
+import { isDemoMode } from "@/lib/demo-mode";
+import { BackButton } from "@/components/shared/step-navigation";
 import {
   Loader2,
   Rocket,
@@ -66,7 +69,12 @@ export default function DeploymentSimulatorPage() {
         `/api/projects/${params.projectId}/simulate/deployment`
       );
       setResult(data);
-    } catch {
+    } catch (err) {
+      if (!isDemoMode()) {
+        console.error(err);
+        setLoading(false);
+        return;
+      }
       setResult({
         training_costs: { compute_cost: 1680, storage_cost: 1.12, transfer_cost: 0.7, total_cost: 1681.82, hourly_rate: 10, gpu_type: "NVIDIA A100 80GB", gpu_count: 4 },
         deployment_costs: { inference_cost_per_1k_tokens: 0.002, daily_inference_cost: 1.0, monthly_inference_cost: 30, monthly_server_cost: 200, total_monthly_cost: 230, avg_latency_ms: 150, requests_per_day: 1000 },
@@ -98,6 +106,7 @@ export default function DeploymentSimulatorPage() {
   return (
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={14} />
+      <ConceptCard stepKey="deployment" />
 
       <div className="space-y-8">
         {/* Initial State */}
@@ -219,7 +228,8 @@ export default function DeploymentSimulatorPage() {
             </section>
 
             {/* Deploy Button */}
-            <div className="flex justify-end pt-4 border-t">
+            <div className="flex justify-between pt-4 border-t">
+              <BackButton currentStep={14} />
               <Button size="lg" onClick={handleFinalDeploy}>
                 <Rocket className="mr-2 h-4 w-4" />
                 {t("simulateDeploy")}
