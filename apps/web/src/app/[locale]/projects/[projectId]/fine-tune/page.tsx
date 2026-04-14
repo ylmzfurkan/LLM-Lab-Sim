@@ -9,9 +9,11 @@ import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
+import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPost } from "@/lib/api-client";
+import { useChartColors } from "@/hooks/use-chart-colors";
 import { isDemoMode } from "@/lib/demo-mode";
 import {
   BarChart,
@@ -30,6 +32,7 @@ import {
   Wrench,
   TrendingUp,
   TrendingDown,
+  Info,
 } from "lucide-react";
 
 interface FineTuneResult {
@@ -48,6 +51,7 @@ export default function FineTuneSimulatorPage() {
   const router = useRouter();
   const updateScores = useProjectStore((s) => s.updateScores);
   const updateStep = useProjectStore((s) => s.updateStep);
+  const chartColors = useChartColors();
 
   const [epochs, setEpochs] = useState(3);
   const [lrIndex, setLrIndex] = useState(2);
@@ -103,6 +107,7 @@ export default function FineTuneSimulatorPage() {
     : [];
 
   return (
+    <TooltipProvider delayDuration={200}>
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={11} />
       <ConceptCard stepKey="fineTune" />
@@ -110,7 +115,19 @@ export default function FineTuneSimulatorPage() {
       <div className="space-y-8">
         {/* Epochs */}
         <section>
-          <h3 className="text-lg font-semibold mb-1">{t("finetuneEpochs")}</h3>
+          <div className="flex items-center gap-2 mb-1">
+            <h3 className="text-lg font-semibold">{t("finetuneEpochs")}</h3>
+            <UITooltip>
+              <TooltipTrigger asChild>
+                <button type="button" className="text-muted-foreground/50 hover:text-muted-foreground">
+                  <Info className="h-3.5 w-3.5" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="max-w-[280px] text-xs">
+                {t("epochsHint")}
+              </TooltipContent>
+            </UITooltip>
+          </div>
           <div className="max-w-md space-y-2">
             <Slider value={[epochs]} onValueChange={(v) => setEpochs(v[0])} min={1} max={10} step={1} />
             <span className="text-sm font-mono">{epochs}</span>
@@ -119,7 +136,19 @@ export default function FineTuneSimulatorPage() {
 
         {/* Learning Rate */}
         <section>
-          <h3 className="text-lg font-semibold mb-1">{t("finetuneLr")}</h3>
+          <div className="flex items-center gap-2 mb-1">
+            <h3 className="text-lg font-semibold">{t("finetuneLr")}</h3>
+            <UITooltip>
+              <TooltipTrigger asChild>
+                <button type="button" className="text-muted-foreground/50 hover:text-muted-foreground">
+                  <Info className="h-3.5 w-3.5" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="max-w-[280px] text-xs">
+                {t("lrHint")}
+              </TooltipContent>
+            </UITooltip>
+          </div>
           <div className="max-w-md space-y-2">
             <Slider value={[lrIndex]} onValueChange={(v) => setLrIndex(v[0])} min={0} max={LR_VALUES.length - 1} step={1} />
             <span className="text-sm font-mono">{LR_LABELS[lrIndex]}</span>
@@ -213,10 +242,10 @@ export default function FineTuneSimulatorPage() {
                     <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                     <XAxis dataKey="metric" className="text-xs" />
                     <YAxis domain={[0, 100]} className="text-xs" />
-                    <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "8px" }} />
+                    <Tooltip contentStyle={{ background: chartColors.card, border: `1px solid ${chartColors.border}`, borderRadius: "8px" }} />
                     <Legend />
-                    <Bar dataKey={tCommon("before")} fill="hsl(var(--muted-foreground))" radius={[4, 4, 0, 0]} />
-                    <Bar dataKey={tCommon("after")} fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey={tCommon("before")} fill={chartColors.mutedForeground} radius={[4, 4, 0, 0]} />
+                    <Bar dataKey={tCommon("after")} fill={chartColors.primary} radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -233,5 +262,6 @@ export default function FineTuneSimulatorPage() {
         )}
       </div>
     </div>
+    </TooltipProvider>
   );
 }

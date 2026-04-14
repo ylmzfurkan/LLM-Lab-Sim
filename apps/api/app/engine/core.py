@@ -304,7 +304,7 @@ class SimulationEngine:
             "warnings": warnings,
         }
 
-    def generate_report(self) -> dict:
+    def generate_report(self, locale: str = "en") -> dict:
         """Generate the base model report with benchmarks."""
         benchmarks = generate_benchmarks(
             model_performance=self.state.model_performance,
@@ -318,6 +318,7 @@ class SimulationEngine:
             benchmarks=benchmarks,
             data_quality=self.state.data_quality,
             training_stability=self.state.training_stability,
+            locale=locale,
         )
 
         return {

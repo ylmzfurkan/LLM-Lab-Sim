@@ -9,6 +9,7 @@ import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPost } from "@/lib/api-client";
@@ -24,6 +25,7 @@ import {
   Sparkles,
   CheckCircle2,
   ArrowDown,
+  Info,
 } from "lucide-react";
 
 interface RAGResult {
@@ -83,6 +85,7 @@ export default function RAGSimulatorPage() {
   }
 
   return (
+    <TooltipProvider delayDuration={200}>
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={10} />
       <ConceptCard stepKey="rag" />
@@ -90,7 +93,19 @@ export default function RAGSimulatorPage() {
       <div className="space-y-8">
         {/* Chunk Size */}
         <section>
-          <h3 className="text-lg font-semibold mb-1">{t("chunkSize")}</h3>
+          <div className="flex items-center gap-2 mb-1">
+            <h3 className="text-lg font-semibold">{t("chunkSize")}</h3>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button type="button" className="text-muted-foreground/50 hover:text-muted-foreground">
+                  <Info className="h-3.5 w-3.5" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="max-w-[280px] text-xs">
+                {t("chunkHint")}
+              </TooltipContent>
+            </Tooltip>
+          </div>
           <p className="text-sm text-muted-foreground mb-4">{t("chunkSizeDescription")}</p>
           <div className="max-w-md space-y-2">
             <Slider value={[chunkSize]} onValueChange={(v) => setChunkSize(v[0])} min={128} max={2048} step={64} />
@@ -100,7 +115,19 @@ export default function RAGSimulatorPage() {
 
         {/* Top-K */}
         <section>
-          <h3 className="text-lg font-semibold mb-1">{t("topK")}</h3>
+          <div className="flex items-center gap-2 mb-1">
+            <h3 className="text-lg font-semibold">{t("topK")}</h3>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button type="button" className="text-muted-foreground/50 hover:text-muted-foreground">
+                  <Info className="h-3.5 w-3.5" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="max-w-[280px] text-xs">
+                {t("topKHint")}
+              </TooltipContent>
+            </Tooltip>
+          </div>
           <p className="text-sm text-muted-foreground mb-4">{t("topKDescription")}</p>
           <div className="max-w-md space-y-2">
             <Slider value={[topK]} onValueChange={(v) => setTopK(v[0])} min={1} max={10} step={1} />
@@ -195,5 +222,6 @@ export default function RAGSimulatorPage() {
         )}
       </div>
     </div>
+    </TooltipProvider>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { StepHeader } from "@/components/shared/step-header";
@@ -11,10 +11,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPost } from "@/lib/api-client";
 import { isDemoMode } from "@/lib/demo-mode";
+import { useChartColors } from "@/hooks/use-chart-colors";
 import {
   LineChart,
   Line,
@@ -57,10 +59,12 @@ interface TrainingResult {
 export default function TrainingSimulatorPage() {
   const t = useTranslations("training");
   const tCommon = useTranslations("common");
+  const locale = useLocale();
   const params = useParams();
   const router = useRouter();
   const updateScores = useProjectStore((s) => s.updateScores);
   const updateStep = useProjectStore((s) => s.updateStep);
+  const chartColors = useChartColors();
 
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -88,7 +92,7 @@ export default function TrainingSimulatorPage() {
     try {
       const data = await apiPost<TrainingResult>(
         `/api/projects/${params.projectId}/simulate/training`,
-        { locale: "en" }
+        { locale }
       );
       setResult(data);
       updateScores(data.scores);
@@ -133,7 +137,7 @@ export default function TrainingSimulatorPage() {
           { epoch: 3, loss: 0.5432, is_best: true },
         ],
         warnings: [
-          { message: "Your configuration looks well-balanced. Training should proceed smoothly.", severity: "info" },
+          { message: t("demoGoodConfig"), severity: "info" },
         ],
       };
       setResult(mockResult);
@@ -164,6 +168,7 @@ export default function TrainingSimulatorPage() {
   }
 
   return (
+    <TooltipProvider delayDuration={200}>
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={7} />
       <ConceptCard stepKey="training" />
@@ -206,25 +211,46 @@ export default function TrainingSimulatorPage() {
 
             <Tabs defaultValue="loss" className="w-full">
               <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="loss">{t("lossCurve")}</TabsTrigger>
-                <TabsTrigger value="gpu">{t("gpuUsage")}</TabsTrigger>
+                <UITooltip>
+                  <TooltipTrigger asChild>
+                    <TabsTrigger value="loss">{t("lossCurve")}</TabsTrigger>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="max-w-[280px] text-xs">
+                    {t("metricHints.lossCurve")}
+                  </TooltipContent>
+                </UITooltip>
+                <UITooltip>
+                  <TooltipTrigger asChild>
+                    <TabsTrigger value="gpu">{t("gpuUsage")}</TabsTrigger>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="max-w-[280px] text-xs">
+                    {t("metricHints.gpuUsage")}
+                  </TooltipContent>
+                </UITooltip>
                 <TabsTrigger value="logs">{t("trainingLogs")}</TabsTrigger>
-                <TabsTrigger value="checkpoints">{t("checkpoints")}</TabsTrigger>
+                <UITooltip>
+                  <TooltipTrigger asChild>
+                    <TabsTrigger value="checkpoints">{t("checkpoints")}</TabsTrigger>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="max-w-[280px] text-xs">
+                    {t("metricHints.checkpoints")}
+                  </TooltipContent>
+                </UITooltip>
               </TabsList>
 
               {/* Loss Curve */}
               <TabsContent value="loss">
                 <Card>
                   <CardContent className="p-4 pt-6">
-                    <ResponsiveContainer width="100%" height={320}>
-                      <LineChart data={result.loss_curve}>
-                        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                        <XAxis dataKey="epoch" label={{ value: t("epoch"), position: "insideBottom", offset: -5 }} className="text-xs" />
-                        <YAxis label={{ value: t("loss"), angle: -90, position: "insideLeft" }} className="text-xs" />
-                        <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "8px" }} />
-                        <Legend />
-                        <Line type="monotone" dataKey="train_loss" name={t("trainLoss")} stroke="hsl(var(--primary))" strokeWidth={2} dot={false} />
-                        <Line type="monotone" dataKey="val_loss" name={t("valLoss")} stroke="hsl(var(--destructive))" strokeWidth={2} dot={false} strokeDasharray="5 5" />
+                    <ResponsiveContainer width="100%" height={400}>
+                      <LineChart data={result.loss_curve} margin={{ top: 16, right: 24, bottom: 32, left: 16 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke={chartColors.border} />
+                        <XAxis dataKey="epoch" label={{ value: t("epoch"), position: "insideBottom", offset: -12, fill: chartColors.mutedForeground, fontSize: 12 }} tick={{ fill: chartColors.mutedForeground, fontSize: 12 }} />
+                        <YAxis label={{ value: t("loss"), angle: -90, position: "insideLeft", offset: 8, fill: chartColors.mutedForeground, fontSize: 12 }} tick={{ fill: chartColors.mutedForeground, fontSize: 12 }} tickFormatter={(v) => Number(v).toFixed(2)} />
+                        <Tooltip contentStyle={{ background: chartColors.card, border: `1px solid ${chartColors.border}`, borderRadius: "8px", color: chartColors.mutedForeground }} labelStyle={{ color: chartColors.mutedForeground }} />
+                        <Legend wrapperStyle={{ paddingTop: 12 }} />
+                        <Line type="monotone" dataKey="train_loss" name={t("trainLoss")} stroke={chartColors.primary} strokeWidth={2.5} dot={false} />
+                        <Line type="monotone" dataKey="val_loss" name={t("valLoss")} stroke={chartColors.destructive} strokeWidth={2.5} dot={false} strokeDasharray="5 5" />
                       </LineChart>
                     </ResponsiveContainer>
                   </CardContent>
@@ -235,15 +261,15 @@ export default function TrainingSimulatorPage() {
               <TabsContent value="gpu">
                 <Card>
                   <CardContent className="p-4 pt-6">
-                    <ResponsiveContainer width="100%" height={320}>
-                      <AreaChart data={result.gpu_usage}>
-                        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                        <XAxis dataKey="epoch" className="text-xs" />
-                        <YAxis domain={[0, 1]} tickFormatter={(v) => `${(Number(v) * 100).toFixed(0)}%`} className="text-xs" />
-                        <Tooltip formatter={(value) => `${(Number(value) * 100).toFixed(1)}%`} contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "8px" }} />
-                        <Legend />
-                        <Area type="monotone" dataKey="gpu_utilization" name={t("gpuUtilization")} stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.2} />
-                        <Area type="monotone" dataKey="memory_usage" name={t("memoryUsage")} stroke="hsl(var(--chart-2))" fill="hsl(var(--chart-2))" fillOpacity={0.15} />
+                    <ResponsiveContainer width="100%" height={400}>
+                      <AreaChart data={result.gpu_usage} margin={{ top: 16, right: 24, bottom: 32, left: 16 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke={chartColors.border} />
+                        <XAxis dataKey="epoch" label={{ value: t("epoch"), position: "insideBottom", offset: -12, fill: chartColors.mutedForeground, fontSize: 12 }} tick={{ fill: chartColors.mutedForeground, fontSize: 12 }} />
+                        <YAxis domain={[0, 1]} tickFormatter={(v) => `${(Number(v) * 100).toFixed(0)}%`} tick={{ fill: chartColors.mutedForeground, fontSize: 12 }} />
+                        <Tooltip formatter={(value) => `${(Number(value) * 100).toFixed(1)}%`} contentStyle={{ background: chartColors.card, border: `1px solid ${chartColors.border}`, borderRadius: "8px", color: chartColors.mutedForeground }} labelStyle={{ color: chartColors.mutedForeground }} />
+                        <Legend wrapperStyle={{ paddingTop: 12 }} />
+                        <Area type="monotone" dataKey="gpu_utilization" name={t("gpuUtilization")} stroke={chartColors.primary} strokeWidth={2} fill={chartColors.primary} fillOpacity={0.25} />
+                        <Area type="monotone" dataKey="memory_usage" name={t("memoryUsage")} stroke={chartColors.chart2} strokeWidth={2} fill={chartColors.chart2} fillOpacity={0.2} />
                       </AreaChart>
                     </ResponsiveContainer>
                   </CardContent>
@@ -334,5 +360,6 @@ export default function TrainingSimulatorPage() {
         )}
       </div>
     </div>
+    </TooltipProvider>
   );
 }

@@ -1,109 +1,110 @@
 {
   "common": {
     "appName": "LLM Lab",
-    "appDescription": "LLM Egitim ve Ozellestirme Simulatoru",
-    "next": "Ileri",
+    "appDescription": "LLM Eğitim ve Özelleştirme Simülatörü",
+    "next": "İleri",
     "back": "Geri",
     "save": "Kaydet",
-    "cancel": "Iptal",
+    "cancel": "İptal",
     "delete": "Sil",
-    "loading": "Yukleniyor...",
-    "error": "Bir hata olustu",
+    "loading": "Yükleniyor...",
+    "error": "Bir hata oluştu",
     "retry": "Tekrar Dene",
-    "create": "Olustur",
-    "edit": "Duzenle",
+    "create": "Oluştur",
+    "edit": "Düzenle",
     "close": "Kapat",
     "search": "Ara",
-    "noResults": "Sonuc bulunamadi",
+    "noResults": "Sonuç bulunamadı",
     "confirm": "Onayla",
-    "beginner": "Baslangic",
-    "advanced": "Gelismis",
-    "startTraining": "Egitimi Baslat",
-    "running": "Calisiyor...",
-    "completed": "Tamamlandi",
+    "beginner": "Başlangıç",
+    "advanced": "Gelişmiş",
+    "startTraining": "Eğitimi Başlat",
+    "running": "Çalışıyor...",
+    "completed": "Tamamlandı",
     "score": "Skor",
-    "before": "Once",
+    "before": "Önce",
     "after": "Sonra",
-    "send": "Gonder",
+    "send": "Gönder",
     "copy": "Kopyala",
     "copied": "Kopyalandi!",
-    "deploy": "Dagit",
-    "result": "Sonuc",
+    "deploy": "Dağıt",
+    "result": "Sonuç",
     "details": "Detaylar",
-    "overview": "Genel Bakis",
+    "overview": "Genel Bakış",
     "apply": "Uygula"
   },
   "auth": {
-    "login": "Giris Yap",
-    "register": "Kayit Ol",
-    "logout": "Cikis Yap",
+    "login": "Giriş Yap",
+    "register": "Kayıt Ol",
+    "logout": "Çıkış Yap",
     "email": "E-posta",
-    "password": "Sifre",
-    "confirmPassword": "Sifre Tekrar",
-    "forgotPassword": "Sifreni mi unuttun?",
+    "password": "Şifre",
+    "confirmPassword": "Şifre Tekrar",
+    "forgotPassword": "Şifreni mi unuttun?",
     "noAccount": "Hesabin yok mu?",
-    "hasAccount": "Zaten hesabin var mi?",
-    "loginTitle": "Tekrar Hos Geldin",
-    "loginDescription": "AI yolculuguna devam etmek icin giris yap",
-    "registerTitle": "Hesap Olustur",
-    "registerDescription": "AI modellerini olusturmaya bugun basla"
+    "hasAccount": "Zaten hesabın var mı?",
+    "loginTitle": "Tekrar Hoş Geldin",
+    "loginDescription": "AI yolculuğuna devam etmek için giriş yap",
+    "registerTitle": "Hesap Oluştur",
+    "registerDescription": "AI modellerini oluşturmaya bugün başla"
   },
   "dashboard": {
     "title": "Projelerim",
     "newProject": "Yeni Proje",
-    "noProjects": "Henuz proje yok",
-    "noProjectsDescription": "LLM egitim deneyimine baslamak icin ilk projenizi olusturun",
-    "projectName": "Proje Adi",
+    "noProjects": "Henüz proje yok",
+    "noProjectsDescription": "LLM eğitim deneyimine başlamak için ilk projenizi oluşturun",
+    "projectName": "Proje Adı",
     "projectNamePlaceholder": "LLM Projem",
-    "projectDescription": "Aciklama (istege bagli)",
+    "projectDescription": "Açıklama (isteğe bağlı)",
     "projectDescriptionPlaceholder": "Bir sohbet botu...",
     "continueProject": "Devam Et",
     "projectStatus": {
       "draft": "Taslak",
       "in_progress": "Devam Ediyor",
-      "completed": "Tamamlandi"
+      "completed": "Tamamlandı"
     }
   },
   "steps": {
-    "wizard": "Proje Sihirbazi",
-    "dataset": "Veri Seti Laboratuvari",
+    "sidebarTitle": "Adımlar",
+    "wizard": "Proje Sihirbazı",
+    "dataset": "Veri Seti Laboratuvarı",
     "cleaning": "Veri Temizleme",
-    "tokenizer": "Tokenizer Laboratuvari",
+    "tokenizer": "Tokenizer Laboratuvarı",
     "architecture": "Mimari",
-    "trainingConfig": "Egitim Yapilandirmasi",
-    "training": "Egitim",
+    "trainingConfig": "Eğitim Yapılandırması",
+    "training": "Eğitim",
     "report": "Temel Model Raporu",
-    "customization": "Ozellestirme",
-    "rag": "RAG Simulatoru",
-    "fineTune": "Ince Ayar",
-    "playground": "Deneme Alani",
-    "evaluation": "Degerlendirme",
-    "deployment": "Dagitim"
+    "customization": "Özelleştirme",
+    "rag": "RAG Simülatörü",
+    "fineTune": "İnce Ayar",
+    "playground": "Deneme Alanı",
+    "evaluation": "Değerlendirme",
+    "deployment": "Dağıtım"
   },
   "wizard": {
-    "title": "Proje Sihirbazi",
-    "description": "Baslamak icin modelinizin amacini, alanini, dilini ve turunu tanimlayin.",
-    "modelPurpose": "Model Amaci",
-    "modelPurposeDescription": "Modeliniz oncelikli olarak ne icin kullanilacak?",
+    "title": "Proje Sihirbazı",
+    "description": "Başlamak için modelinizin amacını, alanını, dilini ve türünü tanımlayın.",
+    "modelPurpose": "Model Amacı",
+    "modelPurposeDescription": "Modeliniz öncelikli olarak ne için kullanılacak?",
     "targetDomain": "Hedef Alan",
-    "targetDomainDescription": "Modeliniz hangi alanda uzmanlasmali?",
+    "targetDomainDescription": "Modeliniz hangi alanda uzmanlaşmalı?",
     "modelLanguage": "Model Dili",
     "modelLanguageDescription": "Modeliniz hangi dil(ler)i desteklemeli?",
-    "modelType": "Model Turu",
-    "modelTypeDescription": "Ne tur bir model olusturmak istiyorsunuz?",
+    "modelType": "Model Türü",
+    "modelTypeDescription": "Ne tur bir model oluşturmak istiyorsunuz?",
     "purposes": {
       "chatbot": "Sohbet Botu",
-      "code_assistant": "Kod Asistani",
-      "translation": "Ceviri",
-      "summarization": "Ozetleme",
-      "general": "Genel Amacli"
+      "code_assistant": "Kod Asistanı",
+      "translation": "Çeviri",
+      "summarization": "Özetleme",
+      "general": "Genel Amaçlı"
     },
     "purposeHints": {
-      "chatbot": "Dogal diyalog kurabilen konusmaci yapay zeka. Musteri destegi, sanal asistanlar ve interaktif uygulamalar icin idealdir.",
-      "code_assistant": "Kod uretimi, tamamlama ve hata ayiklama konusunda uzmanlasmis model. Programlama dilleri ve dokumantasyon uzerinde egitilir.",
-      "translation": "Diller arasi yuksek dogrulukla ceviri icin optimize edilmis. Paralel derlem verisi gerektirir.",
-      "summarization": "Uzun belgeleri kisa ve dogru ozetlere donusturur. Haberler, arastirma makaleleri ve raporlar icin uygundur.",
-      "general": "Birden fazla gorev icin cok yonlu bir model. Her isten anlar ama uzman modellerin gerisinde kalabilir."
+      "chatbot": "Doğal diyalog kurabilen konuşmacı yapay zeka. Müşteri desteği, sanal asistanlar ve interaktif uygulamalar için idealdir.",
+      "code_assistant": "Kod üretimi, tamamlama ve hata ayıklama konusunda uzmanlaşmış model. Programlama dilleri ve dokümantasyon üzerinde eğitilir.",
+      "translation": "Diller arası yüksek doğrulukla çeviri için optimize edilmiş. Paralel derlem verisi gerektirir.",
+      "summarization": "Uzun belgeleri kısa ve dogru özetlere dönüştürür. Haberler, arastirma makaleleri ve raporlar için uygundur.",
+      "general": "Birden fazla görev için çok yönlü bir model. Her işten anlar ama uzman modellerin gerisinde kalabilir."
     },
     "domains": {
       "general": "Genel",
@@ -111,25 +112,25 @@
       "legal": "Hukuk",
       "finance": "Finans",
       "tech": "Teknoloji",
-      "education": "Egitim"
+      "education": "Eğitim"
     },
     "domainHints": {
-      "general": "Belirli bir alan odagi yok. Cesitli konulara sahip genel amacli uygulamalar icin uygundur.",
-      "medical": "Tip literaturu, klinik notlar ve saglik verileri uzerinde egitilir. Terminoloji ve guvenlik dikkatle ele alinmalidir.",
-      "legal": "Hukuki belgeler, sozlesmeler ve mevzuata odaklanir. Hassas dil anlayisi gerektirir.",
-      "finance": "Finansal raporlar, piyasa analizi ve ekonomik veriler konusunda uzmanlasir. Sayisal muhakeme gerektirir.",
-      "tech": "Yazilim muhendisligi, BT dokumantasyonu ve teknik spesifikasyonlari kapsar.",
-      "education": "Egitim icerigi, bireysel ogretim ve ogrenme materyalleri icin optimize edilmistir."
+      "general": "Belirli bir alan odağı yok. Çeşitli konulara sahip genel amaçlı uygulamalar için uygundur.",
+      "medical": "Tip literatürü, klinik notlar ve sağlık verileri üzerinde eğitilir. Terminoloji ve güvenlik dikkatle ele alınmalıdır.",
+      "legal": "Hukuki belgeler, sözleşmeler ve mevzuata odaklanır. Hassas dil anlayisi gerektirir.",
+      "finance": "Finansal raporlar, piyasa analizi ve ekonomik veriler konusunda uzmanlaşır. Sayısal muhakeme gerektirir.",
+      "tech": "Yazılım mühendisliği, BT dokumantasyonu ve teknik spesifikasyonları kapsar.",
+      "education": "Eğitim içeriği, bireysel öğretim ve öğrenme materyalleri için optimize edilmiştir."
     },
     "languages": {
-      "en": "Ingilizce",
-      "tr": "Turkce",
-      "multilingual": "Coklu Dil"
+      "en": "İngilizce",
+      "tr": "Türkçe",
+      "multilingual": "Çoklu Dil"
     },
     "languageHints": {
-      "en": "Yalnizca Ingilizce model. Ingilizce gorevlerde en yuksek performans, daha az egitim verisi gerektirir.",
-      "tr": "Yalnizca Turkce model. Optimum performans icin Turkce'ye ozel tokenizer gerektirir.",
-      "multilingual": "Birden fazla dili destekler. Daha buyuk kelime dagarcigl gerekir ancak diller arasi transfer ogrenimi saglar."
+      "en": "Yalnızca İngilizce model. İngilizce görevlerde en yüksek performans, daha az eğitim verisi gerektirir.",
+      "tr": "Yalnızca Türkçe model. Optimum performans için Türkçe'ye özel tokenizer gerektirir.",
+      "multilingual": "Birden fazla dili destekler. Daha büyük kelime dagarcigl gerekir ancak diller arası transfer öğrenimi sağlar."
     },
     "types": {
       "chat": "Sohbet Modeli",
@@ -138,136 +139,162 @@
       "base": "Temel Model"
     },
     "typeHints": {
-      "chat": "Sistem komutlari ve rol yapma yetenekleriyle cok turlu sohbetler icin ince ayar yapilmis.",
-      "code": "Ortaya doldurma egitimi ve depo duzeyi baglam ile kod uretimi icin optimize edilmis.",
-      "instruct": "Acik talimatlari hassasiyetle takip eder. Gorev tamamlama ve yapilandirilmis ciktilar icin en iyisi.",
-      "base": "Hizalama olmadan ham dil modeli. Daha fazla ince ayar ve ozellestirme icin temel."
+      "chat": "Sistem komutları ve rol yapma yetenekleriyle çok turlu sohbetler için ince ayar yapılmış.",
+      "code": "Ortaya doldurma eğitimi ve depo düzeyi bağlam ile kod üretimi için optimize edilmiş.",
+      "instruct": "Açık talimatları hassasiyetle takip eder. Gorev tamamlama ve yapilandirilmis ciktilar için en iyisi.",
+      "base": "Hizalama olmadan ham dil modeli. Daha fazla ince ayar ve özelleştirme için temel."
     }
   },
   "dataset": {
-    "title": "Veri Seti Laboratuvari",
-    "description": "Egitim veri setinizi yukleyin ve kalitesini analiz edin.",
-    "fileType": "Dosya Turu",
+    "title": "Veri Seti Laboratuvarı",
+    "description": "Eğitim veri setinizi yükleyin ve kalitesini analiz edin.",
+    "fileType": "Dosya Türü",
     "fileTypeDescription": "Veri setiniz hangi formatta?",
     "fileSize": "Dosya Boyutu",
-    "fileSizeDescription": "Veri seti dosyaniz ne kadar buyuk?",
-    "rowCount": "Satir Sayisi (istege bagli)",
-    "rowCountDescription": "Veri setinizdeki ornek sayisi",
-    "rowCountPlaceholder": "Bos birakilirsa otomatik tahmin edilir",
+    "fileSizeDescription": "Veri seti dosyanız ne kadar büyük?",
+    "rowCount": "Satır Sayısı (isteğe bağlı)",
+    "rowCountDescription": "Veri setinizdeki örnek sayısı",
+    "rowCountPlaceholder": "Boş bırakılırsa otomatik tahmin edilir",
     "analyze": "Veri Setini Analiz Et",
-    "results": "Analiz Sonuclari",
+    "results": "Analiz Sonuçları",
     "qualityScore": "Kalite Skoru",
-    "duplicateRatio": "Tekrar Orani",
-    "languageDistribution": "Dil Dagilimi",
-    "avgTextLength": "Ort. Metin Uzunlugu",
-    "estimatedRows": "Tahmini Satir Sayisi",
+    "duplicateRatio": "Tekrar Oranı",
+    "languageDistribution": "Dil Dağılımı",
+    "avgTextLength": "Ort. Metin Uzunluğu",
+    "estimatedRows": "Tahmini Satır Sayısı",
     "tokens": "token",
     "fileTypes": {
       "jsonl": "JSONL",
       "csv": "CSV",
-      "text": "Duz Metin",
+      "text": "Düz Metin",
       "pdf": "PDF"
+    },
+    "fileTypeHints": {
+      "jsonl": "Her satırda bir JSON nesnesi. Sohbet veri setleri için ML standardı — streaming kolay, iç içe alanları kaldırır, milyonlarca satıra ölçeklenir.",
+      "csv": "Tablo dostu. Basit prompt/yanıt çiftleri için iyi; çok satırlı metin ve tırnaklarla zorlanır.",
+      "text": "Ham metin dosyaları. Kitap, makale veya loglar gibi uzun biçimli içerikte ön eğitim devamı için en iyisidir.",
+      "pdf": "PDF'den metin çıkarır. Yavaş ve gürültülü — OCR artefaktları ve düzen sorunları bekleyin."
     }
   },
   "cleaning": {
     "title": "Veri Temizleme",
-    "description": "Egitim kalitesini artirmak icin veri setinizi temizleyin ve on isleyin.",
-    "operations": "Temizlik Islemleri",
-    "operationsDescription": "Veri setinize uygulanacak temizlik adimlarini secin.",
-    "removeDuplicates": "Tekrarlari Kaldir",
-    "removeDuplicatesDescription": "Veri setindeki tekrarlayan girisleri tespit edip kaldirin",
+    "description": "Eğitim kalitesini artırmak için veri setinizi temizleyin ve ön işleyin.",
+    "operations": "Temizlik İşlemleri",
+    "operationsDescription": "Veri setinize uygulanacak temizlik adımlarını seçin.",
+    "removeDuplicates": "Tekrarları Kaldır",
+    "removeDuplicatesDescription": "Veri setindeki tekrarlayan girişleri tespit edip kaldırın",
     "filterSpam": "Spam Filtrele",
-    "filterSpamDescription": "Dusuk kaliteli ve spam icerikleri kaldirin",
-    "maskPii": "Kisisel Verileri Maskele",
-    "maskPiiDescription": "Gizlilik uyumu icin kisisel tanimlayici bilgileri maskeleyin",
-    "apply": "Temizligi Uygula",
-    "results": "Temizlik Sonuclari",
-    "qualityBefore": "Onceki Kalite",
+    "filterSpamDescription": "Düşük kaliteli ve spam içerikleri kaldırın",
+    "maskPii": "Kişisel Verileri Maskele",
+    "maskPiiDescription": "Gizlilik uyumu için kişisel tanımlayıcı bilgileri maskeleyin",
+    "apply": "Temizliği Uygula",
+    "results": "Temizlik Sonuçları",
+    "qualityBefore": "Önceki Kalite",
     "qualityAfter": "Sonraki Kalite",
-    "qualityImprovement": "Iyilestirme",
-    "rowsRemoved": "Kaldirilan Satirlar",
-    "cleanedRows": "Temizlenmis Satirlar"
+    "qualityImprovement": "İyileştirme",
+    "rowsRemoved": "Kaldırılan Satırlar",
+    "cleanedRows": "Temizlenmiş Satırlar",
+    "operationHints": {
+      "removeDuplicates": "Tekrarlayan satırlar içerdiklerini iki katına çıkarır. Kaldırmak, modelin tekrarlanan ifadeleri aşırı öğrenmesini engeller.",
+      "filterSpam": "Düşük kaliteli veya makine üretimi metin eğitimi zehirler. Filtreleme sinyal/gürültü oranını yüksek tutar.",
+      "maskPii": "İsim, e-posta, telefon numaraları modele ezberlenmemeli. Maskelemek gizlilik ve uyum gereksinimidir."
+    }
   },
   "tokenizer": {
-    "title": "Tokenizer Laboratuvari",
-    "description": "Modelinizin dili ve kullanim alani icin en uygun tokenizer'i secin.",
-    "selectTokenizer": "Tokenizer Secin",
-    "selectTokenizerDescription": "Her tokenizer farkli verimlilik ve maliyet ozelliklerine sahiptir.",
-    "results": "Tokenizer Sonuclari",
-    "tokenCount": "Token Sayisi",
+    "title": "Tokenizer Laboratuvarı",
+    "description": "Modelinizin dili ve kullanım alanı için en uygun tokenizer'i seçin.",
+    "selectTokenizer": "Tokenizer Seçin",
+    "selectTokenizerDescription": "Her tokenizer farklı verimlilik ve maliyet özelliklerine sahiptir.",
+    "results": "Tokenizer Sonuçları",
+    "tokenCount": "Token Sayısı",
     "estimatedCost": "Tahmini Maliyet",
-    "contextUtilization": "Context Kullanimi",
-    "avgTokensPerSample": "Ort. Token/Ornek",
+    "contextUtilization": "Context Kullanımı",
+    "avgTokensPerSample": "Ort. Token/Örnek",
     "efficiencyScore": "Verimlilik Skoru",
     "types": {
-      "general": "Genel BPE (GPT-tarzi)",
-      "turkish_optimized": "Turkce Optimize BPE",
-      "code": "Kod Odakli BPE"
+      "general": "Genel BPE (GPT-tarzı)",
+      "turkish_optimized": "Türkçe Optimize BPE",
+      "code": "Kod Odaklı BPE"
     },
     "typeDescriptions": {
-      "general": "Ingilizce ve genel metinler icin standart tokenizer",
-      "turkish_optimized": "Turkce morfoloji icin optimize, TR icin %15 daha verimli",
-      "code": "Kod sozdizimi, girintileme ve programlama kaliplarini isler"
+      "general": "İngilizce ve genel metinler için standart tokenizer",
+      "turkish_optimized": "Türkçe morfoloji için optimize, TR için %15 daha verimli",
+      "code": "Kod sözdizimi, girintileme ve programlama kalıplarını işler"
+    },
+    "typeHints": {
+      "general": "GPT tarzı BPE. İngilizce için iyi; Türkçe eklere ve girintili koda token israf eder.",
+      "turkish_optimized": "Türkçe eklemeli yapıyı (eviniz, evinizde...) bütün birimler olarak öğrenir. Daha az token = Türkçe metinde daha hızlı eğitim ve daha düşük çıkarım maliyeti.",
+      "code": "Boşluklar, parantezler ve tanımlayıcı sınırları korur. Çünkü kod anlamı girintileme ile belirlenir."
     }
   },
   "architecture": {
     "title": "Model Mimarisi",
-    "description": "Boyut, context penceresi ve tip secerek modelinizin mimarisini tasarlayin.",
+    "description": "Boyut, context penceresi ve tip seçerek modelinizin mimarisini tasarlayın.",
     "modelSize": "Model Boyutu",
-    "modelSizeDescription": "Buyuk modeller daha yetenekli ancak daha fazla kaynak gerektirir.",
+    "modelSizeDescription": "Büyük modeller daha yetenekli ancak daha fazla kaynak gerektirir.",
     "contextWindow": "Context Penceresi",
-    "contextWindowDescription": "Modelin bir seferde isleyebilecegi token sayisi.",
-    "architectureType": "Mimari Turu",
-    "architectureTypeDescription": "Dense tum parametreleri isler; MoE verimlilik icin alt kumeleri aktive eder.",
-    "results": "Mimari Ozellikleri",
+    "contextWindowDescription": "Modelin bir seferde işleyebileceği token sayısı.",
+    "architectureType": "Mimari Türü",
+    "architectureTypeDescription": "Dense tüm parametreleri işler; MoE verimlilik için alt kümeleri aktive eder.",
+    "results": "Mimari Özellikleri",
     "parameters": "Parametreler",
     "layers": "Katmanlar",
     "hiddenSize": "Gizli Boyut",
-    "attentionHeads": "Dikkat Basliklari",
+    "attentionHeads": "Dikkat Başlıkları",
     "gpuRequirement": "GPU Gereksinimi",
-    "trainingHours": "Tahmini Egitim Suresi",
-    "trainingCost": "Tahmini Egitim Maliyeti",
-    "capability": "Mimari Yetenegi",
+    "trainingHours": "Tahmini Eğitim Süresi",
+    "trainingCost": "Tahmini Eğitim Maliyeti",
+    "capability": "Mimari Yeteneği",
     "sizes": {
-      "small": "Kucuk (1B)",
+      "small": "Küçük (1B)",
       "medium": "Orta (7B)",
-      "large": "Buyuk (70B)"
+      "large": "Büyük (70B)"
     },
     "sizeDescriptions": {
-      "small": "1 GPU, hizli egitim, odakli gorevler icin iyi",
+      "small": "1 GPU, hızlı eğitim, odaklı görevler için iyi",
       "medium": "4 GPU, dengeli performans ve maliyet",
-      "large": "16 GPU, en ust duzey performans"
+      "large": "16 GPU, en üst düzey performans"
     },
     "types": {
       "dense": "Dense",
       "moe": "Mixture of Experts"
     },
     "typeDescriptions": {
-      "dense": "Her tokende tum parametreler aktif. Basit ve tahmin edilebilir.",
-      "moe": "Token basina parametre alt kumesi aktive olur. Daha hizli egitim, daha fazla bellek."
+      "dense": "Her tokende tüm parametreler aktif. Basit ve tahmin edilebilir.",
+      "moe": "Token başına parametre alt kümesi aktive olur. Daha hızlı eğitim, daha fazla bellek."
+    },
+    "sizeHints": {
+      "small": "~1B parametre. Laptop dostu çıkarım, dar görev kalitesi. Öğrenme veya odaklı kullanım için iyi başlangıç.",
+      "medium": "~7B parametre. Llama/Mistral sınıfı — veri merkezi faturası olmadan gerçek yetenek.",
+      "large": "~70B parametre. Frontier kalitesi ama 16+ GPU gerekir. Çoğu ekip sıfırdan eğitmek yerine mevcut bir 70B'yi fine-tune eder."
+    },
+    "contextHint": "Modelin aynı anda gördüğü metin miktari. Büyük = daha uzun belgeler ama kuadratik olarak daha çok hesap ve bellek.",
+    "archHints": {
+      "dense": "Her parametre her token için çalışır. Tahmin edilebilir, iyi anlaşılmış, kolay sunulur.",
+      "moe": "Token başına yalnızca 'uzman' alt kümesi çalışır. Aynı kalitede 4-8x hızlı eğitim, ama tüm ağırlık seti için daha fazla VRAM gerekir."
     }
   },
   "trainingConfig": {
-    "title": "Egitim Yapilandirmasi",
-    "description": "Modelinizin nasil ogrenecegini kontrol eden hiperparametreleri yapilandirin.",
-    "mode": "Yapilandirma Modu",
-    "modeDescription": "Baslangic modu onerilen varsayilanlari kullanir. Gelismis tam kontrol saglar.",
-    "epochs": "Epoch Sayisi",
-    "epochsDescription": "Egitim verisinden gecis sayisi",
+    "title": "Eğitim Yapılandırması",
+    "description": "Modelinizin nasıl öğreneceğini kontrol eden hiperparametreleri yapılandırın.",
+    "mode": "Yapılandırma Modu",
+    "modeDescription": "Başlangıç modu önerilen varsayılanları kullanır. Gelişmiş tam kontrol sağlar.",
+    "epochs": "Epoch Sayısı",
+    "epochsDescription": "Eğitim verisinden geçiş sayısı",
     "batchSize": "Batch Boyutu",
-    "batchSizeDescription": "Model agirliklari guncellenmeden once islenen ornek sayisi",
-    "learningRate": "Ogrenme Orani",
-    "learningRateDescription": "Agirlik guncellemeleri icin adim boyutu. Cok yuksek = kararsiz, cok dusuk = yavas.",
+    "batchSizeDescription": "Model ağırlıkları güncellenmeden önce işlenen örnek sayısı",
+    "learningRate": "Öğrenme Oranı",
+    "learningRateDescription": "Ağırlık güncellemeleri için adım boyutu. Çok yüksek = kararsız, çok düşük = yavaş.",
     "optimizer": "Optimizer",
-    "optimizerDescription": "Egitim sirasinda model agirliklarini guncellemek icin kullanilan algoritma",
-    "fp16": "FP16 (Karisik Hassasiyet)",
-    "fp16Description": "Minimum kalite kaybiyla bellek kullanimini ~%40 azaltir",
-    "assessment": "Yapilandirma Degerlendirmesi",
-    "lrAssessment": "LR Degerlendirmesi",
-    "convergencePrediction": "Yakinlasma Tahmini",
-    "overfittingRisk": "Asiri Uyum Riski",
-    "stabilityScore": "Kararlilik Skoru",
-    "presetApplied": "Model yapilandirmaniz icin onerilen varsayilanlar uygulandi.",
+    "optimizerDescription": "Eğitim sırasında model ağırlıklarını güncellemek için kullanılan algoritma",
+    "fp16": "FP16 (Karışık Hassasiyet)",
+    "fp16Description": "Minimum kalite kaybıyla bellek kullanımını ~%40 azaltır",
+    "assessment": "Yapılandırma Değerlendirmesi",
+    "lrAssessment": "LR Değerlendirmesi",
+    "convergencePrediction": "Yakınlaşma Tahmini",
+    "overfittingRisk": "Aşırı Uyum Riski",
+    "stabilityScore": "Kararlılık Skoru",
+    "presetApplied": "Model yapılandırmanız için önerilen varsayilanlar uygulandı.",
     "optimizers": {
       "adamw": "AdamW",
       "adam": "Adam",
@@ -276,257 +303,367 @@
     },
     "lrValues": {
       "optimal": "Optimal",
-      "suboptimal": "Optimal Alti",
+      "suboptimal": "Optimal Altı",
       "risky": "Riskli"
     },
     "convergenceValues": {
-      "fast": "Hizli",
+      "fast": "Hızlı",
       "normal": "Normal",
-      "slow": "Yavas"
+      "slow": "Yavaş"
     },
     "riskValues": {
-      "low": "Dusuk",
+      "low": "Düşük",
       "medium": "Orta",
-      "high": "Yuksek"
-    }
+      "high": "Yüksek"
+    },
+    "epochsHint": "Veri setinden bir tam geçiş. Daha fazla epoch = daha iyi uyum ama ezberleme (overfitting) riski. 3 yaygın bir denge noktasıdır.",
+    "batchSizeHint": "Ağırlık güncellemesinden önce işlenen örnek sayısı. Büyük = daha düzgün gradient ama daha çok bellek. 32 çoğu kurulum için güvenli.",
+    "lrHint": "Her ağırlık güncelleme adımının boyu. Çok büyük = model savrulur; çok küçük = sürünür. 1e-4 mantıklı bir varsayılan.",
+    "optimizerHints": {
+      "adamw": "Transformer'lar için endüstri varsayılanı. Adam + weight decay; kutudan çıkar cikmaz çalışır.",
+      "adam": "Klasik adaptif optimizer. Çalışır ama AdamW genelde LLM'lerde önden.",
+      "adafactor": "Bellek verimli Adam varyantı. VRAM sıkıştığında kullanin; hafif daha az stabildir.",
+      "sgd": "Basit momentumlu iniş. Adım başına hızlı ama dikkatli ayar ister; LLM'de nadiren kullanılır."
+    },
+    "fp16Hint": "Ağırlıkları 32-bit yerine 16-bit float olarak saklar. Yaklaşık %40 daha az bellek, neredeyse doğruluk kaybı yok. Sayısal kararsızlık görmediyseniz açın."
   },
   "training": {
-    "title": "Egitim Simulatoru",
-    "description": "Egitim simulasyonunu calistirin ve modelinizin nasil ogrendigini gozlemleyin.",
-    "startTraining": "Egitimi Baslat",
-    "trainingInProgress": "Egitim devam ediyor...",
-    "trainingComplete": "Egitim Tamamlandi",
-    "lossCurve": "Kayip Egrisi",
-    "trainLoss": "Egitim Kaybi",
-    "valLoss": "Dogrulama Kaybi",
-    "gpuUsage": "GPU Kullanimi",
-    "gpuUtilization": "GPU Kullanim Orani",
-    "memoryUsage": "Bellek Kullanimi",
-    "trainingLogs": "Egitim Loglari",
-    "checkpoints": "Kontrol Noktalari",
-    "bestCheckpoint": "En Iyi",
-    "warnings": "Uyarilar",
+    "title": "Eğitim Simülatörü",
+    "description": "Eğitim simülasyonunu çalıştırın ve modelinizin nasıl öğrendiğini gözlemleyin.",
+    "startTraining": "Eğitimi Başlat",
+    "trainingInProgress": "Eğitim devam ediyor...",
+    "trainingComplete": "Eğitim Tamamlandı",
+    "lossCurve": "Kayıp Eğrisi",
+    "trainLoss": "Eğitim Kaybi",
+    "valLoss": "Doğrulama Kaybi",
+    "gpuUsage": "GPU Kullanımı",
+    "gpuUtilization": "GPU Kullanım Oranı",
+    "memoryUsage": "Bellek Kullanımı",
+    "trainingLogs": "Eğitim Logları",
+    "checkpoints": "Kontrol Noktaları",
+    "bestCheckpoint": "En İyi",
+    "warnings": "Uyarılar",
     "epoch": "Epoch",
-    "loss": "Kayip",
-    "step": "Adim"
+    "loss": "Kayıp",
+    "step": "Adım",
+    "demoGoodConfig": "Yapılandırmanız dengeli görünüyor. Eğitim sorunsuz ilerlemeli.",
+    "metricHints": {
+      "lossCurve": "Eğitim kaybı eğitim verisinde öğrenmeyi; doğrulama kaybı genellemeyi gösterir. Eğitim düşmeye devam ederken val_loss yükselmeye başlarsa, overfit ediyorsunuz demektir.",
+      "gpuUsage": "GPU kullanımı %90+'ta olmali; dusukse darboğaz hesap değil veri yüklemedir. Bellek kullanımı OOM'a ne kadar yakın olduğunuzu söyler.",
+      "checkpoints": "Her epoch'ta model ağırlıklarının anlık görüntüleri. 'En iyi' checkpoint en düşük doğrulama kaybina sahiptir — sonuncuları değil onu yayınlarsınız."
+    }
   },
   "report": {
     "title": "Temel Model Raporu",
-    "description": "Egitilmis temel modelinizin standart karsilastirmalar uzerindeki performansini inceleyin.",
-    "modelSummary": "Model Ozeti",
-    "benchmarks": "Karsilastirma Skorlari",
-    "weaknesses": "Zayiflik Analizi",
-    "suggestion": "Oneri",
+    "description": "Eğitilmiş temel modelinizin standart karşılaştırmalar üzerindeki performansını inceleyin.",
+    "modelSummary": "Model Özeti",
+    "benchmarks": "Karşılaştırma Skorları",
+    "weaknesses": "Zayıflık Analizi",
+    "suggestion": "Öneri",
     "parameters": "Parametreler",
     "architecture": "Mimari",
     "contextWindow": "Context Penceresi",
-    "trainingEpochs": "Egitim Epoch Sayisi",
-    "datasetRows": "Veri Seti Satirlari",
-    "overallPerformance": "Genel Performans"
+    "trainingEpochs": "Eğitim Epoch Sayısı",
+    "datasetRows": "Veri Seti Satırları",
+    "overallPerformance": "Genel Performans",
+    "exportJson": "JSON İndir",
+    "exportCsv": "CSV İndir",
+    "demoWeakness": {
+      "gsm8k": "Daha fazla ilkokul matematik eğitim verisi eklemeyi düşünün.",
+      "dataQualityArea": "Veri Kalitesi",
+      "dataQuality": "Daha iyi temizleme ve düzenleme ile veri seti kalitesini artırın."
+    },
+    "benchmarkHints": {
+      "mmlu": "Hukuktan biyolojiye 57 konu. Geniş dünya bilgisini ve okuma anlamayı test eder.",
+      "hellaswag": "Bir cümle başı verildiğinde en doğal devamı seçin. Sağduyu muhakemesini test eder.",
+      "arc": "Çok adımlı muhakeme gerektiren ilkokul fen soruları.",
+      "truthfulqa": "Modeli yaygın yanlış anlamaları tekrarlatmaya çalışmak uzere tasarlanmış sorular. Düşük skor = model kendinden emin halüsinasyon görür.",
+      "winogrande": "Zamir çözümü bulmacaları. Modelin 'o' veya 'bu' sözcüklerinin neye atıfta bulunduğunu gerçekten takip edip etmediğini test eder.",
+      "gsm8k": "İlkokul matematik problemleri. Çok adımlı aritmetik muhakemeyi test eder — base LLM'ler için meşhur zordur."
+    }
   },
   "customization": {
-    "title": "Ozellestirme Studyosu",
-    "description": "Temel modelinizi iyilestirmek icin bir yontem secin.",
-    "selectMethod": "Ozellestirme Yontemi Secin",
-    "selectMethodDescription": "Her yontemin farkli gucleri ve odurleri vardir.",
-    "performanceBoost": "Beklenen Artis",
+    "title": "Özelleştirme Stüdyosu",
+    "description": "Temel modelinizi iyileştirmek için bir yöntem seçin.",
+    "selectMethod": "Özelleştirme Yöntemi Seçin",
+    "selectMethodDescription": "Her yöntemin farklı güçleri ve ödülleri vardır.",
+    "performanceBoost": "Beklenen Artış",
     "currentPerformance": "Mevcut Performans",
-    "applied": "Ozellestirme Uygulandi",
+    "applied": "Özelleştirme Uygulandı",
     "methods": {
-      "rag": "RAG (Bilgi Arttirimli Uretim)",
-      "finetune": "Ince Ayar",
-      "lora": "LoRA (Dusuk Dereceli Adaptasyon)",
+      "rag": "RAG (Bilgi Arttırımlı Üretim)",
+      "finetune": "İnce Ayar",
+      "lora": "LoRA (Düşük Dereceli Adaptasyon)",
       "instruction_tuning": "Talimat Ayarlama"
     },
     "methodDescriptions": {
-      "rag": "Dis bilgi kaynaklarindan alinan bilgilerle yanitlari zenginlestirir. Yeniden egitim gerektirmez.",
-      "finetune": "Alana ozgu verilerle tam ince ayar. En iyi dogruluk iyilestirmesi.",
-      "lora": "Egitilebilir dusuk dereceli matrislerle verimli adaptasyon. Daha az hesaplama gerektirir.",
-      "instruction_tuning": "Modele talimatlari daha iyi takip etmeyi ogretir. Sohbet modelleri icin harika."
+      "rag": "Dış bilgi kaynaklarından alınan bilgilerle yanıtları zenginleştirir. Yeniden eğitim gerektirmez.",
+      "finetune": "Alana özgü verilerle tam ince ayar. En iyi doğruluk iyileştirmesi.",
+      "lora": "Eğitilebilir düşük dereceli matrislerle verimli adaptasyon. Daha az hesaplama gerektirir.",
+      "instruction_tuning": "Modele talimatları daha iyi takip etmeyi öğretir. Sohbet modelleri için harika."
     },
     "boostValues": {
       "rag": "+8 puan",
       "finetune": "+15 puan",
       "lora": "+12 puan",
       "instruction_tuning": "+10 puan"
+    },
+    "methodHints": {
+      "rag": "Model dondurulu kalir; dokümanlarınız üzerinde arama motoru eklenir. Bilgi sık değiştiğinde harika (dokümantasyon, haberler, ürün kataloğu). GPU eğitimi gerekmez.",
+      "finetune": "Tüm ağırlıkları verinizde eğitmeye devam edersiniz. En yüksek kalite tavanı ama pahalı ve genel becerileri unutma riski var.",
+      "lora": "Base modeli dondurup küçük adapter matrisleri eğitir. Tam fine-tune'a göre ~100x ucuz, kalitenin ~%90'i.",
+      "instruction_tuning": "Modele komutları takip etmeyi öğretir (örnek: 'ozetle', 'JSON olarak yanitla'). Base modeli kullanışlı bir asistana dönüştürür."
     }
   },
   "rag": {
-    "title": "RAG Simulatoru",
-    "description": "Bilgi Arttirimli Uretim (RAG) pipeline'i yapilandirin ve simule edin.",
-    "chunkSize": "Parca Boyutu",
-    "chunkSizeDescription": "Indeksleme icin metin parca boyutu (kucuk = daha hassas, buyuk = daha fazla bagiam)",
-    "topK": "Top-K Sonuc",
-    "topKDescription": "Sorgu basina alinan ilgili parca sayisi",
-    "runSimulation": "RAG Simulasyonunu Calistir",
-    "results": "RAG Sonuclari",
-    "retrievalAccuracy": "Geri Getirme Dogrulugu",
-    "answerQuality": "Yanit Kalitesi",
+    "title": "RAG Simülatörü",
+    "description": "Bilgi Arttırımlı Üretim (RAG) pipeline'i yapılandırın ve simüle edin.",
+    "chunkSize": "Parça Boyutu",
+    "chunkSizeDescription": "İndeksleme için metin parça boyutu (küçük = daha hassas, büyük = daha fazla bağlam)",
+    "topK": "Top-K Sonuç",
+    "topKDescription": "Sorgu başına alınan ilgili parça sayısı",
+    "runSimulation": "RAG Simülasyonunu Çalıştır",
+    "results": "RAG Sonuçları",
+    "retrievalAccuracy": "Geri Getirme Doğruluğu",
+    "answerQuality": "Yanıt Kalitesi",
     "pipeline": "RAG Pipeline",
     "pipelineSteps": {
-      "chunking": "Parcalama",
-      "embedding": "Gomme",
+      "chunking": "Parçalama",
+      "embedding": "Gömme",
       "retrieval": "Geri Getirme",
-      "generation": "Uretim"
-    }
+      "generation": "Üretim"
+    },
+    "chunkHint": "İndekslenen her metin parçasının boyutu. Küçük parçalar (~256) hassas ama bağlamı kaçırabilir; büyük parçalar (~1024+) bağlam verir ama ilgiyi seyreltir.",
+    "topKHint": "Sorgu başına çekilen parça sayısı. Yüksek K = cevabı bulma şansı daha fazla ama daha çok gürültü ve daha çok token maliyeti."
   },
   "fineTune": {
-    "title": "Ince Ayar Simulatoru",
-    "description": "Modelinizi alana ozgu veriler uzerinde ince ayar yapmayi simule edin.",
-    "finetuneEpochs": "Ince Ayar Epoch Sayisi",
-    "finetuneLr": "Ince Ayar Ogrenme Orani",
-    "datasetSplit": "Veri Seti Bolumu",
-    "train": "Egitim",
-    "validation": "Dogrulama",
+    "title": "İnce Ayar Simülatörü",
+    "description": "Modelinizi alana özgü veriler üzerinde ince ayar yapmayı simüle edin.",
+    "finetuneEpochs": "İnce Ayar Epoch Sayısı",
+    "finetuneLr": "İnce Ayar Öğrenme Oranı",
+    "datasetSplit": "Veri Seti Bölümü",
+    "train": "Eğitim",
+    "validation": "Doğrulama",
     "test": "Test",
-    "runFineTune": "Ince Ayari Calistir",
-    "results": "Ince Ayar Sonuclari",
-    "accuracyBefore": "Onceki Dogruluk",
-    "accuracyAfter": "Sonraki Dogruluk",
-    "improvement": "Iyilestirme",
-    "hallucinationBefore": "Onceki Halusilasyon",
-    "hallucinationAfter": "Sonraki Halusilasyon"
+    "runFineTune": "İnce Ayarı Çalıştır",
+    "results": "İnce Ayar Sonuçları",
+    "accuracyBefore": "Önceki Doğruluk",
+    "accuracyAfter": "Sonraki Doğruluk",
+    "improvement": "İyileştirme",
+    "hallucinationBefore": "Önceki Halüsinasyon",
+    "hallucinationAfter": "Sonraki Halüsinasyon",
+    "epochsHint": "İnce ayar verinizden geçiş sayısı. 2-4 tipiktir — çok fazlasi modelin genel becerileri unutmasına yol acar (katastrofik unutma).",
+    "lrHint": "İnce ayar LR'si ön eğitim LR'sinin ~10 kat daha düşüğüdür. Modeli yeniden egitmiyor, kaydiriyorsunuz. 2e-5 ile 5e-5 yaygın aralık."
   },
   "playground": {
-    "title": "Deneme Alani",
-    "description": "Model varyantlarinizi ozel promptlarla test edin ve yanitlari karsilastirin.",
+    "title": "Deneme Alanı",
+    "description": "Model varyantlarınızı özel promptlarla test edin ve yanıtları karşılaştırın.",
     "prompt": "Promptunuzu girin",
-    "promptPlaceholder": "Modeli test etmek icin bir mesaj yazin...",
-    "modelVariant": "Model Varyanti",
+    "promptPlaceholder": "Modeli test etmek için bir mesaj yazın...",
+    "modelVariant": "Model Varyantı",
     "variants": {
       "base": "Temel Model",
-      "finetuned": "Ince Ayarli Model",
+      "finetuned": "İnce Ayarlı Model",
       "rag": "RAG Model"
     },
-    "responseQuality": "Yanit Kalitesi",
+    "responseQuality": "Yanıt Kalitesi",
     "latency": "Gecikme",
-    "confidence": "Guven",
-    "noResponse": "Model yanitini gormek icin bir prompt gonderin."
+    "confidence": "Güven",
+    "noResponse": "Model yanıtını görmek için bir prompt gönderin.",
+    "variantHints": {
+      "base": "Özelleştirmesiz ham eğitilmiş model. Temel hattınız — mimari ve ön eğitimin tek başına neler yapabildiğini gösterir.",
+      "finetuned": "Base + alan veriniz üzerinde ince ayar. Sizin kullanım alaninizda daha keskin, bazen genel bilgide daha zayıf.",
+      "rag": "Base + dokümanlarınız üzerinde geri getirme. Dayanaklı, kaynak gösterilebilir cevaplar; daha yavaş ve istek başına daha maliyetli."
+    },
+    "samplePrompts": [
+      "Sinir ağları verilerden nasıl öğrenir anlat.",
+      "Transformer mimarisinin avantajları nelerdir?",
+      "Denetimli ve denetimsiz öğrenmeyi karşılaştır.",
+      "LLM'lerde dikkat mekanizması nasıl çalışır?"
+    ],
+    "simulatedResponses": {
+      "base": "Sinir ağları geri yayılım (backpropagation) ile öğrenir: ağ, tahmini ve gerçek çıktı arasındaki hataya göre ağırlıklarını günceller. Öğrenme oranı her adımda ağırlıkların ne kadar değişeceğini belirler ve bu süreç birçok örnek üzerinde tekrarlanır.",
+      "finetuned": "Sinir ağları yinelemeli optimizasyonla öğrenir. Eğitim sırasında ağ girdiler üzerinde tahmin yapar, kayıp fonksiyonuyla beklenen çıktıya göre hatayı ölçer ve Adam gibi optimizasyon yöntemleriyle ağırlıkları günceller. Öğrenme oranı zamanlaması, batch normalization ve düzenlileştirme eğitimi kararlı tutar ve aşırı öğrenmeyi engeller.",
+      "rag": "Bilgi tabanından getirilen bağlama göre: sinir ağları etiketli veriler üzerinde geri yayılımla öğrenir. Güncel araştırmalar (Smith vd., 2024) ayrıca büyük etiketsiz veriler üzerinde öz-denetimli ön eğitimi ve ardından göreve özel ince ayarı kullanır. Transformer'daki dikkat mekanizması özellikle uzun bağımlılıklarda etkilidir."
+    }
   },
   "evaluation": {
-    "title": "Degerlendirme Merkezi",
-    "description": "Modelinizin temel performans metrikleri uzerinden kapsamli degerlendirmesi.",
-    "runEvaluation": "Degerlendirmeyi Calistir",
+    "title": "Değerlendirme Merkezi",
+    "description": "Modelinizin temel performans metrikleri üzerinden kapsamlı değerlendirmesi.",
+    "runEvaluation": "Değerlendirmeyi Çalıştır",
     "metrics": "Performans Metrikleri",
-    "accuracy": "Dogruluk",
-    "hallucinationRisk": "Halusilasyon Riski",
-    "responseQuality": "Yanit Kalitesi",
+    "accuracy": "Doğruluk",
+    "hallucinationRisk": "Halüsinasyon Riski",
+    "responseQuality": "Yanıt Kalitesi",
     "latency": "Gecikme",
-    "modelComparison": "Model Karsilastirmasi",
+    "modelComparison": "Model Karşılaştırması",
     "base": "Temel",
-    "finetuned": "Ince Ayarli",
+    "finetuned": "İnce Ayarlı",
     "ragModel": "RAG",
-    "verdict": "Genel Degerlendirme",
-    "verdictGood": "Modeliniz tum metriklerde iyi performans gosteriyor. Dagitima hazir.",
-    "verdictMedium": "Iyilestirme alani olan iyi bir performans. Ek ince ayar dusunun.",
-    "verdictPoor": "Model dagitimdan once onemli iyilestirmelere ihtiyac duyuyor. Egitim yapilandirmasini gozden gecirin."
+    "verdict": "Genel Değerlendirme",
+    "verdictGood": "Modeliniz tüm metriklerde iyi performans gösteriyor. Dağıtıma hazır.",
+    "verdictMedium": "İyileştirme alanı olan iyi bir performans. Ek ince ayar düşünün.",
+    "verdictPoor": "Model dağıtımdan önce önemli iyileştirmelere ihtiyaç duyuyor. Eğitim yapılandırmasını gözden geçirin.",
+    "metricHints": {
+      "accuracy": "Modelin yanıtının beklenenle ne sıklıkla eşleştiğini. Manşet metriği, ama gecikme veya halüsinasyon sorunlarını gizleyebilir.",
+      "hallucinationRisk": "Modelin ne sıklıkla makul görünen ama yanlış şeyler uydurduğu. Düşük iyi; bilgi görevlerinde yüksek değer yayınlamayı bloklar.",
+      "responseQuality": "Akıcılık, yararlılık, bütünlük için insan değerlendirmesi tarzı skor. Doğruluk yüksekken kalite robotik hissedebilir.",
+      "latency": "İlk token'e kadar geçen medyan süre. 300ms altı anı hisseder; 2s üstü bozuk gelir. Model boyutu ile direkt takas."
+    }
   },
   "deployment": {
-    "title": "Dagitim Simulatoru",
-    "description": "Modelinizi bir API endpoint olarak dagitmayi simule edin.",
-    "simulateDeploy": "Dagitimi Simule Et",
+    "title": "Dağıtım Simülatörü",
+    "description": "Modelinizi bir API endpoint olarak dağıtmayı simüle edin.",
+    "simulateDeploy": "Dağıtımı Simüle Et",
     "apiEndpoint": "API Endpoint",
-    "apiExample": "API Ornegi",
-    "costBreakdown": "Maliyet Dokumu",
-    "trainingCosts": "Egitim Maliyetleri",
-    "deploymentCosts": "Dagitim Maliyetleri (Aylik)",
+    "apiExample": "API Örneği",
+    "costBreakdown": "Maliyet Dökümü",
+    "trainingCosts": "Eğitim Maliyetleri",
+    "deploymentCosts": "Dağıtım Maliyetleri (Aylık)",
     "computeCost": "Hesaplama Maliyeti",
     "storageCost": "Depolama Maliyeti",
     "transferCost": "Transfer Maliyeti",
-    "totalTrainingCost": "Toplam Egitim Maliyeti",
-    "inferenceCost": "Cikarim Maliyeti",
+    "totalTrainingCost": "Toplam Eğitim Maliyeti",
+    "inferenceCost": "Çıkarım Maliyeti",
     "serverCost": "Sunucu Maliyeti",
-    "totalMonthlyCost": "Toplam Aylik Maliyet",
+    "totalMonthlyCost": "Toplam Aylık Maliyet",
     "gpuType": "GPU Tipi",
-    "gpuCount": "GPU Sayisi",
+    "gpuCount": "GPU Sayısı",
     "avgLatency": "Ort. Gecikme",
-    "requestsPerDay": "Istek/Gun",
-    "deploySuccess": "Model basariyla dagitildi!",
-    "projectComplete": "Tebrikler! Tam LLM egitim yasam dongusunu tamamladiniz."
+    "requestsPerDay": "İstek/Gun",
+    "deploySuccess": "Model başarıyla dağıtıldı!",
+    "projectComplete": "Tebrikler! Tam LLM eğitim yaşam döngüsünü tamamladınız.",
+    "costHints": {
+      "compute": "GPU-saat x saatlik ücret. Ana eğitim maliyet itici gücü. Model boyutu ve epoch ile yaklaşık doğrusal artar.",
+      "storage": "Ağırlıkları, checkpoint'leri ve veri setlerini saklamak. Hesaplamaya göre küçük ama checkpoint'ler hızla birikir.",
+      "transfer": "Verinin eğitim bölgesine giriş cikisi. Devasa veri setleri dışında genelde ihmal edilebilir.",
+      "inference": "İstek başına maliyet. Sonsuza kadar tekrarlanır — ucuz bir eğitim bile inference pahalıysa ve trafik yüksekse para kaybettirebilir.",
+      "server": "GPU'yu servis için sıcak tutmanin aylık maliyeti. Sifir trafikte bile sabit bir taban.",
+      "latency": "Yanıt üretme süresi. UX ve batch ekonomisini belirler — yavaş modeller aynı throughput'ta istek başına daha pahalı olur."
+    },
+    "deploySteps": [
+      "GPU makinesi hazırlanıyor…",
+      "Container imajı oluşturuluyor…",
+      "Model ağırlıkları yükleniyor…",
+      "Çıkarım sunucusu başlatılıyor…",
+      "Sağlık kontrolü yapılıyor…",
+      "Genel uç nokta açılıyor…"
+    ]
   },
   "scores": {
     "dataQuality": "Veri Kalitesi",
-    "trainingStability": "Egitim Kararliligi",
-    "modelPerformance": "Model Performansi",
-    "costEfficiency": "Maliyet Verimliligi"
+    "trainingStability": "Eğitim Kararlılığı",
+    "modelPerformance": "Model Performansı",
+    "costEfficiency": "Maliyet Verimliliği"
   },
   "landing": {
-    "hero": "LLM'lerin Nasil Yapildigini Ogrenmenin En Iyi Yolu",
-    "heroDescription": "Buyuk Dil Modellerinin egitim ve ozellestirme yasam dongusunun tamamini deneyimleyin — veri seti hazirligi, egitim, degerlendirme ve dagitim — pahaliya mal olan altyapi olmadan.",
-    "getStarted": "Ucretsiz Basla",
+    "hero": "LLM'lerin Nasil Yapıldığını Öğrenmenin En İyi Yolu",
+    "heroDescription": "Büyük Dil Modellerinin eğitim ve özelleştirme yaşam döngüsünün tamamını deneyimleyin — veri seti hazırlığı, eğitim, değerlendirme ve dağıtım — pahalıya mal olan altyapı olmadan.",
+    "getStarted": "Ücretsiz Başla",
     "learnMore": "Daha Fazla Bilgi",
     "features": "Neler Deneyimleyeceksiniz",
-    "feature1Title": "Veri Seti ve On Isleme",
-    "feature1Description": "Egitim verinizi yukleyin, temizleyin ve tokenize edin. Veri kalitesinin model performansini nasil etkiledigini gorun.",
+    "feature1Title": "Veri Seti ve Ön İşleme",
+    "feature1Description": "Eğitim verinizi yükleyin, temizleyin ve tokenize edin. Veri kalitesinin model performansını nasıl etkilediğini görün.",
     "feature2Title": "Model Mimarisi",
-    "feature2Description": "Model boyutu, context penceresi ve mimari turu secin. Yetenek ve maliyet arasindaki odurleri anlayin.",
-    "feature3Title": "Egitim Simulasyonu",
-    "feature3Description": "Kayip egrileri, GPU kullanimi ve egitim loglarini gercek zamanli izleyin. Hiperparametrelerin yakinlasmaya etkisini ogrenin.",
-    "feature4Title": "Karsilastirma ve Degerlendirme",
-    "feature4Description": "MMLU, HellaSwag, TruthfulQA ve diger karsilastirmalar ile degerlendirin. Zayifliklari belirleyin ve modelinizi iyilestirin.",
-    "feature5Title": "RAG ve Ince Ayar",
-    "feature5Description": "Modelinizi bilgi arttirimli uretim, ince ayar, LoRA veya talimat ayarlama ile ozellestirin.",
-    "feature6Title": "Deneme Alani ve Dagitim",
-    "feature6Description": "Modelinizi ozel promptlarla test edin, varyantlari karsilastirin ve maliyet tahminleriyle API dagitimini simule edin.",
-    "howItWorks": "Nasil Calisir",
-    "step1": "Modelinizin amacini, alanini ve dilini yapilandirin",
-    "step2": "Egitim veri setinizi hazirlayin ve temizleyin",
-    "step3": "Mimariyi tasarlayin ve hiperparametreleri ayarlayin",
-    "step4": "Egitimi calistirin ve sonuclari analiz edin",
-    "step5": "RAG veya ince ayar ile ozellestirin",
-    "step6": "Degerlendirin, test edin ve dagitin",
-    "cta": "AI Modelinizi Olusturmaya Hazir misiniz?",
-    "ctaDescription": "LLM egitim yolculugunuza bugun baslayin. GPU gerekmez.",
-    "footer": "Egitim icin yapildi. Simulasyonla guclendirildi."
+    "feature2Description": "Model boyutu, context penceresi ve mimari türü seçin. Yetenek ve maliyet arasındaki ödülleri anlayın.",
+    "feature3Title": "Eğitim Simülasyonu",
+    "feature3Description": "Kayıp eğrileri, GPU kullanımı ve eğitim loglarını gerçek zamanlı izleyin. Hiperparametrelerin yakınlaşmaya etkisini öğrenin.",
+    "feature4Title": "Karşılaştırma ve Değerlendirme",
+    "feature4Description": "MMLU, HellaSwag, TruthfulQA ve diğer karşılaştırmalar ile değerlendirin. Zayıflıkları belirleyin ve modelinizi iyileştirin.",
+    "feature5Title": "RAG ve İnce Ayar",
+    "feature5Description": "Modelinizi bilgi arttırımlı üretim, ince ayar, LoRA veya talimat ayarlama ile özelleştirin.",
+    "feature6Title": "Deneme Alanı ve Dağıtım",
+    "feature6Description": "Modelinizi özel promptlarla test edin, varyantları karşılaştırın ve maliyet tahminleriyle API dağıtımını simüle edin.",
+    "howItWorks": "Nasil Çalışır",
+    "step1": "Modelinizin amacını, alanını ve dilini yapılandırın",
+    "step2": "Eğitim veri setinizi hazırlayın ve temizleyin",
+    "step3": "Mimariyi tasarlayın ve hiperparametreleri ayarlayın",
+    "step4": "Eğitimi çalıştırın ve sonuçları analiz edin",
+    "step5": "RAG veya ince ayar ile özelleştirin",
+    "step6": "Değerlendirin, test edin ve dagitin",
+    "cta": "AI Modelinizi Oluşturmaya Hazır misiniz?",
+    "ctaDescription": "LLM eğitim yolculuğunuza bugün başlayın. GPU gerekmez.",
+    "footer": "Eğitim için yapıldı. Simülasyonla güçlendirildi.",
+    "simulationBadge": "Simülasyon tabanlı öğrenme — gerçek GPU gerekmez",
+    "whoTitle": "Bu Kimler İçin",
+    "who1Title": "Öğrenciler ve Kariyer Değiştirenler",
+    "who1Description": "Ay boyunca ders kitaplarında boğulmadan ML'e girin. Tüm eğitim hattını bir öğleden sonrada görün.",
+    "who2Title": "Ürün Yöneticileri",
+    "who2Description": "ML ekipleriyle rahatça konuşun. Model boyutu, RAG vs fine-tune ve çıkarım maliyeti arkasındaki takasları anlayın.",
+    "who3Title": "Meraklı Geliştiriciler",
+    "who3Description": "GPT/Claude kullandınız ama hiç bir sey eğitmediniz. Şimdi motor kaputunun altında ne olup bittiğini bileceksiniz.",
+    "learnTitle": "Gerçekte Ne Öğreneceksiniz",
+    "learn1": "Tokenizer seçimi Türkçe veride eğitim maliyetini nasıl %15+ değiştirir",
+    "learn2": "Loss eğrisi nasıl okunur ve bir haftalık hesaplama harcamadan overfit nasıl yakalanır",
+    "learn3": "Ne zaman RAG, ne zaman fine-tune, ne zaman LoRA seçilir — ve her birinin gerçek maliyeti",
+    "learn4": "Modelinizin gecikmesi neden benchmark skorundan daha önemlidir",
+    "learn5": "Taahhütten önce eğitim maliyeti ve aylık çıkarım harcaması nasıl tahmin edilir",
+    "footerGithub": "GitHub",
+    "footerDisclaimer": "Sayılar eğitim amacıyla simüle edilmiştir. Üretim benchmark'ı değildir."
+  },
+  "tour": {
+    "skip": "Atla",
+    "next": "İleri",
+    "finish": "Anladım",
+    "step1Title": "LLM Lab'e Hoş Geldin",
+    "step1Body": "Bu uygulama seni 14 adımda bir Büyük Dil Modeli eğitimi boyunca gezdirir — hepsi simüle, GPU gerekmez.",
+    "step2Title": "Bir projeyle başla",
+    "step2Body": "Başlamak için 'Yeni Proje'ye tıkla. Her proje yapilandirmani ve sonuçlarını her adım boyunca takip eder.",
+    "step3Title": "Dört ana skor",
+    "step3Body": "İlerledikçe her projenin üstündeki skor çubuğu Veri Kalitesi, Eğitim Kararlılığı, Model Performansı ve Maliyet Verimliligi'ni izler.",
+    "step4Title": "Her adım öğretir",
+    "step4Body": "Her adımın tepesinde açık dille bir 'Bu neden onemli' kartı vardır — ne zaman emin olmasan açabilirsin.",
+    "step5Title": "Açıklama için üstüne gel",
+    "step5Body": "Bir seçeneğin yanında küçük bilgi ikonu gördün mu? Açık dilde kısa açıklama için üzerine gel."
   },
   "theme": {
-    "light": "Acik",
+    "light": "Açık",
     "dark": "Koyu",
     "system": "Sistem"
   },
   "concepts": {
-    "title": "Bu neden onemli",
+    "title": "Bu neden önemli",
     "wizard": {
-      "body": "Gercek ML ekipleri tek satir kod yazmadan once modelin ne ise yarayacagina karar verir. Amac, alan ve dil secimleri sonraki tum kararlari sekillendirir — veri seti, tokenizer, boyut, maliyet. Seyahat gibi: valizi hazirlamadan once varis noktasini secersin."
+      "body": "Gerçek ML ekipleri tek satır kod yazmadan önce modelin ne işe yarayacağına karar verir. Amaç, alan ve dil seçimleri sonraki tüm kararları şekillendirir — veri seti, tokenizer, boyut, maliyet. Seyahat gibi: valizi hazırlamadan önce varış noktasını seçersin."
     },
     "dataset": {
-      "body": "Modeller veriden desen ogrenir — cop girerse cop cikar. Format (JSONL/CSV), boyut, tekrarlar ve dil dagilimi ne ogrenilecegini etkiler. Kucuk ve temiz bir veri seti cogu zaman buyuk ve dagitik olandan daha iyidir."
+      "body": "Modeller veriden desen öğrenir — çöp girerse çöp çıkar. Format (JSONL/CSV), boyut, tekrarlar ve dil dağılımı ne öğrenileceğini etkiler. Küçük ve temiz bir veri seti çoğu zaman büyük ve dağıtık olandan daha iyidir."
     },
     "cleaning": {
-      "body": "Ham veride tekrarlar, spam ve kisisel bilgiler vardir. Temizlik bir taslagi editleme gibidir: gurultuyu kaldirinca sinyal ortaya cikar. Burada yapilan iyilestirmeler sonraki tum adimlarda katlanarak karsiliginizi verir."
+      "body": "Ham veride tekrarlar, spam ve kişisel bilgiler vardır. Temizlik bir taslağı editleme gibidir: gurultuyu kaldırınca sinyal ortaya çıkar. Burada yapilan iyilestirmeler sonraki tüm adimlarda katlanarak karşılığınızı verir."
     },
     "tokenizer": {
-      "body": "Tokenizasyon metni modelin gercekten okudugu birimlere boler. Cumleyi LEGO parcalarina ayirmak gibi — kucuk parcalar esneklik verir ama daha cok parca takip edilir. Turkce icin optimize tokenizer, Turkce metnin token sayisini %15+ kisabilir."
+      "body": "Tokenizasyon metni modelin gerçekten okuduğu birimlere böler. Cümleyi LEGO parçalarına ayırmak gibi — küçük parçalar esneklik verir ama daha çok parça takip edilir. Türkçe için optimize tokenizer, Türkçe metnin token sayısını %15+ kısabilir."
     },
     "architecture": {
-      "body": "Model boyutu yetenek tavanini — ve faturayi — belirler. 1B bir model tek GPU'da bir gunde egitilir; 70B, bir ay boyunca 16 GPU ister. Context window modelin ayni anda 'gorebildigi' metin miktaridir — calisma hafizasi gibi."
+      "body": "Model boyutu yetenek tavanını — ve faturayı — belirler. 1B bir model tek GPU'da bir günde eğitilir; 70B, bir ay boyunca 16 GPU ister. Context window modelin aynı anda 'görebildiği' metin miktarıdır — çalışma hafızası gibi."
     },
     "trainingConfig": {
-      "body": "Hiperparametreler modelin nasil ogrendigini kontrol eder. Learning rate adim buyuklugudur — cok buyuk olursa model savrulur, cok kucuk olursa surunur. Batch size ve epoch kararlilik ile hizi takas eder. Varsayilanlar is gorur; ince ayar son birkac yuzdeyi ekler."
+      "body": "Hiperparametreler modelin nasıl öğrendiğini kontrol eder. Learning rate adım büyüklüğüdür — çok büyük olursa model savrulur, çok küçük olursa sürünür. Batch size ve epoch kararlılık ile hızı takas eder. Varsayılanlar iş görür; ince ayar son birkaç yüzdeyi ekler."
     },
     "training": {
-      "body": "Egitim yinelemeli bir aramadir: modele ornekler goster, hatayi ol, agirliklari kaydir, tekrarla — milyonlarca kez. Loss egrisi sizin kalp atisi monitorunuzdur. Saglikli egri once hizla duser sonra sabitlenir; duz veya sivri bir egri bir seyin bozuk oldugunu soyler."
+      "body": "Eğitim yinelemeli bir aramadır: modele örnekler göster, hatayı ölç, ağırlıkları kaydır, tekrarla — milyonlarca kez. Loss eğrisi sizin kalp atışı monitörünüzdür. Sağlıklı eğri önce hızla düşer sonra sabitlenir; düz veya sivri bir eğri bir şeyin bozuk olduğunu söyler."
     },
     "report": {
-      "body": "Benchmarklar standart sinavlardir — bilgi icin MMLU, matematik icin GSM8K, durustluk icin TruthfulQA. Base modelinizin skorlari ozellestirmeye yatirim yapmadan once guclu ve zayif yanlari gosterir. Zayif alanlar sonra neye odaklanacaginizi soyler."
+      "body": "Benchmarklar standart sınavlardır — bilgi için MMLU, matematik için GSM8K, dürüstlük için TruthfulQA. Base modelinizin skorlari ozellestirmeye yatırım yapmadan önce güçlü ve zayıf yanlari gösterir. Zayıf alanlar sonra neye odaklanacağınızı söyler."
     },
     "customization": {
-      "body": "Base modeller jenerik uzmanlardir. Ozellestirmek icin fine-tune yapabilir (modeli yeniden sekillendirir), LoRA (ucuz adapter katmanlari) veya RAG (bakmasina izin ver) kullanabilirsiniz. Her biri maliyet, esneklik ve zirve kaliteyi farkli takas eder."
+      "body": "Base modeller jenerik uzmanlardır. Özelleştirmek için fine-tune yapabilir (modeli yeniden şekillendirir), LoRA (ucuz adapter katmanları) veya RAG (bakmasına izin ver) kullanabilirsiniz. Her biri maliyet, esneklik ve zirve kaliteyi farklı takas eder."
     },
     "rag": {
-      "body": "RAG, modele sorgu aninda harici bir bilgi tabanini danismaya izin verir — acik kitap sinavi gibi. Yeniden egitime gerek yok. Chunk size ve top-K her sorunun ne kadar baglam cekecegini belirler: az olursa cevaplar kacar, cok olursa kafa karisir."
+      "body": "RAG, modele sorgu anında harici bir bilgi tabanını danışmaya izin verir — açık kitap sınavı gibi. Yeniden eğitime gerek yok. Chunk size ve top-K her sorunun ne kadar bağlam çekeceğini belirler: az olursa cevaplar kaçar, çok olursa kafa karışır."
     },
     "fineTune": {
-      "body": "Fine-tuning, alan verinizde egitime devam etmektir. Model bildiklerini korur ama sizin ozgul konulariniza keskinlesir. Kucuk learning rate katastrofik unutmayi engeller — yeniden yazmiyor, ayarliyorsunuz."
+      "body": "Fine-tuning, alan verinizde eğitime devam etmektir. Model bildiklerini korur ama sizin özgül konularınıza keskinleşir. Küçük learning rate katastrofik unutmayı engeller — yeniden yazmıyor, ayarlıyorsunuz."
     },
     "playground": {
-      "body": "Gercek degerlendirme benchmarklarin otesindedir — model kullanirken gercekten iyi hissettiriyor mu? Base, fine-tuned ve RAG varyantlarini ayni promptlarda karsilastirin. Kalite, gecikme ve maliyet takaslarini pratikte gorursunuz."
+      "body": "Gerçek değerlendirme benchmarkların ötesindedir — model kullanırken gerçekten iyi hissettiriyor mu? Base, fine-tuned ve RAG varyantlarını aynı promptlarda karşılaştırın. Kalite, gecikme ve maliyet takasları pratikte görürsünüz."
     },
     "evaluation": {
-      "body": "Yayina almadan once cok yonlu son kontrol: dogruluk (hakli mi?), halusinasyon riski (uyduruyor mu?), kalite (ise yariyor mu?), gecikme (hizli mi?). Gercek uretim modelleri dordunu de dengelemek zorunda — cevap basina 10 saniye suren dahi yayinlanabilir degildir."
+      "body": "Yayına almadan önce çok yönlü son kontrol: doğruluk (haklı mı?), halüsinasyon riski (uyduruyor mu?), kalite (işe yarıyor mu?), gecikme (hızlı mı?). Gerçek üretim modelleri dördünü de dengelemek zorunda — cevap başına 10 saniye süren dahi yayınlanabilir değildir."
     },
     "deployment": {
-      "body": "Dagitim maliyetleri hizla artar. Egitim icin GPU-saatleri tek seferliktir; inference maliyetleri her istekte tekrarlanir. Ikisini de ontan tahmin etmek, faturayi odemeden once is modelinin gercekten calisip calismayacagini soyler."
+      "body": "Dağıtım maliyetleri hızla artar. Eğitim için GPU-saatleri tek seferliktir; inference maliyetleri her istekte tekrarlanır. İkisini de önden tahmin etmek, faturayı ödemeden önce iş modelinin gerçekten çalışıp çalışmayacağını söyler."
     }
   }
 }

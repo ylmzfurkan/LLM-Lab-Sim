@@ -9,9 +9,11 @@ import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPost } from "@/lib/api-client";
+import { useChartColors } from "@/hooks/use-chart-colors";
 import { isDemoMode } from "@/lib/demo-mode";
 import {
   BarChart,
@@ -57,6 +59,7 @@ export default function EvaluationCenterPage() {
   const params = useParams();
   const router = useRouter();
   const updateStep = useProjectStore((s) => s.updateStep);
+  const chartColors = useChartColors();
 
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<EvalResult | null>(null);
@@ -104,6 +107,7 @@ export default function EvaluationCenterPage() {
   ] : [];
 
   return (
+    <TooltipProvider delayDuration={200}>
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={13} />
       <ConceptCard stepKey="evaluation" />
@@ -138,6 +142,16 @@ export default function EvaluationCenterPage() {
                     <div className="flex items-center gap-2 mb-3">
                       <Target className="h-4 w-4 text-green-500" />
                       <span className="text-sm text-muted-foreground">{t("accuracy")}</span>
+                      <UITooltip>
+                        <TooltipTrigger asChild>
+                          <button type="button" className="text-muted-foreground/50 hover:text-muted-foreground ml-auto">
+                            <Info className="h-3 w-3" />
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent side="top" className="max-w-[280px] text-xs">
+                          {t("metricHints.accuracy")}
+                        </TooltipContent>
+                      </UITooltip>
                     </div>
                     <div className="text-3xl font-bold font-mono text-center mb-2">
                       {result.metrics.accuracy.toFixed(1)}
@@ -154,6 +168,16 @@ export default function EvaluationCenterPage() {
                     <div className="flex items-center gap-2 mb-3">
                       <AlertTriangle className="h-4 w-4 text-yellow-500" />
                       <span className="text-sm text-muted-foreground">{t("hallucinationRisk")}</span>
+                      <UITooltip>
+                        <TooltipTrigger asChild>
+                          <button type="button" className="text-muted-foreground/50 hover:text-muted-foreground ml-auto">
+                            <Info className="h-3 w-3" />
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent side="top" className="max-w-[280px] text-xs">
+                          {t("metricHints.hallucinationRisk")}
+                        </TooltipContent>
+                      </UITooltip>
                     </div>
                     <div className={cn(
                       "text-3xl font-bold font-mono text-center mb-2",
@@ -172,6 +196,16 @@ export default function EvaluationCenterPage() {
                     <div className="flex items-center gap-2 mb-3">
                       <Gauge className="h-4 w-4 text-primary" />
                       <span className="text-sm text-muted-foreground">{t("responseQuality")}</span>
+                      <UITooltip>
+                        <TooltipTrigger asChild>
+                          <button type="button" className="text-muted-foreground/50 hover:text-muted-foreground ml-auto">
+                            <Info className="h-3 w-3" />
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent side="top" className="max-w-[280px] text-xs">
+                          {t("metricHints.responseQuality")}
+                        </TooltipContent>
+                      </UITooltip>
                     </div>
                     <div className={cn(
                       "text-3xl font-bold font-mono text-center mb-2",
@@ -189,6 +223,16 @@ export default function EvaluationCenterPage() {
                     <div className="flex items-center gap-2 mb-3">
                       <Clock className="h-4 w-4 text-muted-foreground" />
                       <span className="text-sm text-muted-foreground">{t("latency")}</span>
+                      <UITooltip>
+                        <TooltipTrigger asChild>
+                          <button type="button" className="text-muted-foreground/50 hover:text-muted-foreground ml-auto">
+                            <Info className="h-3 w-3" />
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent side="top" className="max-w-[280px] text-xs">
+                          {t("metricHints.latency")}
+                        </TooltipContent>
+                      </UITooltip>
                     </div>
                     <div className="text-3xl font-bold font-mono text-center mb-2">
                       {result.metrics.latency_ms}
@@ -209,8 +253,8 @@ export default function EvaluationCenterPage() {
                       <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                       <XAxis dataKey="name" className="text-xs" />
                       <YAxis domain={[0, 100]} className="text-xs" />
-                      <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "8px" }} />
-                      <Bar dataKey="score" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                      <Tooltip contentStyle={{ background: chartColors.card, border: `1px solid ${chartColors.border}`, borderRadius: "8px" }} />
+                      <Bar dataKey="score" fill={chartColors.primary} radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -247,5 +291,6 @@ export default function EvaluationCenterPage() {
         )}
       </div>
     </div>
+    </TooltipProvider>
   );
 }

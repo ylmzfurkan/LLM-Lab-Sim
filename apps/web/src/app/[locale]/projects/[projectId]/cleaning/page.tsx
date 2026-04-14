@@ -9,6 +9,7 @@ import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPut } from "@/lib/api-client";
@@ -23,6 +24,7 @@ import {
   Sparkles,
   TrendingUp,
   MinusCircle,
+  Info,
 } from "lucide-react";
 
 interface CleaningResult {
@@ -115,6 +117,7 @@ export default function DataCleaningPage() {
   ] as const;
 
   return (
+    <TooltipProvider delayDuration={200}>
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={3} />
       <ConceptCard stepKey="cleaning" />
@@ -136,7 +139,19 @@ export default function DataCleaningPage() {
                     <div className="flex items-center gap-3">
                       <Icon className="h-5 w-5 text-muted-foreground" />
                       <div>
-                        <div className="text-sm font-medium">{t(op.key)}</div>
+                        <div className="flex items-center gap-1.5">
+                          <div className="text-sm font-medium">{t(op.key)}</div>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button type="button" className="text-muted-foreground/50 hover:text-muted-foreground">
+                                <Info className="h-3.5 w-3.5" />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="top" className="max-w-[280px] text-xs">
+                              {t(`operationHints.${op.key}`)}
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
                         <div className="text-xs text-muted-foreground">
                           {t(`${op.key}Description`)}
                         </div>
@@ -236,5 +251,6 @@ export default function DataCleaningPage() {
         )}
       </div>
     </div>
+    </TooltipProvider>
   );
 }

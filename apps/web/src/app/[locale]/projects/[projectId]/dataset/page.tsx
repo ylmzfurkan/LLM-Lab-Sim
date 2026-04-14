@@ -11,6 +11,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPost } from "@/lib/api-client";
@@ -27,6 +28,7 @@ import {
   BarChart3,
   Languages,
   Ruler,
+  Info,
 } from "lucide-react";
 
 const FILE_TYPE_OPTIONS = [
@@ -109,6 +111,7 @@ export default function DatasetLabPage() {
   }
 
   return (
+    <TooltipProvider delayDuration={200}>
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={2} />
       <ConceptCard stepKey="dataset" />
@@ -125,12 +128,26 @@ export default function DatasetLabPage() {
                 <Card
                   key={opt.value}
                   className={cn(
-                    "cursor-pointer transition-all hover:border-primary/50",
+                    "cursor-pointer transition-all hover:border-primary/50 relative",
                     fileType === opt.value && "border-primary ring-1 ring-primary"
                   )}
                   onClick={() => setFileType(opt.value)}
                 >
                   <CardContent className="flex flex-col items-center gap-2 p-4">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button
+                          type="button"
+                          className="absolute top-2 right-2 text-muted-foreground/50 hover:text-muted-foreground transition-colors"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Info className="h-3.5 w-3.5" />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="max-w-[250px] text-xs">
+                        {t(`fileTypeHints.${opt.value}`)}
+                      </TooltipContent>
+                    </Tooltip>
                     <Icon className="h-6 w-6" />
                     <span className="text-sm font-medium text-center">
                       {t(`fileTypes.${opt.value}`)}
@@ -274,5 +291,6 @@ export default function DatasetLabPage() {
         )}
       </div>
     </div>
+    </TooltipProvider>
   );
 }

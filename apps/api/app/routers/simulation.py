@@ -1,13 +1,15 @@
 import uuid
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, Depends, HTTPException, Header
+from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.config import settings
 from app.database import get_db
 from app.dependencies import get_current_user
+from app.rate_limit import limiter
 from app.models.project import Project
 from app.models.dataset import Dataset
 from app.models.model_config import ModelConfig
@@ -16,6 +18,8 @@ from app.models.user import UserProfile
 from app.engine.core import SimulationEngine, SimulationState
 
 router = APIRouter()
+
+_SIM_LIMIT = settings.rate_limit_simulate
 
 
 async def _get_user_project(
@@ -93,7 +97,9 @@ class TrainingSimRequest(BaseModel):
 
 
 @router.post("/{project_id}/simulate/training")
+@limiter.limit(_SIM_LIMIT)
 async def run_training_simulation(
+    request: Request,
     project_id: uuid.UUID,
     data: TrainingSimRequest = TrainingSimRequest(),
     user: UserProfile = Depends(get_current_user),
@@ -143,6 +149,7 @@ async def run_training_simulation(
 @router.get("/{project_id}/report")
 async def get_report(
     project_id: uuid.UUID,
+    locale: str = "en",
     user: UserProfile = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
@@ -158,7 +165,7 @@ async def get_report(
     )
     engine.run_training()
 
-    return engine.generate_report()
+    return engine.generate_report(locale=locale)
 
 
 class CustomizationRequest(BaseModel):
@@ -166,7 +173,9 @@ class CustomizationRequest(BaseModel):
 
 
 @router.post("/{project_id}/simulate/customization")
+@limiter.limit(_SIM_LIMIT)
 async def apply_customization(
+    request: Request,
     project_id: uuid.UUID,
     data: CustomizationRequest,
     user: UserProfile = Depends(get_current_user),
@@ -183,7 +192,9 @@ class RAGRequest(BaseModel):
 
 
 @router.post("/{project_id}/simulate/rag")
+@limiter.limit(_SIM_LIMIT)
 async def run_rag_simulation(
+    request: Request,
     project_id: uuid.UUID,
     data: RAGRequest = RAGRequest(),
     user: UserProfile = Depends(get_current_user),
@@ -200,7 +211,9 @@ class FineTuneRequest(BaseModel):
 
 
 @router.post("/{project_id}/simulate/finetune")
+@limiter.limit(_SIM_LIMIT)
 async def run_finetune_simulation(
+    request: Request,
     project_id: uuid.UUID,
     data: FineTuneRequest = FineTuneRequest(),
     user: UserProfile = Depends(get_current_user),
@@ -217,7 +230,9 @@ class PlaygroundRequest(BaseModel):
 
 
 @router.post("/{project_id}/playground")
+@limiter.limit(_SIM_LIMIT)
 async def run_playground(
+    request: Request,
     project_id: uuid.UUID,
     data: PlaygroundRequest,
     user: UserProfile = Depends(get_current_user),
@@ -229,7 +244,9 @@ async def run_playground(
 
 
 @router.post("/{project_id}/simulate/evaluation")
+@limiter.limit(_SIM_LIMIT)
 async def run_evaluation(
+    request: Request,
     project_id: uuid.UUID,
     user: UserProfile = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
@@ -240,7 +257,9 @@ async def run_evaluation(
 
 
 @router.post("/{project_id}/simulate/deployment")
+@limiter.limit(_SIM_LIMIT)
 async def run_deployment_simulation(
+    request: Request,
     project_id: uuid.UUID,
     user: UserProfile = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),

@@ -11,6 +11,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPost } from "@/lib/api-client";
@@ -26,6 +27,7 @@ import {
   AlertTriangle,
   TrendingUp,
   Zap,
+  Info,
 } from "lucide-react";
 
 const OPTIMIZER_OPTIONS = ["adamw", "adam", "adafactor", "sgd"] as const;
@@ -54,13 +56,23 @@ export default function TrainingConfigurationPage() {
   const router = useRouter();
   const updateScores = useProjectStore((s) => s.updateScores);
   const updateStep = useProjectStore((s) => s.updateStep);
+  const setStepSelection = useProjectStore((s) => s.setStepSelection);
+  const getInitial = () => useProjectStore.getState().stepSelections.trainingConfig ?? {};
 
-  const [mode, setMode] = useState<"beginner" | "advanced">("beginner");
-  const [epochs, setEpochs] = useState(3);
-  const [batchSize, setBatchSize] = useState(32);
-  const [lrIndex, setLrIndex] = useState(3); // 1e-4
-  const [optimizer, setOptimizer] = useState("adamw");
-  const [fp16, setFp16] = useState(true);
+  const [mode, setModeState] = useState<"beginner" | "advanced">(
+    () => (getInitial().mode as "beginner" | "advanced") ?? "beginner"
+  );
+  const [epochs, setEpochsState] = useState(() => (getInitial().epochs as number) ?? 3);
+  const [batchSize, setBatchSizeState] = useState(() => (getInitial().batchSize as number) ?? 32);
+  const [lrIndex, setLrIndexState] = useState(() => (getInitial().lrIndex as number) ?? 3);
+  const [optimizer, setOptimizerState] = useState(() => (getInitial().optimizer as string) ?? "adamw");
+  const [fp16, setFp16State] = useState(() => (getInitial().fp16 as boolean) ?? true);
+  const setMode = (v: "beginner" | "advanced") => { setModeState(v); setStepSelection("trainingConfig", { mode: v }); };
+  const setEpochs = (v: number) => { setEpochsState(v); setStepSelection("trainingConfig", { epochs: v }); };
+  const setBatchSize = (v: number) => { setBatchSizeState(v); setStepSelection("trainingConfig", { batchSize: v }); };
+  const setLrIndex = (v: number) => { setLrIndexState(v); setStepSelection("trainingConfig", { lrIndex: v }); };
+  const setOptimizer = (v: string) => { setOptimizerState(v); setStepSelection("trainingConfig", { optimizer: v }); };
+  const setFp16 = (v: boolean) => { setFp16State(v); setStepSelection("trainingConfig", { fp16: v }); };
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ConfigResult | null>(null);
 
@@ -121,6 +133,7 @@ export default function TrainingConfigurationPage() {
   }
 
   return (
+    <TooltipProvider delayDuration={200}>
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={6} />
       <ConceptCard stepKey="trainingConfig" />
@@ -166,7 +179,19 @@ export default function TrainingConfigurationPage() {
           <>
             {/* Epochs */}
             <section>
-              <h3 className="text-lg font-semibold mb-1">{t("epochs")}</h3>
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="text-lg font-semibold">{t("epochs")}</h3>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button type="button" className="text-muted-foreground/50 hover:text-muted-foreground">
+                      <Info className="h-3.5 w-3.5" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="max-w-[280px] text-xs">
+                    {t("epochsHint")}
+                  </TooltipContent>
+                </Tooltip>
+              </div>
               <p className="text-sm text-muted-foreground mb-4">{t("epochsDescription")}</p>
               <div className="max-w-md space-y-2">
                 <Slider value={[epochs]} onValueChange={(v) => setEpochs(v[0])} min={1} max={20} step={1} />
@@ -176,7 +201,19 @@ export default function TrainingConfigurationPage() {
 
             {/* Batch Size */}
             <section>
-              <h3 className="text-lg font-semibold mb-1">{t("batchSize")}</h3>
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="text-lg font-semibold">{t("batchSize")}</h3>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button type="button" className="text-muted-foreground/50 hover:text-muted-foreground">
+                      <Info className="h-3.5 w-3.5" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="max-w-[280px] text-xs">
+                    {t("batchSizeHint")}
+                  </TooltipContent>
+                </Tooltip>
+              </div>
               <p className="text-sm text-muted-foreground mb-4">{t("batchSizeDescription")}</p>
               <div className="grid grid-cols-5 gap-3 max-w-md">
                 {BATCH_SIZE_OPTIONS.map((bs) => (
@@ -198,7 +235,19 @@ export default function TrainingConfigurationPage() {
 
             {/* Learning Rate */}
             <section>
-              <h3 className="text-lg font-semibold mb-1">{t("learningRate")}</h3>
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="text-lg font-semibold">{t("learningRate")}</h3>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button type="button" className="text-muted-foreground/50 hover:text-muted-foreground">
+                      <Info className="h-3.5 w-3.5" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="max-w-[280px] text-xs">
+                    {t("lrHint")}
+                  </TooltipContent>
+                </Tooltip>
+              </div>
               <p className="text-sm text-muted-foreground mb-4">{t("learningRateDescription")}</p>
               <div className="max-w-md space-y-2">
                 <Slider value={[lrIndex]} onValueChange={(v) => setLrIndex(v[0])} min={0} max={LR_OPTIONS.length - 1} step={1} />
@@ -215,12 +264,22 @@ export default function TrainingConfigurationPage() {
                   <Card
                     key={opt}
                     className={cn(
-                      "cursor-pointer transition-all hover:border-primary/50",
+                      "cursor-pointer transition-all hover:border-primary/50 relative",
                       optimizer === opt && "border-primary ring-1 ring-primary"
                     )}
                     onClick={() => setOptimizer(opt)}
                   >
                     <CardContent className="flex items-center justify-center p-3">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <button type="button" className="absolute top-1 right-1 text-muted-foreground/50 hover:text-muted-foreground" onClick={(e) => e.stopPropagation()}>
+                            <Info className="h-3 w-3" />
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent side="top" className="max-w-[280px] text-xs">
+                          {t(`optimizerHints.${opt}`)}
+                        </TooltipContent>
+                      </Tooltip>
                       <span className="text-sm font-medium">{t(`optimizers.${opt}`)}</span>
                     </CardContent>
                   </Card>
@@ -233,7 +292,19 @@ export default function TrainingConfigurationPage() {
               <Card className={cn("max-w-xl transition-all", fp16 && "border-primary/30")}>
                 <CardContent className="flex items-center justify-between p-4">
                   <div>
-                    <div className="text-sm font-medium">{t("fp16")}</div>
+                    <div className="flex items-center gap-1.5">
+                      <div className="text-sm font-medium">{t("fp16")}</div>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <button type="button" className="text-muted-foreground/50 hover:text-muted-foreground">
+                            <Info className="h-3.5 w-3.5" />
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent side="top" className="max-w-[280px] text-xs">
+                          {t("fp16Hint")}
+                        </TooltipContent>
+                      </Tooltip>
+                    </div>
                     <div className="text-xs text-muted-foreground">{t("fp16Description")}</div>
                   </div>
                   <Switch checked={fp16} onCheckedChange={setFp16} />
@@ -322,5 +393,6 @@ export default function TrainingConfigurationPage() {
         )}
       </div>
     </div>
+    </TooltipProvider>
   );
 }

@@ -8,6 +8,7 @@ import { StepHeader } from "@/components/shared/step-header";
 import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPost } from "@/lib/api-client";
@@ -25,6 +26,7 @@ import {
   Gauge,
   Zap,
   Network,
+  Info,
 } from "lucide-react";
 
 const SIZE_OPTIONS = [
@@ -58,10 +60,20 @@ export default function ArchitectureBuilderPage() {
   const router = useRouter();
   const updateScores = useProjectStore((s) => s.updateScores);
   const updateStep = useProjectStore((s) => s.updateStep);
+  const setStepSelection = useProjectStore((s) => s.setStepSelection);
 
-  const [modelSize, setModelSize] = useState("");
-  const [contextWindow, setContextWindow] = useState(4096);
-  const [archType, setArchType] = useState("dense");
+  const [modelSize, setModelSizeState] = useState(
+    () => (useProjectStore.getState().stepSelections.architecture?.modelSize as string) ?? ""
+  );
+  const [contextWindow, setContextWindowState] = useState(
+    () => (useProjectStore.getState().stepSelections.architecture?.contextWindow as number) ?? 4096
+  );
+  const [archType, setArchTypeState] = useState(
+    () => (useProjectStore.getState().stepSelections.architecture?.archType as string) ?? "dense"
+  );
+  const setModelSize = (v: string) => { setModelSizeState(v); setStepSelection("architecture", { modelSize: v }); };
+  const setContextWindow = (v: number) => { setContextWindowState(v); setStepSelection("architecture", { contextWindow: v }); };
+  const setArchType = (v: string) => { setArchTypeState(v); setStepSelection("architecture", { archType: v }); };
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ArchResult | null>(null);
 
@@ -116,6 +128,7 @@ export default function ArchitectureBuilderPage() {
   }
 
   return (
+    <TooltipProvider delayDuration={200}>
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={5} />
       <ConceptCard stepKey="architecture" />
@@ -132,12 +145,22 @@ export default function ArchitectureBuilderPage() {
                 <Card
                   key={opt.value}
                   className={cn(
-                    "cursor-pointer transition-all hover:border-primary/50",
+                    "cursor-pointer transition-all hover:border-primary/50 relative",
                     modelSize === opt.value && "border-primary ring-1 ring-primary"
                   )}
                   onClick={() => { setModelSize(opt.value); setResult(null); }}
                 >
                   <CardContent className="p-4">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button type="button" className="absolute top-2 right-2 text-muted-foreground/50 hover:text-muted-foreground" onClick={(e) => e.stopPropagation()}>
+                          <Info className="h-3.5 w-3.5" />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="max-w-[280px] text-xs">
+                        {t(`sizeHints.${opt.value}`)}
+                      </TooltipContent>
+                    </Tooltip>
                     <div className="flex items-center gap-3 mb-2">
                       <Icon className="h-5 w-5" />
                       <span className="text-sm font-medium">{t(`sizes.${opt.value}`)}</span>
@@ -152,7 +175,19 @@ export default function ArchitectureBuilderPage() {
 
         {/* Context Window */}
         <section>
-          <h3 className="text-lg font-semibold mb-1">{t("contextWindow")}</h3>
+          <div className="flex items-center gap-2 mb-1">
+            <h3 className="text-lg font-semibold">{t("contextWindow")}</h3>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button type="button" className="text-muted-foreground/50 hover:text-muted-foreground">
+                  <Info className="h-3.5 w-3.5" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="max-w-[280px] text-xs">
+                {t("contextHint")}
+              </TooltipContent>
+            </Tooltip>
+          </div>
           <p className="text-sm text-muted-foreground mb-4">{t("contextWindowDescription")}</p>
           <div className="grid grid-cols-3 md:grid-cols-5 gap-3 max-w-2xl">
             {CONTEXT_OPTIONS.map((ctx) => (
@@ -185,12 +220,22 @@ export default function ArchitectureBuilderPage() {
                 <Card
                   key={opt.value}
                   className={cn(
-                    "cursor-pointer transition-all hover:border-primary/50",
+                    "cursor-pointer transition-all hover:border-primary/50 relative",
                     archType === opt.value && "border-primary ring-1 ring-primary"
                   )}
                   onClick={() => { setArchType(opt.value); setResult(null); }}
                 >
                   <CardContent className="p-4">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button type="button" className="absolute top-2 right-2 text-muted-foreground/50 hover:text-muted-foreground" onClick={(e) => e.stopPropagation()}>
+                          <Info className="h-3.5 w-3.5" />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="max-w-[280px] text-xs">
+                        {t(`archHints.${opt.value}`)}
+                      </TooltipContent>
+                    </Tooltip>
                     <div className="flex items-center gap-3 mb-2">
                       <Icon className="h-5 w-5" />
                       <span className="text-sm font-medium">{t(`types.${opt.value}`)}</span>
@@ -301,5 +346,6 @@ export default function ArchitectureBuilderPage() {
         )}
       </div>
     </div>
+    </TooltipProvider>
   );
 }

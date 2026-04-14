@@ -24,7 +24,7 @@ export function StepSidebar({ projectId }: StepSidebarProps) {
       <ScrollArea className="h-full">
         <div className="p-4 space-y-1">
           <h2 className="text-xs font-semibold uppercase tracking-wider text-sidebar-foreground/60 mb-3 px-2">
-            Steps
+            {t("sidebarTitle")}
           </h2>
           {PROJECT_STEPS.map((step) => {
             const isActive = pathname.includes(`/${step.path}`);

@@ -9,6 +9,7 @@ import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPut } from "@/lib/api-client";
@@ -24,6 +25,7 @@ import {
   DollarSign,
   Gauge,
   BarChart3,
+  Info,
 } from "lucide-react";
 
 const TOKENIZER_OPTIONS = [
@@ -48,8 +50,18 @@ export default function TokenizerLabPage() {
   const router = useRouter();
   const updateStep = useProjectStore((s) => s.updateStep);
   const datasetId = useProjectStore((s) => s.datasetId);
+  const setStepSelection = useProjectStore((s) => s.setStepSelection);
 
-  const [tokenizerType, setTokenizerType] = useState("");
+  const [tokenizerType, setTokenizerTypeState] = useState(
+    () =>
+      (useProjectStore.getState().stepSelections.tokenizer?.tokenizerType as
+        | string
+        | undefined) ?? ""
+  );
+  const setTokenizerType = (v: string) => {
+    setTokenizerTypeState(v);
+    setStepSelection("tokenizer", { tokenizerType: v });
+  };
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<TokenizerResult | null>(null);
 
@@ -90,6 +102,7 @@ export default function TokenizerLabPage() {
   }
 
   return (
+    <TooltipProvider delayDuration={200}>
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={4} />
       <ConceptCard stepKey="tokenizer" />
@@ -106,12 +119,26 @@ export default function TokenizerLabPage() {
                 <Card
                   key={opt.value}
                   className={cn(
-                    "cursor-pointer transition-all hover:border-primary/50",
+                    "cursor-pointer transition-all hover:border-primary/50 relative",
                     tokenizerType === opt.value && "border-primary ring-1 ring-primary"
                   )}
                   onClick={() => { setTokenizerType(opt.value); setResult(null); }}
                 >
                   <CardContent className="p-4">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button
+                          type="button"
+                          className="absolute top-2 right-2 text-muted-foreground/50 hover:text-muted-foreground"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Info className="h-3.5 w-3.5" />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="max-w-[280px] text-xs">
+                        {t(`typeHints.${opt.value}`)}
+                      </TooltipContent>
+                    </Tooltip>
                     <div className="flex items-center gap-3 mb-2">
                       <Icon className="h-5 w-5" />
                       <span className="text-sm font-medium">{t(`types.${opt.value}`)}</span>
@@ -221,5 +248,6 @@ export default function TokenizerLabPage() {
         )}
       </div>
     </div>
+    </TooltipProvider>
   );
 }

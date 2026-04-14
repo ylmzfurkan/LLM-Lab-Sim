@@ -65,6 +65,7 @@
     }
   },
   "steps": {
+    "sidebarTitle": "Steps",
     "wizard": "Project Wizard",
     "dataset": "Dataset Lab",
     "cleaning": "Data Cleaning",
@@ -167,6 +168,12 @@
       "csv": "CSV",
       "text": "Plain Text",
       "pdf": "PDF"
+    },
+    "fileTypeHints": {
+      "jsonl": "One JSON object per line. The ML-standard for chat datasets — easy to stream, handles nested fields, scales to millions of rows.",
+      "csv": "Spreadsheet-friendly. Great for simple prompt/response pairs; struggles with multi-line text and quotes.",
+      "text": "Raw text files. Best for continued pretraining on long-form content like books, articles, or logs.",
+      "pdf": "Extracts text from PDFs. Slower and noisier — expect OCR artifacts and layout issues."
     }
   },
   "cleaning": {
@@ -186,7 +193,12 @@
     "qualityAfter": "Quality After",
     "qualityImprovement": "Improvement",
     "rowsRemoved": "Rows Removed",
-    "cleanedRows": "Cleaned Rows"
+    "cleanedRows": "Cleaned Rows",
+    "operationHints": {
+      "removeDuplicates": "Duplicate rows double-weight whatever they contain. Removing them prevents the model from over-learning repeated phrases.",
+      "filterSpam": "Low-quality or machine-generated text poisons training. Filtering keeps the signal-to-noise ratio high.",
+      "maskPii": "Names, emails, phone numbers shouldn't be memorized by the model. Masking them is a privacy and compliance requirement."
+    }
   },
   "tokenizer": {
     "title": "Tokenizer Lab",
@@ -208,6 +220,11 @@
       "general": "Standard tokenizer for English and general text",
       "turkish_optimized": "Optimized for Turkish morphology, 15% more efficient for TR",
       "code": "Handles code syntax, indentation, and programming patterns"
+    },
+    "typeHints": {
+      "general": "GPT-style BPE. Fine for English; wastes tokens on Turkish suffixes and indented code.",
+      "turkish_optimized": "Learns Turkish agglutination (eviniz, evinizde...) as whole units. Fewer tokens = faster training and lower inference cost for Turkish text.",
+      "code": "Preserves whitespace, bracketing, and identifier boundaries. Matters because code semantics depend on indentation."
     }
   },
   "architecture": {
@@ -245,6 +262,16 @@
     "typeDescriptions": {
       "dense": "All parameters active on every token. Simple and predictable.",
       "moe": "Activates subset of params per token. Faster training, more memory."
+    },
+    "sizeHints": {
+      "small": "~1B params. Laptop-friendly inference, narrow-task quality. Good starting point for learning or focused use cases.",
+      "medium": "~7B params. The Llama/Mistral class — real capability without data-center bills.",
+      "large": "~70B params. Frontier-quality but 16+ GPUs required. Most teams fine-tune an existing 70B rather than train from scratch."
+    },
+    "contextHint": "How much text the model sees at once. Bigger = longer documents but quadratically more compute and memory.",
+    "archHints": {
+      "dense": "Every parameter fires for every token. Predictable, well-understood, easy to serve.",
+      "moe": "Only a subset of 'experts' fires per token. 4–8× faster training at same quality, but needs more VRAM for the full weight set."
     }
   },
   "trainingConfig": {
@@ -288,7 +315,17 @@
       "low": "Low",
       "medium": "Medium",
       "high": "High"
-    }
+    },
+    "epochsHint": "One full pass over the dataset. More epochs = better fit but risks memorizing (overfitting). 3 is a common sweet spot.",
+    "batchSizeHint": "Samples processed before a weight update. Bigger = smoother gradients but more memory. 32 is safe for most setups.",
+    "lrHint": "How big each weight-update step is. Too high = the model ping-pongs; too low = it crawls. 1e-4 is a reasonable default.",
+    "optimizerHints": {
+      "adamw": "Industry default for transformers. Adam + weight decay; works well out of the box.",
+      "adam": "Classic adaptive optimizer. Works but AdamW generally beats it on LLMs.",
+      "adafactor": "Memory-efficient Adam variant. Use when VRAM is tight; slightly less stable.",
+      "sgd": "Simple momentum-based descent. Fast per-step but needs careful tuning; rarely used for LLMs."
+    },
+    "fp16Hint": "Stores weights in 16-bit floats instead of 32-bit. Roughly 40% less memory, barely any accuracy loss. Turn it on unless you see numerical instability."
   },
   "training": {
     "title": "Training Simulator",
@@ -308,7 +345,13 @@
     "warnings": "Warnings",
     "epoch": "Epoch",
     "loss": "Loss",
-    "step": "Step"
+    "step": "Step",
+    "demoGoodConfig": "Your configuration looks well-balanced. Training should proceed smoothly.",
+    "metricHints": {
+      "lossCurve": "Train loss shows learning on training data; validation loss shows generalization. If val_loss starts rising while train_loss keeps falling, you're overfitting.",
+      "gpuUsage": "GPU utilization should sit near 90%+; if it's low, data loading is the bottleneck, not compute. Memory usage tells you how close you are to OOM.",
+      "checkpoints": "Snapshots of model weights at each epoch. The 'best' checkpoint has the lowest validation loss — that's what you ship, not the final one."
+    }
   },
   "report": {
     "title": "Base Model Report",
@@ -322,7 +365,22 @@
     "contextWindow": "Context Window",
     "trainingEpochs": "Training Epochs",
     "datasetRows": "Dataset Rows",
-    "overallPerformance": "Overall Performance"
+    "overallPerformance": "Overall Performance",
+    "exportJson": "Export JSON",
+    "exportCsv": "Export CSV",
+    "demoWeakness": {
+      "gsm8k": "Consider adding more grade school math training data.",
+      "dataQualityArea": "Data Quality",
+      "dataQuality": "Improve dataset quality through better cleaning and curation."
+    },
+    "benchmarkHints": {
+      "mmlu": "57 subjects from law to biology. Tests broad world knowledge and reading comprehension.",
+      "hellaswag": "Given a sentence start, pick the most natural continuation. Tests common-sense reasoning.",
+      "arc": "Grade-school science questions requiring multi-step reasoning.",
+      "truthfulqa": "Questions designed to trip the model into repeating popular misconceptions. Low score = the model hallucinates confidently.",
+      "winogrande": "Pronoun resolution puzzles. Tests whether the model actually tracks who 'she' or 'it' refers to.",
+      "gsm8k": "Grade-school math word problems. Tests multi-step arithmetic reasoning — famously hard for base LLMs."
+    }
   },
   "customization": {
     "title": "Customization Studio",
@@ -349,6 +407,12 @@
       "finetune": "+15 points",
       "lora": "+12 points",
       "instruction_tuning": "+10 points"
+    },
+    "methodHints": {
+      "rag": "Model stays frozen; you plug in a search engine over your docs. Great when knowledge changes often (docs, news, product catalogs). No GPU training needed.",
+      "finetune": "Continue training all weights on your data. Highest quality ceiling but expensive and risks forgetting general skills.",
+      "lora": "Train tiny adapter matrices while freezing the base model. ~100× cheaper than full fine-tuning with ~90% of the quality.",
+      "instruction_tuning": "Teach the model to follow commands (e.g. 'summarize this', 'answer in JSON'). Turns a base model into a useful assistant."
     }
   },
   "rag": {
@@ -368,7 +432,9 @@
       "embedding": "Embedding",
       "retrieval": "Retrieval",
       "generation": "Generation"
-    }
+    },
+    "chunkHint": "Size of each indexed text piece. Small chunks (~256) are precise but may miss context; big chunks (~1024+) give context but dilute relevance.",
+    "topKHint": "How many chunks to retrieve per query. Higher K = more chances to find the answer but more noise and tokens to pay for."
   },
   "fineTune": {
     "title": "Fine-Tune Simulator",
@@ -385,7 +451,9 @@
     "accuracyAfter": "Accuracy After",
     "improvement": "Improvement",
     "hallucinationBefore": "Hallucination Before",
-    "hallucinationAfter": "Hallucination After"
+    "hallucinationAfter": "Hallucination After",
+    "epochsHint": "Passes over your fine-tuning data. 2–4 is typical — too many and the model forgets general skills (catastrophic forgetting).",
+    "lrHint": "Fine-tune LR is ~10× smaller than pretraining. You're nudging the model, not retraining it. 2e-5 to 5e-5 is the common range."
   },
   "playground": {
     "title": "Playground",
@@ -401,7 +469,23 @@
     "responseQuality": "Response Quality",
     "latency": "Latency",
     "confidence": "Confidence",
-    "noResponse": "Send a prompt to see the model response."
+    "noResponse": "Send a prompt to see the model response.",
+    "variantHints": {
+      "base": "The raw trained model with no customization. Your baseline — shows what the architecture and pretraining alone can do.",
+      "finetuned": "Base + fine-tuning on your domain data. Sharper on your use case, sometimes weaker on general knowledge.",
+      "rag": "Base + retrieval over your documents. Grounded, cite-able answers; slower and costs more per request."
+    },
+    "samplePrompts": [
+      "Explain how neural networks learn from data.",
+      "What are the benefits of transformer architecture?",
+      "Compare supervised and unsupervised learning.",
+      "How does attention mechanism work in LLMs?"
+    ],
+    "simulatedResponses": {
+      "base": "Neural networks learn through backpropagation — the network adjusts its weights based on the error between predicted and actual outputs. The learning rate controls how much the weights shift each iteration, and the process repeats across many examples.",
+      "finetuned": "Neural networks learn from data via iterative optimization. During training, the network predicts on inputs, compares to expected outputs using a loss function, and backpropagates gradients to update weights with optimizers like Adam. Learning-rate scheduling, batch normalization, and regularization keep training stable and prevent overfitting.",
+      "rag": "Based on retrieved context from the knowledge base: neural networks learn from labeled data via backpropagation. Recent research (Smith et al., 2024) also relies on self-supervised pretraining on large unlabeled corpora followed by task-specific fine-tuning. Attention in transformers has been especially effective for long-range dependencies."
+    }
   },
   "evaluation": {
     "title": "Evaluation Center",
@@ -419,7 +503,13 @@
     "verdict": "Overall Verdict",
     "verdictGood": "Your model performs well across all metrics. Ready for deployment.",
     "verdictMedium": "Decent performance with room for improvement. Consider further fine-tuning.",
-    "verdictPoor": "Model needs significant improvements before deployment. Review training configuration."
+    "verdictPoor": "Model needs significant improvements before deployment. Review training configuration.",
+    "metricHints": {
+      "accuracy": "How often the model's answer matches the expected one. The headline metric, but can hide latency or hallucination issues.",
+      "hallucinationRisk": "How often the model invents facts that sound plausible but are wrong. Lower is better; high here is a ship-blocker for knowledge tasks.",
+      "responseQuality": "Human-judgment-style score for fluency, helpfulness, completeness. Accuracy can be high while quality feels robotic.",
+      "latency": "Median time to first token. Under 300ms feels instant; over 2s feels broken. Trades off directly with model size."
+    }
   },
   "deployment": {
     "title": "Deployment Simulator",
@@ -442,7 +532,23 @@
     "avgLatency": "Avg. Latency",
     "requestsPerDay": "Requests/Day",
     "deploySuccess": "Model deployed successfully!",
-    "projectComplete": "Congratulations! You have completed the full LLM training lifecycle."
+    "projectComplete": "Congratulations! You have completed the full LLM training lifecycle.",
+    "costHints": {
+      "compute": "GPU-hours × hourly rate. The main training cost driver. Goes up roughly linearly with model size and epochs.",
+      "storage": "Storing weights, checkpoints, and datasets. Small compared to compute, but checkpoints add up quickly.",
+      "transfer": "Moving data in and out of the training region. Usually negligible unless you're shipping huge datasets.",
+      "inference": "Per-request cost. Recurs forever — a cheap training can still lose money if inference is expensive and traffic is high.",
+      "server": "Monthly cost to keep a GPU warm for serving. A fixed baseline even at zero traffic.",
+      "latency": "Time to generate a response. Drives UX and batch economics — slow models cost more per request at the same throughput."
+    },
+    "deploySteps": [
+      "Provisioning GPU instance…",
+      "Building container image…",
+      "Uploading model weights…",
+      "Starting inference server…",
+      "Running health check…",
+      "Opening public endpoint…"
+    ]
   },
   "scores": {
     "dataQuality": "Data Quality",
@@ -477,7 +583,38 @@
     "step6": "Evaluate, test, and deploy",
     "cta": "Ready to Build Your AI Model?",
     "ctaDescription": "Start your LLM training journey today. No GPU required.",
-    "footer": "Built for education. Powered by simulation."
+    "footer": "Built for education. Powered by simulation.",
+    "simulationBadge": "Simulation-based learning — no real GPUs required",
+    "whoTitle": "Who This Is For",
+    "who1Title": "Students & Career-Switchers",
+    "who1Description": "Break into ML without burning months on textbooks. See the full training pipeline in an afternoon.",
+    "who2Title": "Product Managers",
+    "who2Description": "Speak confidently with ML teams. Understand trade-offs behind model size, RAG vs fine-tune, and inference cost.",
+    "who3Title": "Curious Developers",
+    "who3Description": "You've used GPT/Claude but never trained anything. Now you'll know what actually happens under the hood.",
+    "learnTitle": "What You'll Actually Learn",
+    "learn1": "Why tokenizer choice can change training cost by 15%+ on non-English data",
+    "learn2": "How to read a loss curve and spot overfitting before you waste a week of compute",
+    "learn3": "When to pick RAG vs fine-tuning vs LoRA — and what each really costs",
+    "learn4": "Why your model's latency matters more than its benchmark score",
+    "learn5": "How to estimate training cost and monthly inference spend before committing",
+    "footerGithub": "GitHub",
+    "footerDisclaimer": "Numbers are simulated for educational purposes. Not production benchmarks."
+  },
+  "tour": {
+    "skip": "Skip",
+    "next": "Next",
+    "finish": "Got it",
+    "step1Title": "Welcome to LLM Lab",
+    "step1Body": "This app walks you through training a Large Language Model in 14 steps — all simulated, no GPU required.",
+    "step2Title": "Start with a project",
+    "step2Body": "Click 'New Project' to begin. Each project tracks your configuration and results across every step.",
+    "step3Title": "Four key scores",
+    "step3Body": "As you progress, a score bar at the top of each project tracks Data Quality, Training Stability, Model Performance, and Cost Efficiency.",
+    "step4Title": "Every step teaches",
+    "step4Body": "Each step has a 'Why this matters' card at the top with a plain-language explanation — open it whenever you're unsure.",
+    "step5Title": "Hover for hints",
+    "step5Body": "See the small info icon next to an option? Hover it for a short explanation in plain English."
   },
   "theme": {
     "light": "Light",

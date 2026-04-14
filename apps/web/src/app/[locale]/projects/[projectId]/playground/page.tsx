@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPost } from "@/lib/api-client";
@@ -32,19 +33,7 @@ interface PlaygroundResponse {
   confidence: number;
 }
 
-const SAMPLE_PROMPTS = [
-  "Explain how neural networks learn from data.",
-  "What are the benefits of transformer architecture?",
-  "Compare supervised and unsupervised learning.",
-  "How does attention mechanism work in LLMs?",
-];
-
-// Simulated responses for demo mode
-const SIMULATED_RESPONSES: Record<string, string> = {
-  base: "Neural networks learn through a process called backpropagation, where the network adjusts its weights based on the error between predicted and actual outputs. The learning rate controls how much the weights are adjusted in each iteration...",
-  finetuned: "Neural networks learn from data through an iterative optimization process. During training, the network makes predictions on input data and compares them to expected outputs using a loss function. The gradients of this loss are then backpropagated through the network layers, updating weights via optimizers like Adam or SGD. Key factors include learning rate scheduling, batch normalization, and regularization techniques that prevent overfitting...",
-  rag: "Based on the retrieved context from our knowledge base: Neural networks learn from data through supervised learning, where labeled examples guide weight updates via backpropagation. According to recent research (Smith et al., 2024), modern approaches also leverage self-supervised pre-training on large unlabeled datasets, followed by fine-tuning on task-specific data. The attention mechanism in transformers has been particularly effective...",
-};
+const TYPEWRITER_DURATION_MS = 3000;
 
 export default function PlaygroundPage() {
   const t = useTranslations("playground");
@@ -58,6 +47,34 @@ export default function PlaygroundPage() {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState<PlaygroundResponse | null>(null);
   const [responseText, setResponseText] = useState("");
+  const [typedText, setTypedText] = useState("");
+  const typewriterRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const samplePrompts = (t.raw("samplePrompts") as string[]) ?? [];
+  const simulatedResponses = (t.raw("simulatedResponses") as Record<string, string>) ?? {};
+
+  useEffect(() => {
+    if (typewriterRef.current) clearInterval(typewriterRef.current);
+    if (!responseText) {
+      setTypedText("");
+      return;
+    }
+    const totalChars = responseText.length;
+    const stepMs = Math.max(8, Math.floor(TYPEWRITER_DURATION_MS / totalChars));
+    let i = 0;
+    setTypedText("");
+    typewriterRef.current = setInterval(() => {
+      i += 1;
+      setTypedText(responseText.slice(0, i));
+      if (i >= totalChars && typewriterRef.current) {
+        clearInterval(typewriterRef.current);
+        typewriterRef.current = null;
+      }
+    }, stepMs);
+    return () => {
+      if (typewriterRef.current) clearInterval(typewriterRef.current);
+    };
+  }, [responseText]);
 
   async function handleSend() {
     if (!prompt.trim()) return;
@@ -71,7 +88,7 @@ export default function PlaygroundPage() {
         { prompt, model_variant: variant }
       );
       setResponse(data);
-      setResponseText(SIMULATED_RESPONSES[variant] || SIMULATED_RESPONSES.base);
+      setResponseText(simulatedResponses[variant] || simulatedResponses.base || "");
       updateStep(13);
     } catch (err) {
       if (!isDemoMode()) {
@@ -88,7 +105,7 @@ export default function PlaygroundPage() {
         latency_ms: latencyMap[variant] || 150,
         confidence: Math.min(100, quality + 10),
       });
-      setResponseText(SIMULATED_RESPONSES[variant] || SIMULATED_RESPONSES.base);
+      setResponseText(simulatedResponses[variant] || simulatedResponses.base || "");
       updateStep(13);
     }
 
@@ -100,6 +117,7 @@ export default function PlaygroundPage() {
   }
 
   return (
+    <TooltipProvider delayDuration={200}>
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={12} />
       <ConceptCard stepKey="playground" />
@@ -108,15 +126,36 @@ export default function PlaygroundPage() {
         {/* Model Variant Tabs */}
         <Tabs value={variant} onValueChange={(v) => { setVariant(v); setResponse(null); setResponseText(""); }}>
           <TabsList>
-            <TabsTrigger value="base">{t("variants.base")}</TabsTrigger>
-            <TabsTrigger value="finetuned">{t("variants.finetuned")}</TabsTrigger>
-            <TabsTrigger value="rag">{t("variants.rag")}</TabsTrigger>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <TabsTrigger value="base">{t("variants.base")}</TabsTrigger>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="max-w-[280px] text-xs">
+                {t("variantHints.base")}
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <TabsTrigger value="finetuned">{t("variants.finetuned")}</TabsTrigger>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="max-w-[280px] text-xs">
+                {t("variantHints.finetuned")}
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <TabsTrigger value="rag">{t("variants.rag")}</TabsTrigger>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="max-w-[280px] text-xs">
+                {t("variantHints.rag")}
+              </TooltipContent>
+            </Tooltip>
           </TabsList>
         </Tabs>
 
         {/* Sample Prompts */}
         <div className="flex gap-2 flex-wrap">
-          {SAMPLE_PROMPTS.map((sp) => (
+          {samplePrompts.map((sp) => (
             <Badge
               key={sp}
               variant="secondary"
@@ -159,7 +198,12 @@ export default function PlaygroundPage() {
                 <MessageSquare className="h-4 w-4 text-primary" />
                 <span className="text-sm font-medium">{t(`variants.${variant}`)}</span>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">{responseText}</p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {typedText}
+                {typedText.length < responseText.length && (
+                  <span className="inline-block w-1.5 h-4 bg-primary/60 ml-0.5 align-middle animate-pulse" />
+                )}
+              </p>
 
               {response && (
                 <div className="flex gap-4 mt-4 pt-4 border-t">
@@ -204,5 +248,6 @@ export default function PlaygroundPage() {
         )}
       </div>
     </div>
+    </TooltipProvider>
   );
 }

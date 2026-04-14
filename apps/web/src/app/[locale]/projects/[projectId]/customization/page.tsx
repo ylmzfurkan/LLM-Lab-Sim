@@ -9,6 +9,7 @@ import { ConceptCard } from "@/components/shared/concept-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiPost } from "@/lib/api-client";
@@ -23,6 +24,7 @@ import {
   Loader2,
   TrendingUp,
   CheckCircle2,
+  Info,
 } from "lucide-react";
 
 const METHODS = [
@@ -40,8 +42,15 @@ export default function CustomizationStudioPage() {
   const updateScores = useProjectStore((s) => s.updateScores);
   const updateStep = useProjectStore((s) => s.updateStep);
   const scores = useProjectStore((s) => s.scores);
+  const setStepSelection = useProjectStore((s) => s.setStepSelection);
 
-  const [selected, setSelected] = useState("");
+  const [selected, setSelectedState] = useState(
+    () =>
+      (useProjectStore.getState().stepSelections.customization?.selected as
+        | string
+        | undefined) ?? ""
+  );
+  const setSelected = (v: string) => { setSelectedState(v); setStepSelection("customization", { selected: v }); };
   const [loading, setLoading] = useState(false);
   const [applied, setApplied] = useState(false);
   const [boost, setBoost] = useState(0);
@@ -84,6 +93,7 @@ export default function CustomizationStudioPage() {
   }
 
   return (
+    <TooltipProvider delayDuration={200}>
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={9} />
       <ConceptCard stepKey="customization" />
@@ -108,14 +118,24 @@ export default function CustomizationStudioPage() {
                 <Card
                   key={method.value}
                   className={cn(
-                    "cursor-pointer transition-all hover:border-primary/50",
+                    "cursor-pointer transition-all hover:border-primary/50 relative",
                     selected === method.value && "border-primary ring-1 ring-primary",
                     applied && "pointer-events-none"
                   )}
                   onClick={() => { if (!applied) setSelected(method.value); }}
                 >
                   <CardContent className="p-4">
-                    <div className="flex items-center justify-between mb-2">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button type="button" className="absolute top-2 right-2 text-muted-foreground/50 hover:text-muted-foreground" onClick={(e) => e.stopPropagation()}>
+                          <Info className="h-3.5 w-3.5" />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="max-w-[280px] text-xs">
+                        {t(`methodHints.${method.value}`)}
+                      </TooltipContent>
+                    </Tooltip>
+                    <div className="flex items-center justify-between mb-2 pr-6">
                       <div className="flex items-center gap-3">
                         <Icon className="h-5 w-5" />
                         <span className="text-sm font-medium">{t(`methods.${method.value}`)}</span>
@@ -173,5 +193,6 @@ export default function CustomizationStudioPage() {
         </div>
       </div>
     </div>
+    </TooltipProvider>
   );
 }

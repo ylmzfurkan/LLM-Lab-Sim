@@ -73,36 +73,71 @@ def generate_benchmarks(
     return results
 
 
+WEAKNESS_STRINGS = {
+    "en": {
+        "benchmark_suggestion": "Consider adding more {desc} training data.",
+        "data_quality_area": "Data Quality",
+        "data_quality_suggestion": "Improve dataset quality through better cleaning and curation.",
+        "training_stability_area": "Training Stability",
+        "training_stability_suggestion": "Tune hyperparameters for more stable training convergence.",
+    },
+    "tr": {
+        "benchmark_suggestion": "Daha fazla {desc} eğitim verisi eklemeyi düşünün.",
+        "data_quality_area": "Veri Kalitesi",
+        "data_quality_suggestion": "Daha iyi temizleme ve düzenleme ile veri seti kalitesini artırın.",
+        "training_stability_area": "Eğitim Kararlılığı",
+        "training_stability_suggestion": "Daha kararlı bir eğitim yakınsaması için hiperparametreleri ayarlayın.",
+    },
+}
+
+BENCHMARK_DESC_TR = {
+    "mmlu": "genel bilgi",
+    "hellaswag": "sağduyu muhakemesi",
+    "arc": "fen sorusu",
+    "truthfulqa": "doğruluk",
+    "winogrande": "zamir çözümleme",
+    "gsm8k": "ilkokul matematik",
+    "humaneval": "kod üretimi",
+    "mbpp": "Python programlama",
+}
+
+
 def generate_weakness_analysis(
     benchmarks: dict,
     data_quality: float,
     training_stability: float,
+    locale: str = "en",
 ) -> list[dict]:
     """Identify model weaknesses based on benchmark results."""
+    lang = "tr" if locale == "tr" else "en"
+    strings = WEAKNESS_STRINGS[lang]
     weaknesses = []
 
-    # Find lowest benchmark
     if benchmarks:
         sorted_benches = sorted(benchmarks.items(), key=lambda x: x[1]["score"] / x[1]["max"])
-        weakest = sorted_benches[0]
+        weakest_key, weakest = sorted_benches[0]
+        if lang == "tr":
+            desc = BENCHMARK_DESC_TR.get(weakest_key, weakest["description"].lower())
+        else:
+            desc = weakest["description"].lower()
         weaknesses.append({
-            "area": weakest[1]["name"],
-            "score": weakest[1]["score"],
-            "suggestion": f"Consider adding more {weakest[1]['description'].lower()} training data.",
+            "area": weakest["name"],
+            "score": weakest["score"],
+            "suggestion": strings["benchmark_suggestion"].format(desc=desc),
         })
 
     if data_quality < 50:
         weaknesses.append({
-            "area": "Data Quality",
+            "area": strings["data_quality_area"],
             "score": data_quality,
-            "suggestion": "Improve dataset quality through better cleaning and curation.",
+            "suggestion": strings["data_quality_suggestion"],
         })
 
     if training_stability < 50:
         weaknesses.append({
-            "area": "Training Stability",
+            "area": strings["training_stability_area"],
             "score": training_stability,
-            "suggestion": "Tune hyperparameters for more stable training convergence.",
+            "suggestion": strings["training_stability_suggestion"],
         })
 
     return weaknesses

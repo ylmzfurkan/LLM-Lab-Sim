@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
+import { HeroBackground } from "@/components/landing/hero-background";
 import {
   Brain,
   Database,
@@ -15,6 +16,12 @@ import {
   ArrowRight,
   Sparkles,
   ChevronRight,
+  GraduationCap,
+  Briefcase,
+  Code2,
+  CheckCircle2,
+  ExternalLink,
+  FlaskConical,
 } from "lucide-react";
 
 const FEATURES = [
@@ -27,6 +34,14 @@ const FEATURES = [
 ] as const;
 
 const STEPS = ["step1", "step2", "step3", "step4", "step5", "step6"] as const;
+
+const WHO_FOR = [
+  { key: "who1", icon: GraduationCap },
+  { key: "who2", icon: Briefcase },
+  { key: "who3", icon: Code2 },
+] as const;
+
+const LEARN_ITEMS = ["learn1", "learn2", "learn3", "learn4", "learn5"] as const;
 
 export default function HomePage() {
   const t = useTranslations("landing");
@@ -56,8 +71,13 @@ export default function HomePage() {
       </header>
 
       {/* Hero */}
-      <section className="flex-1 flex flex-col items-center justify-center py-24 px-4">
-        <div className="max-w-3xl text-center space-y-6">
+      <section className="relative flex-1 flex flex-col items-center justify-center py-24 px-4 overflow-hidden">
+        <HeroBackground />
+        <div className="relative z-10 max-w-3xl text-center space-y-6">
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-sm text-primary">
+            <FlaskConical className="h-4 w-4" />
+            {t("simulationBadge")}
+          </div>
           <div className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm text-muted-foreground">
             <Sparkles className="h-4 w-4" />
             {tCommon("appDescription")}
@@ -113,8 +133,37 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* How It Works */}
+      {/* Who This Is For */}
       <section className="py-24 px-4">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">
+            {t("whoTitle")}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {WHO_FOR.map((w) => {
+              const Icon = w.icon;
+              return (
+                <Card key={w.key} className="bg-card/50">
+                  <CardContent className="p-6">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 mb-4">
+                      <Icon className="h-5 w-5 text-primary" />
+                    </div>
+                    <h3 className="text-lg font-semibold mb-2">
+                      {t(`${w.key}Title`)}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {t(`${w.key}Description`)}
+                    </p>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="py-24 px-4 bg-muted/30">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">
             {t("howItWorks")}
@@ -137,6 +186,23 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* What You'll Learn */}
+      <section className="py-24 px-4">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">
+            {t("learnTitle")}
+          </h2>
+          <ul className="space-y-3">
+            {LEARN_ITEMS.map((item) => (
+              <li key={item} className="flex items-start gap-3 p-4 rounded-lg border bg-card/50">
+                <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <span className="text-sm">{t(item)}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-24 px-4 bg-muted/30">
         <div className="max-w-2xl mx-auto text-center space-y-6">
@@ -153,12 +219,21 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="border-t py-6 px-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <Brain className="h-4 w-4 text-muted-foreground" />
             <span className="text-sm text-muted-foreground">{tCommon("appName")}</span>
           </div>
-          <p className="text-xs text-muted-foreground">{t("footer")}</p>
+          <p className="text-xs text-muted-foreground text-center md:text-left">{t("footerDisclaimer")}</p>
+          <a
+            href="https://github.com/ylmzfurkan/llm-lab"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ExternalLink className="h-3.5 w-3.5" />
+            {t("footerGithub")}
+          </a>
         </div>
       </footer>
     </div>

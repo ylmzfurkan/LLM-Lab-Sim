@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { StepHeader } from "@/components/shared/step-header";
@@ -10,10 +10,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useProjectStore } from "@/stores/project-store";
 import { apiGet } from "@/lib/api-client";
 import { isDemoMode } from "@/lib/demo-mode";
+import { useChartColors } from "@/hooks/use-chart-colors";
 import {
   BarChart,
   Bar,
@@ -35,6 +37,8 @@ import {
   Database,
   AlertTriangle,
   Lightbulb,
+  Info,
+  Download,
 } from "lucide-react";
 
 interface BenchmarkScore {
@@ -67,9 +71,11 @@ interface ReportData {
 export default function BaseModelReportPage() {
   const t = useTranslations("report");
   const tCommon = useTranslations("common");
+  const locale = useLocale();
   const params = useParams();
   const router = useRouter();
   const updateStep = useProjectStore((s) => s.updateStep);
+  const chartColors = useChartColors();
 
   const [loading, setLoading] = useState(true);
   const [report, setReport] = useState<ReportData | null>(null);
@@ -77,7 +83,7 @@ export default function BaseModelReportPage() {
   useEffect(() => {
     async function fetchReport() {
       try {
-        const data = await apiGet<ReportData>(`/api/projects/${params.projectId}/report`);
+        const data = await apiGet<ReportData>(`/api/projects/${params.projectId}/report?locale=${locale}`);
         setReport(data);
         updateStep(9);
       } catch (err) {
@@ -97,8 +103,8 @@ export default function BaseModelReportPage() {
             gsm8k: { name: "GSM8K", description: "Grade School Math", score: 28.7, max: 80 },
           },
           weaknesses: [
-            { area: "GSM8K", score: 28.7, suggestion: "Consider adding more grade school math training data." },
-            { area: "Data Quality", score: 65, suggestion: "Improve dataset quality through better cleaning and curation." },
+            { area: "GSM8K", score: 28.7, suggestion: t("demoWeakness.gsm8k") },
+            { area: t("demoWeakness.dataQualityArea"), score: 65, suggestion: t("demoWeakness.dataQuality") },
           ],
           model_summary: { size: "medium", parameters: "7B", architecture: "dense", context_window: 4096, training_epochs: 3, dataset_rows: 50000 },
         });
@@ -107,10 +113,39 @@ export default function BaseModelReportPage() {
       setLoading(false);
     }
     fetchReport();
-  }, [params.projectId, updateStep]);
+  }, [params.projectId, updateStep, locale, t]);
 
   function handleNext() {
     router.push(`/projects/${params.projectId}/customization`);
+  }
+
+  function downloadBlob(filename: string, mime: string, content: string) {
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function exportJson() {
+    if (!report) return;
+    downloadBlob(
+      `llm-lab-report-${params.projectId}.json`,
+      "application/json",
+      JSON.stringify(report, null, 2),
+    );
+  }
+
+  function exportCsv() {
+    if (!report) return;
+    const rows = [["benchmark", "score", "max", "percentage"]];
+    Object.values(report.benchmarks).forEach((b) => {
+      rows.push([b.name, b.score.toFixed(2), String(b.max), ((b.score / b.max) * 100).toFixed(2)]);
+    });
+    const csv = rows.map((r) => r.map((c) => `"${c.replace(/"/g, '""')}"`).join(",")).join("\n");
+    downloadBlob(`llm-lab-benchmarks-${params.projectId}.csv`, "text/csv", csv);
   }
 
   if (loading) {
@@ -136,6 +171,7 @@ export default function BaseModelReportPage() {
   const overallPerf = report.scores.model_performance;
 
   return (
+    <TooltipProvider delayDuration={200}>
     <div className="max-w-4xl">
       <StepHeader title={t("title")} description={t("description")} stepNumber={8} />
       <ConceptCard stepKey="report" />
@@ -216,13 +252,13 @@ export default function BaseModelReportPage() {
                   <YAxis type="category" dataKey="name" width={100} className="text-xs" />
                   <Tooltip
                     formatter={(value) => `${Number(value).toFixed(1)}%`}
-                    contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "8px" }}
+                    contentStyle={{ background: chartColors.card, border: `1px solid ${chartColors.border}`, borderRadius: "8px" }}
                   />
                   <Bar dataKey="percentage" radius={[0, 4, 4, 0]}>
                     {benchmarkData.map((entry, index) => (
                       <Cell
                         key={index}
-                        fill={entry.percentage >= 60 ? "hsl(var(--chart-1))" : entry.percentage >= 40 ? "hsl(var(--chart-3))" : "hsl(var(--destructive))"}
+                        fill={entry.percentage >= 60 ? chartColors.chart1 : entry.percentage >= 40 ? chartColors.chart3 : chartColors.destructive}
                       />
                     ))}
                   </Bar>
@@ -233,11 +269,23 @@ export default function BaseModelReportPage() {
 
           {/* Individual Benchmark Scores */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4">
-            {Object.values(report.benchmarks).map((bench) => (
+            {Object.entries(report.benchmarks).map(([key, bench]) => (
               <Card key={bench.name}>
                 <CardContent className="p-3">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-medium">{bench.name}</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs font-medium">{bench.name}</span>
+                      <UITooltip>
+                        <TooltipTrigger asChild>
+                          <button type="button" className="text-muted-foreground/50 hover:text-muted-foreground">
+                            <Info className="h-3 w-3" />
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent side="top" className="max-w-[280px] text-xs">
+                          {t(`benchmarkHints.${key}`)}
+                        </TooltipContent>
+                      </UITooltip>
+                    </div>
                     <span className="text-xs font-mono text-muted-foreground">
                       {bench.score.toFixed(1)}/{bench.max}
                     </span>
@@ -280,6 +328,17 @@ export default function BaseModelReportPage() {
           </section>
         )}
 
+        <div className="flex flex-wrap gap-2 pt-4 border-t">
+          <Button variant="outline" size="sm" onClick={exportJson}>
+            <Download className="mr-2 h-4 w-4" />
+            {t("exportJson")}
+          </Button>
+          <Button variant="outline" size="sm" onClick={exportCsv}>
+            <Download className="mr-2 h-4 w-4" />
+            {t("exportCsv")}
+          </Button>
+        </div>
+
         <div className="flex justify-between pt-4 border-t">
           <BackButton currentStep={8} />
           <Button size="lg" onClick={handleNext}>
@@ -289,5 +348,6 @@ export default function BaseModelReportPage() {
         </div>
       </div>
     </div>
+    </TooltipProvider>
   );
 }

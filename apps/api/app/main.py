@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
 
 from app.config import assert_auth_configured, settings
+from app.rate_limit import limiter
 from app.routers import auth, projects, datasets, simulation, model_config
 
 assert_auth_configured()
@@ -11,6 +14,9 @@ app = FastAPI(
     description="LLM Training & Customization Simulator API",
     version="0.1.0",
 )
+
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.add_middleware(
     CORSMiddleware,

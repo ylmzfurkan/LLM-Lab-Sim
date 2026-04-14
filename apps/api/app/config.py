@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     jwt_secret: str = ""
     jwt_algorithm: str = "HS256"
     require_auth: bool = True
+    rate_limit_simulate: str = "60/minute"
+    rate_limit_enabled: bool = True
 
     model_config = {"env_file": "../../.env", "extra": "ignore"}
 

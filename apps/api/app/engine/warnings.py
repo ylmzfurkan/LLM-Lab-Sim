@@ -7,52 +7,52 @@ Warnings are bilingual (en/tr) and selected based on SimulationState.
 WARNINGS_DB = {
     "lr_too_high": {
         "en": "Learning rate {lr} is unusually high for a {size} model. This may cause training divergence.",
-        "tr": "Ogrenme orani {lr}, {size} bir model icin asiri yuksek. Bu, egitim sapmasina neden olabilir.",
+        "tr": "Öğrenme oranı {lr}, {size} bir model için aşırı yüksek. Bu, eğitim sapmasına neden olabilir.",
         "severity": "high",
     },
     "lr_too_low": {
         "en": "Learning rate {lr} is very low. Training will converge slowly.",
-        "tr": "Ogrenme orani {lr} cok dusuk. Egitim yavas yakinlasacak.",
+        "tr": "Öğrenme oranı {lr} çok düşük. Eğitim yavaş yakınlaşacak.",
         "severity": "medium",
     },
     "data_too_small": {
         "en": "Dataset has only {rows} samples. For a {size} model, at least {recommended} samples are recommended.",
-        "tr": "Veri seti sadece {rows} ornek iceriyor. {size} bir model icin en az {recommended} ornek onerilir.",
+        "tr": "Veri seti sadece {rows} örnek içeriyor. {size} bir model için en az {recommended} örnek önerilir.",
         "severity": "high",
     },
     "high_duplicate_ratio": {
         "en": "Dataset has {ratio}% duplicates. Consider enabling deduplication.",
-        "tr": "Veri setinde %{ratio} tekrar var. Tekrar temizlemeyi etkinlestirmeyi dusunun.",
+        "tr": "Veri setinde %{ratio} tekrar var. Tekrar temizlemeyi etkinleştirmeyi düşünün.",
         "severity": "medium",
     },
     "overfitting_risk": {
         "en": "Training for {epochs} epochs with this dataset size may cause overfitting. Consider reducing epochs or adding regularization.",
-        "tr": "Bu veri seti boyutuyla {epochs} epoch egitim, asiri uyuma neden olabilir. Epoch sayisini azaltmayi veya regulasyon eklemeyi dusunun.",
+        "tr": "Bu veri seti boyutuyla {epochs} epoch eğitim, aşırı uyuma neden olabilir. Epoch sayısını azaltmayı veya regülasyon eklemeyi düşünün.",
         "severity": "medium",
     },
     "moe_overhead": {
         "en": "Mixture of Experts architecture requires more GPU memory but trains faster. Ensure you have sufficient resources.",
-        "tr": "Mixture of Experts mimarisi daha fazla GPU bellek gerektirir ama daha hizli egitir. Yeterli kaynaginiz oldugundan emin olun.",
+        "tr": "Mixture of Experts mimarisi daha fazla GPU bellek gerektirir ama daha hızlı eğitir. Yeterli kaynağınız olduğundan emin olun.",
         "severity": "low",
     },
     "tokenizer_mismatch": {
         "en": "The selected tokenizer is not optimized for {language}. Consider using a {recommended} tokenizer.",
-        "tr": "Secilen tokenizer {language} icin optimize edilmemis. {recommended} tokenizer kullanmayi dusunun.",
+        "tr": "Seçilen tokenizer {language} için optimize edilmemiş. {recommended} tokenizer kullanmayı düşünün.",
         "severity": "medium",
     },
     "low_context_utilization": {
         "en": "Average sample length uses only {util}% of the context window. You may be wasting compute on padding.",
-        "tr": "Ortalama ornek uzunlugu context penceresinin yalnizca %{util}'ini kullaniyor. Padding icin gereksiz islem gucu harcaniyor olabilir.",
+        "tr": "Ortalama örnek uzunluğu context penceresinin yalnızca %{util}'ini kullanıyor. Padding için gereksiz işlem gücü harcanıyor olabilir.",
         "severity": "low",
     },
     "large_model_small_data": {
         "en": "A {size} model with only {rows} samples is likely to overfit. Consider using a smaller model or more data.",
-        "tr": "Sadece {rows} ornekle {size} bir model muhtemelen asiri uyum saglayacak. Daha kucuk bir model veya daha fazla veri kullanmayi dusunun.",
+        "tr": "Sadece {rows} örnekle {size} bir model muhtemelen aşırı uyum sağlayacak. Daha küçük bir model veya daha fazla veri kullanmayı düşünün.",
         "severity": "high",
     },
     "good_configuration": {
         "en": "Your configuration looks well-balanced. Training should proceed smoothly.",
-        "tr": "Yapilandirmaniz dengeli gorunuyor. Egitim sorunsuz ilerlemeli.",
+        "tr": "Yapılandırmanız dengeli görünüyor. Eğitim sorunsuz ilerlemeli.",
         "severity": "info",
     },
 }

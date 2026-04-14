@@ -35,6 +35,7 @@ import {
 } from "lucide-react";
 import { apiGet, apiPost } from "@/lib/api-client";
 import { isDemoMode } from "@/lib/demo-mode";
+import { FirstVisitTour } from "@/components/tour/first-visit-tour";
 import { PROJECT_STEPS } from "@/types/project";
 import type { Project } from "@/types/project";
 
@@ -118,6 +119,7 @@ export default function ProjectsPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <FirstVisitTour />
       <AppHeader />
       <main className="flex-1 p-6 max-w-5xl mx-auto w-full">
         <div className="flex items-center justify-between mb-8">
