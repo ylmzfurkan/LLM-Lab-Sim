@@ -16,7 +16,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://llmlab.app";
+const _rawAppUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://llmlab.app";
+const APP_URL = _rawAppUrl.startsWith("http") ? _rawAppUrl : `https://${_rawAppUrl}`;
 
 const LOCALE_META: Record<string, { title: string; description: string; ogAlt: string }> = {
   en: {
