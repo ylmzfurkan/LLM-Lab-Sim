@@ -14,7 +14,7 @@ import type { Locale } from "@/i18n/routing";
 
 const LOCALES: { value: Locale; label: string }[] = [
   { value: "en", label: "English" },
-  { value: "tr", label: "Turkce" },
+  { value: "tr", label: "Türkçe" },
 ];
 
 export function LocaleSwitcher() {

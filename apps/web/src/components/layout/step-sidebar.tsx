@@ -17,7 +17,13 @@ export function StepSidebar({ projectId }: StepSidebarProps) {
   const t = useTranslations("steps");
   const pathname = usePathname();
   const project = useProjectStore((s) => s.project);
-  const currentStep = project?.current_step ?? 1;
+
+  // Determine which step number matches the current URL
+  const activeStepNumber =
+    PROJECT_STEPS.find((s) => pathname.includes(`/${s.path}`))?.number ?? 1;
+
+  // Use the higher of DB step and URL step so existing users aren't locked out
+  const currentStep = Math.max(project?.current_step ?? 1, activeStepNumber);
 
   return (
     <aside className="w-64 border-r bg-sidebar text-sidebar-foreground shrink-0">

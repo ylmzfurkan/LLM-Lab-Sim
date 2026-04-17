@@ -58,6 +58,7 @@
     "projectDescription": "Description (optional)",
     "projectDescriptionPlaceholder": "A chatbot for...",
     "continueProject": "Continue",
+    "createError": "Failed to create project. Please try again.",
     "projectStatus": {
       "draft": "Draft",
       "in_progress": "In Progress",
@@ -294,6 +295,7 @@
     "convergencePrediction": "Convergence Prediction",
     "overfittingRisk": "Overfitting Risk",
     "stabilityScore": "Stability Score",
+    "livePreview": "Live Preview",
     "presetApplied": "Recommended defaults applied for your model configuration.",
     "optimizers": {
       "adamw": "AdamW",
@@ -379,8 +381,32 @@
       "arc": "Grade-school science questions requiring multi-step reasoning.",
       "truthfulqa": "Questions designed to trip the model into repeating popular misconceptions. Low score = the model hallucinates confidently.",
       "winogrande": "Pronoun resolution puzzles. Tests whether the model actually tracks who 'she' or 'it' refers to.",
-      "gsm8k": "Grade-school math word problems. Tests multi-step arithmetic reasoning — famously hard for base LLMs."
+      "gsm8k": "Grade-school math word problems. Tests multi-step arithmetic reasoning — famously hard for base LLMs.",
+      "humaneval": "164 hand-crafted Python programming problems. The standard benchmark for code generation — checks whether the model can write correct, runnable code.",
+      "mbpp": "Mostly Basic Python Programming — 374 crowd-sourced problems. Tests practical coding ability across loops, strings, and data structures."
     }
+  },
+  "share": {
+    "button": "Share",
+    "modalTitle": "Share Your Simulation",
+    "modalDescription": "Share your model training results with others.",
+    "linkLabel": "Unique Link",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "postTextLabel": "Suggested post text",
+    "linkedinButton": "Share on LinkedIn",
+    "linkedinButtonCopied": "Opening LinkedIn — paste the text!",
+    "linkedinTitle": "I trained my own LLM from scratch with LLM Lab 🚀",
+    "linkedinText": "I just trained my own LLM from scratch using LLM Lab — from data collection to deployment! 🚀\n\nMy model's benchmark results and full training summary are live. You can train your own LLM too — no code required.\n\n👇 See my simulation results:",
+    "clipboardHint": "Post text copied to clipboard — just paste it (Ctrl+V / ⌘V) in the LinkedIn post.",
+    "generating": "Generating link...",
+    "pageTitle": "LLM Simulation Results",
+    "pageDescription": "See how this LLM was trained from scratch using LLM Lab.",
+    "projectLabel": "Project",
+    "tryItCta": "Train Your Own LLM",
+    "tryItDescription": "See how an LLM is built — from data to deployment. No code required.",
+    "sharedBy": "Trained with LLM Lab",
+    "notFound": "This share link is invalid or has expired."
   },
   "customization": {
     "title": "Customization Studio",
@@ -470,6 +496,8 @@
     "latency": "Latency",
     "confidence": "Confidence",
     "noResponse": "Send a prompt to see the model response.",
+    "compareAll": "Compare All 3",
+    "bestVariant": "Best",
     "variantHints": {
       "base": "The raw trained model with no customization. Your baseline — shows what the architecture and pretraining alone can do.",
       "finetuned": "Base + fine-tuning on your domain data. Sharper on your use case, sometimes weaker on general knowledge.",
@@ -555,6 +583,32 @@
     "trainingStability": "Training Stability",
     "modelPerformance": "Model Performance",
     "costEfficiency": "Cost Efficiency"
+  },
+  "decisionSummary": {
+    "toggle": "View Simulation Summary",
+    "bestArea": "Biggest Win",
+    "worstArea": "Biggest Gap",
+    "improvementTip": "Your {area} score is {score}/100. Consider revisiting earlier steps to improve this area before deploying.",
+    "timeline": "Decision Timeline",
+    "done": "Done",
+    "scoreLabels": {
+      "data_quality": "Data Quality",
+      "training_stability": "Training Stability",
+      "model_performance": "Model Performance",
+      "cost_efficiency": "Cost Efficiency"
+    }
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for doesn't exist or has been moved.",
+    "home": "Go Home",
+    "startSim": "Start Simulation"
+  },
+  "errorPage": {
+    "title": "Something Went Wrong",
+    "description": "An unexpected error occurred. Please try again or return home.",
+    "retry": "Try Again",
+    "home": "Go Home"
   },
   "landing": {
     "hero": "The Best Place to Learn How LLMs Are Built",

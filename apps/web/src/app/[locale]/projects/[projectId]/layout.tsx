@@ -1,6 +1,7 @@
 import { AppHeader } from "@/components/layout/app-header";
 import { StepSidebar } from "@/components/layout/step-sidebar";
 import { ScoreBar } from "@/components/layout/score-bar";
+import { ProjectLoader } from "@/components/layout/project-loader";
 
 export default async function ProjectLayout({
   children,
@@ -13,6 +14,7 @@ export default async function ProjectLayout({
 
   return (
     <div className="flex flex-col h-screen">
+      <ProjectLoader projectId={projectId} />
       <AppHeader />
       <div className="flex flex-1 overflow-hidden">
         <StepSidebar projectId={projectId} />

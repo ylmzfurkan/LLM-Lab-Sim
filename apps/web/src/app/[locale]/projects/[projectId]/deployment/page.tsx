@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useParams } from "next/navigation";
 import { StepHeader } from "@/components/shared/step-header";
 import { ConceptCard } from "@/components/shared/concept-card";
@@ -9,23 +9,31 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { apiPost } from "@/lib/api-client";
 import { isDemoMode } from "@/lib/demo-mode";
 import { BackButton } from "@/components/shared/step-navigation";
+import { DecisionSummary } from "@/components/simulation/decision-summary";
 import {
   Loader2,
   Rocket,
   Copy,
   Check,
   CheckCircle2,
-  DollarSign,
-  Server,
   Clock,
   Cpu,
   Activity,
   PartyPopper,
   Info,
+  Share2,
 } from "lucide-react";
 
 interface DeployResult {
@@ -57,6 +65,8 @@ interface DeployResult {
 
 export default function DeploymentSimulatorPage() {
   const t = useTranslations("deployment");
+  const tShare = useTranslations("share");
+  const locale = useLocale();
   const params = useParams();
 
   const [loading, setLoading] = useState(false);
@@ -64,6 +74,11 @@ export default function DeploymentSimulatorPage() {
   const [deployed, setDeployed] = useState(false);
   const [copied, setCopied] = useState(false);
   const [deployStage, setDeployStage] = useState(0);
+  const [shareOpen, setShareOpen] = useState(false);
+  const [shareToken, setShareToken] = useState<string | null>(null);
+  const [shareGenerating, setShareGenerating] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
+  const [textCopied, setTextCopied] = useState(false);
 
   const deploySteps = (t.raw("deploySteps") as string[]) ?? [];
 
@@ -107,6 +122,44 @@ export default function DeploymentSimulatorPage() {
     setDeployed(true);
   }
 
+  async function handleShare() {
+    setShareOpen(true);
+    if (shareToken) return;
+    setShareGenerating(true);
+    try {
+      const data = await apiPost<{ token: string }>(`/api/projects/${params.projectId}/share`);
+      setShareToken(data.token);
+    } catch (err) {
+      console.error(err);
+    }
+    setShareGenerating(false);
+  }
+
+  function getShareUrl(token: string) {
+    return `${window.location.origin}/${locale}/share/${token}`;
+  }
+
+  async function copyShareLink() {
+    if (!shareToken) return;
+    await navigator.clipboard.writeText(getShareUrl(shareToken));
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), 2000);
+  }
+
+  function getPostText(token: string) {
+    return `${tShare("linkedinText")}\n\n${getShareUrl(token)}`;
+  }
+
+  async function shareLinkedIn() {
+    if (!shareToken) return;
+    // Copy full post text to clipboard so user can paste in LinkedIn
+    await navigator.clipboard.writeText(getPostText(shareToken));
+    setTextCopied(true);
+    setTimeout(() => setTextCopied(false), 4000);
+    const params = new URLSearchParams({ url: getShareUrl(shareToken) });
+    window.open(`https://www.linkedin.com/feed/?shareActive=true&${params.toString()}`, "_blank", "width=600,height=700");
+  }
+
   async function handleCopy(text: string) {
     await navigator.clipboard.writeText(text);
     setCopied(true);
@@ -145,6 +198,9 @@ export default function DeploymentSimulatorPage() {
 
         {result && !deployed && (
           <>
+            {/* Decision Summary */}
+            <DecisionSummary />
+
             {/* API Endpoint */}
             <section>
               <h3 className="text-lg font-semibold mb-3">{t("apiEndpoint")}</h3>
@@ -366,8 +422,87 @@ export default function DeploymentSimulatorPage() {
                   <h2 className="text-2xl font-bold text-green-500">{t("deploySuccess")}</h2>
                   <p className="text-muted-foreground max-w-md">{t("projectComplete")}</p>
                 </div>
+                <Button size="lg" onClick={handleShare} className="mt-2">
+                  <Share2 className="mr-2 h-5 w-5" />
+                  {tShare("button")}
+                </Button>
               </div>
             )}
+
+            <Dialog open={shareOpen} onOpenChange={setShareOpen}>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>{tShare("modalTitle")}</DialogTitle>
+                  <DialogDescription>{tShare("modalDescription")}</DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 pt-2">
+                  {/* Suggested post text preview */}
+                  {shareToken && (
+                    <div className="space-y-1.5">
+                      <p className="text-sm font-medium">{tShare("postTextLabel")}</p>
+                      <div className="relative rounded-md border bg-muted/40 p-3">
+                        <p className="text-sm text-foreground whitespace-pre-wrap leading-relaxed pr-8">
+                          {getPostText(shareToken)}
+                        </p>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="absolute top-2 right-2 h-6 w-6"
+                          onClick={async () => {
+                            await navigator.clipboard.writeText(getPostText(shareToken));
+                            setTextCopied(true);
+                            setTimeout(() => setTextCopied(false), 2000);
+                          }}
+                        >
+                          {textCopied ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Unique link */}
+                  <div className="space-y-1.5">
+                    <p className="text-sm font-medium">{tShare("linkLabel")}</p>
+                    {shareGenerating ? (
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        {tShare("generating")}
+                      </div>
+                    ) : shareToken ? (
+                      <div className="flex gap-2">
+                        <Input
+                          readOnly
+                          value={getShareUrl(shareToken)}
+                          className="font-mono text-xs"
+                        />
+                        <Button variant="outline" size="icon" onClick={copyShareLink}>
+                          {linkCopied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+                        </Button>
+                      </div>
+                    ) : null}
+                  </div>
+
+                  {shareToken && (
+                    <div className="space-y-2">
+                      <Button
+                        className="w-full bg-[#0A66C2] hover:bg-[#004182] text-white"
+                        onClick={shareLinkedIn}
+                      >
+                        <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                        {textCopied ? tShare("linkedinButtonCopied") : tShare("linkedinButton")}
+                      </Button>
+                      {textCopied && (
+                        <p className="text-xs text-center text-muted-foreground animate-in fade-in">
+                          {tShare("clipboardHint")}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         )}
       </div>

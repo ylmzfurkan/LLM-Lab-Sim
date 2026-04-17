@@ -17,6 +17,7 @@ import { useProjectStore } from "@/stores/project-store";
 import { apiPost } from "@/lib/api-client";
 import { isDemoMode } from "@/lib/demo-mode";
 import { BackButton } from "@/components/shared/step-navigation";
+import { previewTrainingStability } from "@/lib/scoring-preview";
 import {
   ArrowRight,
   Loader2,
@@ -28,6 +29,7 @@ import {
   TrendingUp,
   Zap,
   Info,
+  Eye,
 } from "lucide-react";
 
 const OPTIMIZER_OPTIONS = ["adamw", "adam", "adafactor", "sgd"] as const;
@@ -57,6 +59,8 @@ export default function TrainingConfigurationPage() {
   const updateScores = useProjectStore((s) => s.updateScores);
   const updateStep = useProjectStore((s) => s.updateStep);
   const setStepSelection = useProjectStore((s) => s.setStepSelection);
+  const currentDataQuality = useProjectStore((s) => s.scores.data_quality);
+  const architectureSelection = useProjectStore((s) => s.stepSelections.architecture as Record<string, unknown> | undefined);
   const getInitial = () => useProjectStore.getState().stepSelections.trainingConfig ?? {};
 
   const [mode, setModeState] = useState<"beginner" | "advanced">(
@@ -77,6 +81,16 @@ export default function TrainingConfigurationPage() {
   const [result, setResult] = useState<ConfigResult | null>(null);
 
   const learningRate = LR_OPTIONS[lrIndex].value;
+  const modelSize = (architectureSelection?.modelSize as string) ?? "medium";
+  const livePreview = previewTrainingStability({
+    epochs,
+    batchSize,
+    learningRate,
+    optimizer,
+    fp16,
+    dataQuality: currentDataQuality > 0 ? currentDataQuality : 50,
+    modelSize,
+  });
 
   async function handleApply() {
     setLoading(true);
@@ -312,6 +326,60 @@ export default function TrainingConfigurationPage() {
               </Card>
             </section>
           </>
+        )}
+
+        {/* Live Preview */}
+        {mode === "advanced" && !result && (
+          <section>
+            <div className="flex items-center gap-2 mb-3">
+              <Eye className="h-4 w-4 text-muted-foreground" />
+              <h3 className="text-sm font-semibold text-muted-foreground">{t("livePreview")}</h3>
+            </div>
+            <Card className={cn(
+              "border-2 transition-colors",
+              livePreview.trainingStability >= 70 ? "border-green-500/30" :
+              livePreview.trainingStability >= 50 ? "border-yellow-500/30" : "border-red-500/30"
+            )}>
+              <CardContent className="p-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div>
+                    <div className="text-xs text-muted-foreground mb-1">{t("stabilityScore")}</div>
+                    <div className={cn(
+                      "text-2xl font-bold font-mono",
+                      livePreview.trainingStability >= 70 ? "text-green-500" :
+                      livePreview.trainingStability >= 50 ? "text-yellow-500" : "text-red-500"
+                    )}>
+                      {livePreview.trainingStability.toFixed(0)}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-muted-foreground mb-1">{t("lrAssessment")}</div>
+                    <Badge className={assessmentBg(livePreview.lrAssessment)}>
+                      {t(`lrValues.${livePreview.lrAssessment}`)}
+                    </Badge>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1 mb-1">
+                      <TrendingUp className="h-3 w-3 text-muted-foreground" />
+                      <div className="text-xs text-muted-foreground">{t("convergencePrediction")}</div>
+                    </div>
+                    <Badge className={assessmentBg(livePreview.convergencePrediction)}>
+                      {t(`convergenceValues.${livePreview.convergencePrediction}`)}
+                    </Badge>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1 mb-1">
+                      <AlertTriangle className="h-3 w-3 text-muted-foreground" />
+                      <div className="text-xs text-muted-foreground">{t("overfittingRisk")}</div>
+                    </div>
+                    <Badge className={assessmentBg(livePreview.overfittingRisk)}>
+                      {t(`riskValues.${livePreview.overfittingRisk}`)}
+                    </Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
         )}
 
         {/* Apply Button */}

@@ -5,7 +5,7 @@ from slowapi.errors import RateLimitExceeded
 
 from app.config import assert_auth_configured, settings
 from app.rate_limit import limiter
-from app.routers import auth, projects, datasets, simulation, model_config
+from app.routers import auth, projects, datasets, simulation, model_config, share
 
 assert_auth_configured()
 
@@ -31,6 +31,7 @@ app.include_router(projects.router, prefix="/api/projects", tags=["projects"])
 app.include_router(datasets.router, prefix="/api/projects", tags=["datasets"])
 app.include_router(model_config.router, prefix="/api/projects", tags=["model-config"])
 app.include_router(simulation.router, prefix="/api/projects", tags=["simulation"])
+app.include_router(share.router, tags=["share"])
 
 
 @app.get("/api/health")

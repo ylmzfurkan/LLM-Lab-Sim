@@ -24,6 +24,7 @@ import {
   FlaskConical,
 } from "lucide-react";
 
+
 const FEATURES = [
   { key: "feature1", icon: Database },
   { key: "feature2", icon: Cpu },
@@ -45,7 +46,6 @@ const LEARN_ITEMS = ["learn1", "learn2", "learn3", "learn4", "learn5"] as const;
 
 export default function HomePage() {
   const t = useTranslations("landing");
-  const tAuth = useTranslations("auth");
   const tCommon = useTranslations("common");
 
   return (
@@ -60,11 +60,8 @@ export default function HomePage() {
           <div className="flex items-center gap-1">
             <LocaleSwitcher />
             <ThemeToggle />
-            <Link href="/login">
-              <Button variant="ghost" size="sm">{tAuth("login")}</Button>
-            </Link>
-            <Link href="/register">
-              <Button size="sm">{tAuth("register")}</Button>
+            <Link href="/projects">
+              <Button size="sm">{t("getStarted")}</Button>
             </Link>
           </div>
         </div>
@@ -89,7 +86,7 @@ export default function HomePage() {
             {t("heroDescription")}
           </p>
           <div className="flex items-center justify-center gap-4 pt-4">
-            <Link href="/register">
+            <Link href="/projects">
               <Button size="lg" className="text-base px-8">
                 {t("getStarted")}
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -208,7 +205,7 @@ export default function HomePage() {
         <div className="max-w-2xl mx-auto text-center space-y-6">
           <h2 className="text-3xl font-bold">{t("cta")}</h2>
           <p className="text-lg text-muted-foreground">{t("ctaDescription")}</p>
-          <Link href="/register">
+          <Link href="/projects">
             <Button size="lg" className="text-base px-8">
               {t("getStarted")}
               <ArrowRight className="ml-2 h-4 w-4" />

@@ -1,4 +1,5 @@
-from pydantic import BaseModel
+import uuid
+from pydantic import BaseModel, field_serializer
 
 
 class ProjectCreate(BaseModel):
@@ -14,7 +15,7 @@ class WizardConfig(BaseModel):
 
 
 class ProjectResponse(BaseModel):
-    id: str
+    id: uuid.UUID
     name: str
     description: str | None
     status: str
@@ -25,3 +26,7 @@ class ProjectResponse(BaseModel):
     model_type: str | None
 
     model_config = {"from_attributes": True}
+
+    @field_serializer("id")
+    def serialize_id(self, v: uuid.UUID) -> str:
+        return str(v)

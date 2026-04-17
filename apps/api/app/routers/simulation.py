@@ -86,6 +86,10 @@ async def _build_engine(project: Project, db: AsyncSession) -> SimulationEngine:
             state.architecture_capability = {
                 "small": 40, "medium": 70, "large": 95
             }.get(model_config.model_size, 60)
+        # Derive cost_efficiency from stored training cost
+        if model_config.estimated_training_cost:
+            max_cost = 100_000.0
+            state.cost_efficiency = max(0.0, min(100.0, 100.0 - (model_config.estimated_training_cost / max_cost * 100.0)))
 
     return SimulationEngine(state)
 
@@ -183,7 +187,11 @@ async def apply_customization(
 ):
     project = await _get_user_project(project_id, user, db)
     engine = await _build_engine(project, db)
-    return engine.apply_customization(data.customization_type)
+    result = engine.apply_customization(data.customization_type)
+    if project.current_step < 9:
+        project.current_step = 9
+    await db.commit()
+    return result
 
 
 class RAGRequest(BaseModel):
@@ -202,7 +210,11 @@ async def run_rag_simulation(
 ):
     project = await _get_user_project(project_id, user, db)
     engine = await _build_engine(project, db)
-    return engine.run_rag(chunk_size=data.chunk_size, top_k=data.top_k)
+    result = engine.run_rag(chunk_size=data.chunk_size, top_k=data.top_k)
+    if project.current_step < 10:
+        project.current_step = 10
+    await db.commit()
+    return result
 
 
 class FineTuneRequest(BaseModel):
@@ -221,7 +233,11 @@ async def run_finetune_simulation(
 ):
     project = await _get_user_project(project_id, user, db)
     engine = await _build_engine(project, db)
-    return engine.run_finetune(finetune_epochs=data.finetune_epochs, finetune_lr=data.finetune_lr)
+    result = engine.run_finetune(finetune_epochs=data.finetune_epochs, finetune_lr=data.finetune_lr)
+    if project.current_step < 11:
+        project.current_step = 11
+    await db.commit()
+    return result
 
 
 class PlaygroundRequest(BaseModel):
@@ -240,7 +256,11 @@ async def run_playground(
 ):
     project = await _get_user_project(project_id, user, db)
     engine = await _build_engine(project, db)
-    return engine.run_playground(prompt=data.prompt, model_variant=data.model_variant)
+    result = engine.run_playground(prompt=data.prompt, model_variant=data.model_variant)
+    if project.current_step < 12:
+        project.current_step = 12
+    await db.commit()
+    return result
 
 
 @router.post("/{project_id}/simulate/evaluation")
@@ -253,7 +273,11 @@ async def run_evaluation(
 ):
     project = await _get_user_project(project_id, user, db)
     engine = await _build_engine(project, db)
-    return engine.run_evaluation()
+    result = engine.run_evaluation()
+    if project.current_step < 13:
+        project.current_step = 13
+    await db.commit()
+    return result
 
 
 @router.post("/{project_id}/simulate/deployment")
@@ -266,7 +290,11 @@ async def run_deployment_simulation(
 ):
     project = await _get_user_project(project_id, user, db)
     engine = await _build_engine(project, db)
-    return engine.run_deployment()
+    result = engine.run_deployment()
+    project.current_step = 14
+    project.status = "completed"
+    await db.commit()
+    return result
 
 
 @router.get("/{project_id}/simulations")

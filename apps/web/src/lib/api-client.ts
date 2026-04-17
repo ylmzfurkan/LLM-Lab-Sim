@@ -1,26 +1,16 @@
-import { createClient } from "@/lib/supabase/client";
+import { getAnonymousId } from "@/lib/anonymous-id";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
-async function getAuthHeaders(): Promise<Record<string, string>> {
-  const supabase = createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (session?.access_token) {
-    return {
-      Authorization: `Bearer ${session.access_token}`,
-      "Content-Type": "application/json",
-    };
-  }
-
-  return { "Content-Type": "application/json" };
+function getHeaders(): Record<string, string> {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  const anonId = getAnonymousId();
+  if (anonId) headers["X-Anonymous-ID"] = anonId;
+  return headers;
 }
 
 export async function apiGet<T>(path: string): Promise<T> {
-  const headers = await getAuthHeaders();
-  const res = await fetch(`${API_URL}${path}`, { headers });
+  const res = await fetch(`${API_URL}${path}`, { headers: getHeaders() });
 
   if (!res.ok) {
     throw new Error(`API Error: ${res.status} ${res.statusText}`);
@@ -30,10 +20,9 @@ export async function apiGet<T>(path: string): Promise<T> {
 }
 
 export async function apiPost<T>(path: string, body?: unknown): Promise<T> {
-  const headers = await getAuthHeaders();
   const res = await fetch(`${API_URL}${path}`, {
     method: "POST",
-    headers,
+    headers: getHeaders(),
     body: body ? JSON.stringify(body) : undefined,
   });
 
@@ -45,10 +34,9 @@ export async function apiPost<T>(path: string, body?: unknown): Promise<T> {
 }
 
 export async function apiPut<T>(path: string, body?: unknown): Promise<T> {
-  const headers = await getAuthHeaders();
   const res = await fetch(`${API_URL}${path}`, {
     method: "PUT",
-    headers,
+    headers: getHeaders(),
     body: body ? JSON.stringify(body) : undefined,
   });
 
@@ -60,10 +48,9 @@ export async function apiPut<T>(path: string, body?: unknown): Promise<T> {
 }
 
 export async function apiDelete<T>(path: string): Promise<T> {
-  const headers = await getAuthHeaders();
   const res = await fetch(`${API_URL}${path}`, {
     method: "DELETE",
-    headers,
+    headers: getHeaders(),
   });
 
   if (!res.ok) {

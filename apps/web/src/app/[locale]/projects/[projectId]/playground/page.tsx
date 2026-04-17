@@ -24,6 +24,7 @@ import {
   Clock,
   Shield,
   MessageSquare,
+  Columns3,
 } from "lucide-react";
 
 interface PlaygroundResponse {
@@ -44,8 +45,10 @@ export default function PlaygroundPage() {
 
   const [prompt, setPrompt] = useState("");
   const [variant, setVariant] = useState("base");
+  const [compareMode, setCompareMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState<PlaygroundResponse | null>(null);
+  const [compareResponses, setCompareResponses] = useState<Record<string, PlaygroundResponse> | null>(null);
   const [responseText, setResponseText] = useState("");
   const [typedText, setTypedText] = useState("");
   const typewriterRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -80,7 +83,31 @@ export default function PlaygroundPage() {
     if (!prompt.trim()) return;
     setLoading(true);
     setResponse(null);
+    setCompareResponses(null);
     setResponseText("");
+
+    if (compareMode) {
+      const variants = ["base", "finetuned", "rag"];
+      const qualityMap: Record<string, number> = { base: 42, finetuned: 70, rag: 63 };
+      const latencyMap: Record<string, number> = { base: 120, finetuned: 150, rag: 250 };
+      const results: Record<string, PlaygroundResponse> = {};
+      for (const v of variants) {
+        try {
+          const data = await apiPost<PlaygroundResponse>(
+            `/api/projects/${params.projectId}/playground`,
+            { prompt, model_variant: v }
+          );
+          results[v] = data;
+        } catch {
+          const q = qualityMap[v] || 50;
+          results[v] = { model_variant: v, response_quality: q, latency_ms: latencyMap[v] || 150, confidence: Math.min(100, q + 10) };
+        }
+      }
+      setCompareResponses(results);
+      updateStep(13);
+      setLoading(false);
+      return;
+    }
 
     try {
       const data = await apiPost<PlaygroundResponse>(
@@ -123,35 +150,45 @@ export default function PlaygroundPage() {
       <ConceptCard stepKey="playground" />
 
       <div className="space-y-6">
-        {/* Model Variant Tabs */}
-        <Tabs value={variant} onValueChange={(v) => { setVariant(v); setResponse(null); setResponseText(""); }}>
-          <TabsList>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <TabsTrigger value="base">{t("variants.base")}</TabsTrigger>
-              </TooltipTrigger>
-              <TooltipContent side="top" className="max-w-[280px] text-xs">
-                {t("variantHints.base")}
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <TabsTrigger value="finetuned">{t("variants.finetuned")}</TabsTrigger>
-              </TooltipTrigger>
-              <TooltipContent side="top" className="max-w-[280px] text-xs">
-                {t("variantHints.finetuned")}
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <TabsTrigger value="rag">{t("variants.rag")}</TabsTrigger>
-              </TooltipTrigger>
-              <TooltipContent side="top" className="max-w-[280px] text-xs">
-                {t("variantHints.rag")}
-              </TooltipContent>
-            </Tooltip>
-          </TabsList>
-        </Tabs>
+        {/* Model Variant Tabs + Compare Toggle */}
+        <div className="flex items-center justify-between gap-4">
+          <Tabs value={variant} onValueChange={(v) => { setVariant(v); setResponse(null); setResponseText(""); setCompareResponses(null); }}>
+            <TabsList>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <TabsTrigger value="base" disabled={compareMode}>{t("variants.base")}</TabsTrigger>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="max-w-[280px] text-xs">
+                  {t("variantHints.base")}
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <TabsTrigger value="finetuned" disabled={compareMode}>{t("variants.finetuned")}</TabsTrigger>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="max-w-[280px] text-xs">
+                  {t("variantHints.finetuned")}
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <TabsTrigger value="rag" disabled={compareMode}>{t("variants.rag")}</TabsTrigger>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="max-w-[280px] text-xs">
+                  {t("variantHints.rag")}
+                </TooltipContent>
+              </Tooltip>
+            </TabsList>
+          </Tabs>
+          <Button
+            variant={compareMode ? "default" : "outline"}
+            size="sm"
+            onClick={() => { setCompareMode((c) => !c); setResponse(null); setResponseText(""); setCompareResponses(null); }}
+          >
+            <Columns3 className="mr-1.5 h-4 w-4" />
+            {t("compareAll")}
+          </Button>
+        </div>
 
         {/* Sample Prompts */}
         <div className="flex gap-2 flex-wrap">
@@ -237,7 +274,68 @@ export default function PlaygroundPage() {
           </div>
         ) : null}
 
-        {response && (
+        {/* Compare Mode Results */}
+        {compareResponses && (
+          <div className="space-y-3">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {Object.entries(compareResponses).map(([v, res]) => {
+                const qualityColor = res.response_quality >= 70 ? "text-green-500" : res.response_quality >= 40 ? "text-yellow-500" : "text-red-500";
+                const simText = simulatedResponses[v] || simulatedResponses.base || "";
+                return (
+                  <Card key={v} className={cn(
+                    "border-2",
+                    v === "finetuned" ? "border-primary/30" : "border-border"
+                  )}>
+                    <CardContent className="p-4 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <MessageSquare className="h-4 w-4 text-primary" />
+                          <span className="text-sm font-semibold">{t(`variants.${v}`)}</span>
+                        </div>
+                        {v === "finetuned" && (
+                          <Badge variant="default" className="text-[10px]">{t("bestVariant")}</Badge>
+                        )}
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed line-clamp-4">{simText}</p>
+                      <div className="space-y-1.5 pt-2 border-t">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-1">
+                            <Gauge className="h-3 w-3 text-muted-foreground" />
+                            <span className="text-[10px] text-muted-foreground">{t("responseQuality")}</span>
+                          </div>
+                          <span className={cn("text-xs font-mono font-semibold", qualityColor)}>{res.response_quality.toFixed(1)}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-1">
+                            <Clock className="h-3 w-3 text-muted-foreground" />
+                            <span className="text-[10px] text-muted-foreground">{t("latency")}</span>
+                          </div>
+                          <span className="text-xs font-mono">{res.latency_ms}ms</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-1">
+                            <Shield className="h-3 w-3 text-muted-foreground" />
+                            <span className="text-[10px] text-muted-foreground">{t("confidence")}</span>
+                          </div>
+                          <span className="text-xs font-mono">{res.confidence.toFixed(1)}%</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+            <div className="flex justify-between pt-4 border-t">
+              <BackButton currentStep={12} />
+              <Button size="lg" onClick={handleNext}>
+                <ArrowRight className="mr-2 h-4 w-4" />
+                {tCommon("next")}
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {(response && !compareResponses) && (
           <div className="flex justify-between pt-4 border-t">
             <BackButton currentStep={12} />
             <Button size="lg" onClick={handleNext}>

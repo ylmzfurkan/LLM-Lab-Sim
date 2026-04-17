@@ -3,14 +3,17 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import type { Project, SimulationScores } from "@/types/project";
 
 type StepSelections = Record<string, Record<string, unknown>>;
+type ScoreDeltas = Partial<SimulationScores>;
 
 interface ProjectStore {
   project: Project | null;
   scores: SimulationScores;
+  scoreDeltas: ScoreDeltas;
   datasetId: string | null;
   stepSelections: StepSelections;
   setProject: (project: Project | null) => void;
   updateScores: (scores: Partial<SimulationScores>) => void;
+  clearScoreDeltas: () => void;
   updateStep: (step: number) => void;
   setDatasetId: (id: string) => void;
   setStepSelection: (step: string, values: Record<string, unknown>) => void;
@@ -30,13 +33,26 @@ export const useProjectStore = create<ProjectStore>()(
     (set, get) => ({
       project: null,
       scores: defaultScores,
+      scoreDeltas: {},
       datasetId: null,
       stepSelections: {},
       setProject: (project) => set({ project }),
-      updateScores: (scores) =>
-        set((state) => ({
-          scores: { ...state.scores, ...scores },
-        })),
+      updateScores: (incoming) =>
+        set((state) => {
+          const deltas: ScoreDeltas = {};
+          for (const key of Object.keys(incoming) as (keyof SimulationScores)[]) {
+            const prev = state.scores[key];
+            const next = incoming[key];
+            if (next !== undefined && prev > 0) {
+              deltas[key] = next - prev;
+            }
+          }
+          return {
+            scores: { ...state.scores, ...incoming },
+            scoreDeltas: deltas,
+          };
+        }),
+      clearScoreDeltas: () => set({ scoreDeltas: {} }),
       updateStep: (step) =>
         set((state) => ({
           project: state.project
@@ -57,6 +73,7 @@ export const useProjectStore = create<ProjectStore>()(
         set({
           project: null,
           scores: defaultScores,
+          scoreDeltas: {},
           datasetId: null,
           stepSelections: {},
         }),

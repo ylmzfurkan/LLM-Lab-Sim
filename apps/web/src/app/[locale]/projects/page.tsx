@@ -48,6 +48,7 @@ export default function ProjectsPage() {
   const [newDescription, setNewDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
+  const [createError, setCreateError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchProjects() {
@@ -68,6 +69,7 @@ export default function ProjectsPage() {
     if (!newName.trim()) return;
 
     setLoading(true);
+    setCreateError(null);
     try {
       const project = await apiPost<Project>("/api/projects", {
         name: newName,
@@ -80,6 +82,7 @@ export default function ProjectsPage() {
     } catch (err) {
       if (!isDemoMode()) {
         console.error(err);
+        setCreateError(t("dashboard.createError"));
         setLoading(false);
         return;
       }
@@ -167,6 +170,9 @@ export default function ProjectsPage() {
                     placeholder={t("dashboard.projectDescriptionPlaceholder")}
                   />
                 </div>
+                {createError && (
+                  <p className="text-sm text-destructive">{createError}</p>
+                )}
                 <div className="flex justify-end gap-2">
                   <Button
                     type="button"

@@ -58,6 +58,7 @@
     "projectDescription": "Açıklama (isteğe bağlı)",
     "projectDescriptionPlaceholder": "Bir sohbet botu...",
     "continueProject": "Devam Et",
+    "createError": "Proje oluşturulamadı. Lütfen tekrar deneyin.",
     "projectStatus": {
       "draft": "Taslak",
       "in_progress": "Devam Ediyor",
@@ -294,6 +295,7 @@
     "convergencePrediction": "Yakınlaşma Tahmini",
     "overfittingRisk": "Aşırı Uyum Riski",
     "stabilityScore": "Kararlılık Skoru",
+    "livePreview": "Canlı Önizleme",
     "presetApplied": "Model yapılandırmanız için önerilen varsayilanlar uygulandı.",
     "optimizers": {
       "adamw": "AdamW",
@@ -379,8 +381,32 @@
       "arc": "Çok adımlı muhakeme gerektiren ilkokul fen soruları.",
       "truthfulqa": "Modeli yaygın yanlış anlamaları tekrarlatmaya çalışmak uzere tasarlanmış sorular. Düşük skor = model kendinden emin halüsinasyon görür.",
       "winogrande": "Zamir çözümü bulmacaları. Modelin 'o' veya 'bu' sözcüklerinin neye atıfta bulunduğunu gerçekten takip edip etmediğini test eder.",
-      "gsm8k": "İlkokul matematik problemleri. Çok adımlı aritmetik muhakemeyi test eder — base LLM'ler için meşhur zordur."
+      "gsm8k": "İlkokul matematik problemleri. Çok adımlı aritmetik muhakemeyi test eder — base LLM'ler için meşhur zordur.",
+      "humaneval": "164 el yapımı Python programlama problemi. Kod üretimi için standart kıstas — modelin doğru ve çalışır kod yazıp yazamadığını denetler.",
+      "mbpp": "Mostly Basic Python Programming — kitle kaynaklı 374 problem. Döngüler, dizeler ve veri yapıları üzerinde pratik kodlama yeteneğini test eder."
     }
+  },
+  "share": {
+    "button": "Paylaş",
+    "modalTitle": "Simülasyonunu Paylaş",
+    "modalDescription": "Model eğitim sonuçlarını herkesle paylaş.",
+    "linkLabel": "Özel Link",
+    "copy": "Kopyala",
+    "copied": "Kopyalandı!",
+    "postTextLabel": "Önerilen gönderi metni",
+    "linkedinButton": "LinkedIn'de Paylaş",
+    "linkedinButtonCopied": "LinkedIn açılıyor — metni yapıştır!",
+    "linkedinTitle": "LLM Lab ile sıfırdan kendi LLM modelimi eğittim 🚀",
+    "linkedinText": "LLM Lab ile sıfırdan kendi LLM modelimi eğittim — veri toplamadan dağıtıma kadar! 🚀\n\nModelimin benchmark sonuçları ve eğitim özeti yayında. Sen de kendi LLM'ini eğitebilirsin — kod gerekmez.\n\n👇 Simülasyon sonuçlarımı gör:",
+    "clipboardHint": "Gönderi metni panoya kopyalandı — LinkedIn'de yapıştır (Ctrl+V / ⌘V).",
+    "generating": "Link oluşturuluyor...",
+    "pageTitle": "LLM Simülasyon Sonuçları",
+    "pageDescription": "Bu LLM'in LLM Lab ile nasıl sıfırdan eğitildiğini gör.",
+    "projectLabel": "Proje",
+    "tryItCta": "Kendi LLM'ini Eğit",
+    "tryItDescription": "Bir LLM'in veriden dağıtıma nasıl inşa edildiğini gör. Kod gerekmez.",
+    "sharedBy": "LLM Lab ile eğitildi",
+    "notFound": "Bu paylaşım linki geçersiz veya süresi dolmuş."
   },
   "customization": {
     "title": "Özelleştirme Stüdyosu",
@@ -470,6 +496,8 @@
     "latency": "Gecikme",
     "confidence": "Güven",
     "noResponse": "Model yanıtını görmek için bir prompt gönderin.",
+    "compareAll": "3'ünü Karşılaştır",
+    "bestVariant": "En İyi",
     "variantHints": {
       "base": "Özelleştirmesiz ham eğitilmiş model. Temel hattınız — mimari ve ön eğitimin tek başına neler yapabildiğini gösterir.",
       "finetuned": "Base + alan veriniz üzerinde ince ayar. Sizin kullanım alaninizda daha keskin, bazen genel bilgide daha zayıf.",
@@ -555,6 +583,32 @@
     "trainingStability": "Eğitim Kararlılığı",
     "modelPerformance": "Model Performansı",
     "costEfficiency": "Maliyet Verimliliği"
+  },
+  "decisionSummary": {
+    "toggle": "Simülasyon Özetini Görüntüle",
+    "bestArea": "En Büyük Kazanım",
+    "worstArea": "En Büyük Açık",
+    "improvementTip": "{area} skorunuz {score}/100. Dağıtım öncesi bu alanı iyileştirmek için önceki adımlara göz atabilirsiniz.",
+    "timeline": "Karar Zaman Çizelgesi",
+    "done": "Tamamlandı",
+    "scoreLabels": {
+      "data_quality": "Veri Kalitesi",
+      "training_stability": "Eğitim Kararlılığı",
+      "model_performance": "Model Performansı",
+      "cost_efficiency": "Maliyet Verimliliği"
+    }
+  },
+  "notFound": {
+    "title": "Sayfa Bulunamadı",
+    "description": "Aradığınız sayfa mevcut değil veya taşınmış olabilir.",
+    "home": "Ana Sayfaya Dön",
+    "startSim": "Simülasyona Başla"
+  },
+  "errorPage": {
+    "title": "Bir Şeyler Yanlış Gitti",
+    "description": "Beklenmedik bir hata oluştu. Lütfen tekrar deneyin veya ana sayfaya dönün.",
+    "retry": "Tekrar Dene",
+    "home": "Ana Sayfaya Dön"
   },
   "landing": {
     "hero": "LLM'lerin Nasil Yapıldığını Öğrenmenin En İyi Yolu",

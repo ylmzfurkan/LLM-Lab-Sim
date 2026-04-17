@@ -9,7 +9,6 @@ from app.models.user import UserProfile
 
 
 DEMO_AUTH_ID = "demo-user"
-DEMO_EMAIL = "demo@local"
 
 
 async def _get_or_create_user(db: AsyncSession, auth_id: str, email: str) -> UserProfile:
@@ -25,11 +24,13 @@ async def _get_or_create_user(db: AsyncSession, auth_id: str, email: str) -> Use
 
 async def get_current_user(
     authorization: str | None = Header(default=None),
+    x_anonymous_id: str | None = Header(default=None),
     db: AsyncSession = Depends(get_db),
 ) -> UserProfile:
-    # Auth disabled: return a persistent demo profile (useful for local/demo deploys).
+    # Auth disabled: each browser gets its own persistent profile via X-Anonymous-ID.
     if not settings.require_auth:
-        return await _get_or_create_user(db, DEMO_AUTH_ID, DEMO_EMAIL)
+        anon_id = x_anonymous_id.strip() if x_anonymous_id else DEMO_AUTH_ID
+        return await _get_or_create_user(db, f"anon:{anon_id}", f"{anon_id[:8]}@anon.local")
 
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Invalid authorization header")
