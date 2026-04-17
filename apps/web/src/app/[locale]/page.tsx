@@ -223,7 +223,7 @@ export default function HomePage() {
           </div>
           <p className="text-xs text-muted-foreground text-center md:text-left">{t("footerDisclaimer")}</p>
           <a
-            href="https://github.com/ylmzfurkan/llm-lab"
+            href="https://github.com/ylmzfurkan/LLM-Lab-Sim"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
